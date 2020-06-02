@@ -1,0 +1,105 @@
+{
+  "name": "Python",
+  "children": [{
+    "name": "Python基本操作",
+    "children": [
+      {
+        "name": "pyhton 1級",
+        "context": "完成此課程者，將具備以下之能力：破從零到一的障礙、認識環境、資源，與自主學習的路徑方法、掌握基本Python的概念與語法、瞭解 Python套件、實際執行基本繪圖、運算與商業分析的應用",
+        "isTech": true,
+        "nodeSvgShape": {
+          "shape": "circle",
+          "shapeProps": {
+            "r": 10,
+            "fill": "yellow"
+          }
+        }
+      }, {
+        "name": "pyhton 2級",
+        "context": "None",
+        "isTech": true
+      }, {
+        "name": "pyhton 3級",
+        "context": "None",
+        "isTech": true
+      }
+    ]
+  }, {
+    "name": "AI",
+    "children": [
+      {
+        "name": "Keras",
+        "children": [
+          {
+            "name": "Keras基本操作",
+            "context": "None",
+            "isTech": true
+          }, {
+            "name": "Keras Sequential",
+            "context": "None",
+            "isTech": true
+          }, {
+            "name": "Keras Model",
+            "context": "None",
+            "isTech": true
+          }, {
+            "name": "Keras with NN" ,
+            "context": "None",
+            "isTech": true
+          }
+        ]
+      }, {
+        "name": "Tensorflow",
+        "children": [
+          {
+            "name": "Tensorflow basic",
+            "context": "None",
+            "isTech": true
+          }, {
+            "name": "Tensorflow 1級",
+            "context": "None",
+            "isTech": true
+          }, {
+            "name": "Tensorflow 2級",
+            "context": "None",
+            "isTech": true
+          }
+        ]
+      }, {
+        "name": "PyTorch",
+        "children": [
+          {
+            "name": "PyTorch 1級",
+            "context": "None",
+            "isTech": true
+          }, {
+            "name": "PyTorch 2級",
+            "context": "None",
+            "isTech": true
+          }, {
+            "name": "PyTorch 3級",
+            "context": "None",
+            "isTech": true
+          }
+        ]
+      }
+    ]
+  }, {
+    "name": "數據分析",
+    "children": [
+      {
+        "name": "numpy",
+        "context": "None",
+        "isTech": true
+      }, {
+        "name": "pandas",
+        "context": "None",
+        "isTech": true
+      }, {
+        "name": "scikit-learn",
+        "context": "None",
+        "isTech": true
+      }
+    ]
+  }]
+}

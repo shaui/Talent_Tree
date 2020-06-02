@@ -1,0 +1,170 @@
+{
+	"name": "資管系",
+	"children": 
+	[
+		{
+		"name": "系統規劃",
+		"children": [
+		    {
+			    "name": "JAVA",
+			    "children": [
+		        {
+			        "name": "JAVA 1級",
+			        "context": ["能建立Java環境", "了解類別與物件的概念", "了解Java基本變數、運算子、陣列及流程控制", "了解如何使用繼承、多型、抽象類別及介面", "能運用物件導向的概念設計程式解決問題"],
+			        "isTech": true,
+			        "nodeSvgShape": {
+			          "shape": "circle",
+			          "shapeProps": {
+			            "r": 10,
+			            "fill": "yellow"
+			          }
+			        }
+		        }, {
+			        "name": "JAVA 2級",
+			        "context": ["了解並實作GUI圖像設計：JavaFx", "了解並使用例外處理(Exception Handling)", "了解執行緒與平行運算(Thread)", "了解與使用JDBC", "了解與使用泛型(Generic Collections)", "了解與使用序列化(Serialization)處理資料/物件", "能運用物件導向的概念設計專案解決問題"],
+			        "isTech": true
+		        }]
+		    }, {
+		    	"name": "HTML & CSS",
+		    	"children": [
+		        {
+			        "name": "HTML基本知識",
+			        "context": ["了解HTML、CSS基本語法與架構", "了解如何使用CSS建立特效及美化網頁", "了解如何使用CSS實作RWD", "了解如何使用HTML的表格", "了解如何使用HTML嵌入圖像", "了解如何使用HTML嵌入影音"],
+			        "isTech": true
+		        }]
+		  	}, {
+		    	"name": "資料庫管理",
+		    	"children": [
+		      	{
+			        "name": "Database 1級",
+			        "context": ["了解資料庫的概念與模式", "了解各種關聯性代數", "了解各種實體與實體間的關係", "了解並能設計資料庫架構", "了解並能使用SQL語法進行增刪改查"],
+			        "isTech": true
+			    }, {
+			        "name": "Database 2級",
+			        "context": ["了解並能運用進階SQL語法", "能夠從需求中擷取建構資料庫所需的資訊", "了解並能設計stored procedure", "了解並能使用view"],
+			        "isTech": true
+			    }]
+		  	}, {
+		    	"name": "系統分析與設計",
+		    	"children": [
+		      	{
+			        "name": "系統分析與設計基本知識",
+			        "context": ["了解物件導向語言、HTML、以及資料庫等知識", "了解並能繪製各種diagram", "了解並能使用UML", "能夠從需求中擷取所需的資訊", "了解並能夠撰寫各種分析文件", "能夠依照文件建置一個完整的環境"],
+			        "isTech": true
+		      	}]
+		  	}]
+		}, {
+		"name": "網管",
+		"children": [
+			{
+			    "name": "網路基礎架構",
+			    "children": [
+			    {
+			        "name": "網路基礎架構 1級",
+			        "context": "完成此課程者，將具備以下之能力：理解網路設備運作之基礎,並對主/從(Client/Server)式架構有初步理解",
+			        "isTech": true
+			    }, {
+			        "name": "網路基礎架構 2級",
+			        "context": "完成此課程者，將具備以下之能力：對虛擬機之架設有初步理解與認識,並對網路位址之轉譯(NAT)有所理解",
+			        "isTech": true
+			    }, {
+			        "name": "網路基礎架構 3級",
+			        "context": "完成此課程者，將具備以下之能力：理解國際標準化組織提出之七層OSI模型,並對微軟Hyper-V虛擬機器建置及使用有所理解",
+			        "isTech": true
+			    }]
+			}, {
+			    "name": "網路服務",
+			    "children": [
+			    {
+			        "name": "網路服務 1級",
+			        "context": "完成此課程者，將具備以下之能力：理解MIS人員必會的基本網路服務之運作原理(DHCP、DNS、Web、FTP)等",
+			        "isTech": true
+			    }, {
+			        "name": "網路服務 2級",
+			        "context": "完成此課程者，將具備以下之能力：理解TCP/IP協定之原理並對IPv4與IPv6及子網段切割有所認識",
+			        "isTech": true
+			    }, {
+			        "name": "網路服務 3級",
+			        "context": "完成此課程者，將具備以下之能力：對雲端運算(Cloud Computing)之原理及架構有所認識並得以使用之",
+			        "isTech": true
+			    }]
+			}, {
+			    "name": "網路封包分析",
+			    "children": [
+			    {
+			        "name": "網路封包分析 1級",
+			        "context": "完成此課程者，將具備以下之能力：對Wireshark有初步理解",
+			        "isTech": true
+			    }, {
+			        "name": "網路封包分析 2級",
+			        "context": "能使用Wireshark並分析所截獲之封包",
+			        "isTech": true
+			    }, {
+			        "name": "scikit-learn",
+			        "context": "能理解各類通訊協定之封包捕捉分析",
+			        "isTech": true
+			    }]
+			}]
+		}, {
+		"name": "軟體工程",
+  		"children": [
+    		{
+      			"name": "Python",
+      			"children": [
+        			{
+			            "name": "LV1",
+			            "context":["能建立Python環境","了解Python基本語法","了解如何操作迴圈、函數","能看懂並引用外部套件/函式"] ,
+			            "isTech": true
+        			}, {
+            			"name": "LV2",
+            			"context": ["網路爬蟲：使用Request及Beautifulsoup擷取網站內容","網站開發：使用Flask套件架設網站","資料分析：使用numpy處理矩陣運算","資料分析：使用pandas處理結構化資料","資料分析：使用matplotlib繪製圖表","資料分析：使用scipy進行科學運算"],
+            			"isTech": true
+        			}]
+    		}, {
+      			"name": "JAVA",
+      			"children": [
+        			{
+			            "name": "LV1",
+			            "context": ["能建立Java環境","了解類別與物件的概念","了解Java基本變數、運算子、陣列及流程控制","了解如何使用繼承、多型、抽象類別及介面","能運用物件導向的概念設計程式解決問題"],
+			            "isTech": true
+		        	}, {
+            			"name": "LV2",
+          				"context": ["了解並實作GUI圖像設計：JavaFx","例外處理(Exception Handling)","了解執行緒與平行運算(Thread)","了解與使用JDBC","了解與使用泛型(Generic Collections)","了解與使用序列化(Serialization)處理資料/物件","能運用物件導向的概念設計專案解決問題"],
+          				"isTech": true
+        			}]
+    		}, {
+      			"name": "HTML & CSS",
+      			"context":["了解HTML、CSS基本語法與架構","了解如何使用CSS建立特效及美化網頁","了解如何使用CSS實作RWD","了解如何使用HTML的表格","了解如何使用HTML嵌入圖像","了解如何使用HTML嵌入影音"],
+      			"isTech":true
+    		},{
+      			"name": "網頁設計",
+      			"children": [
+        			{
+          				"name": "LV1",
+          				"context": ["了解HTML、CSS","了解何謂RWD並實作","了解並能使用Bootstrap快速設計網站","了解並能使用jQuery對網站進行簡單操作"],
+          				"isTech": true
+        			}, {
+          				"name": "LV2",
+         				"context": ["前端開發：使用LESS/SASS撰寫更簡潔的CSS文件","前端開發：使用React開發Javascript使用者介面","前端開發：使用WebGL繪製網頁圖形","後端開發：使用MySQL建置資料庫","後端開發：使用PHP","後端開發：使用Node.js","後端開發：了解JSON及使用Ajax與前端互動"],
+          				"isTech": true
+        			}]
+    		}, {
+      			"name": "AI人工智慧",
+      			"children":[
+        			{
+          				"name": "LV1",
+          				"context": ["了解機器學習及分類(Classification)概念","對深度學習(Deep Learning)有初步認識","了解何謂Back Propagation及Gradient Decent","了解CNN網路原理","能利用CNN網路訓練模組辨識圖片"],
+          				"isTech": true
+        			}, {
+          				"name": "LV2",
+          				"context":["了解RNN及LSTM原理","能實作RNN/LSTM預測股票/天氣趨勢"],
+          				"isTech": true
+        			}, {
+          				"name": "LV3",
+          				"context":["了解何謂增強式學習","了解QLearning運作原理","能利用增強式學習增進模組預測準確度"],
+          				"isTech": true
+        			}]
+    		}]
+		}
+	]
+}

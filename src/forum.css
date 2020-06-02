@@ -1,0 +1,50 @@
+/*Navbar*/
+/*li.nav-item:last-child {
+	margin-left: auto !important;
+}*/
+
+/*固定table長度*/
+thead th:nth-child(2),
+tbody td:nth-child(2) {
+	width: 25em;
+}
+
+/*垂直置中*/
+.table th, 
+.table td {
+  vertical-align: middle !important;
+}
+
+/*button*/
+#post-btn {
+color: #494949 !important;
+text-transform: uppercase;
+background: #ffffff;
+padding: 0.5em 0.8em;
+border: 3px solid #494949 !important;
+border-radius: 6px;
+display: inline-block;
+transition: all 0.3s ease 0s;
+}
+#post-btn:hover {
+color: #494949 !important;
+border-radius: 50px;
+border-color: #494949 !important;
+transition: all 0.3s ease 0s;
+}
+
+/*separator*/
+hr { 
+  display: block;
+  margin-top: 0.5em;
+  margin-bottom: 0.5em;
+  margin-left: auto;
+  margin-right: auto;
+  border-style: inset;
+  border-width: 1px;
+} 
+
+/*container間距*/
+.container {
+	margin-bottom: 1em;
+}
