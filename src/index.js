@@ -6,6 +6,7 @@ import TechDialog from './components/TechDialog'
 import MyTree from './components/MyTree'
 import treeData from './Database/talent tree.json'
 import {BrowserRouter, Switch} from 'react-router-dom'
+import 'bootstrap/dist/css/bootstrap.min.css'
 
 import * as serviceWorker from './serviceWorker';
 

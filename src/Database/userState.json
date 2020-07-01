@@ -1,0 +1,25 @@
+{
+	"treeName":"資管系",
+	"state":[
+		{
+			"name": "LV3",
+			"nodeSvgShape": {
+		  		"shape": "circle",
+		  		"shapeProps": {
+				    "r": 10,
+				    "fill": "yellow"
+		 		}
+			}
+		},
+		{
+			"name": "LV2",
+			"nodeSvgShape": {
+				"shape": "circle",
+				"shapeProps": {
+					"r": 10,
+					"fill": "yellow"
+				}
+			}
+		}		
+	]        			
+}

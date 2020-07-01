@@ -1,0 +1,1148 @@
+{
+	"name": "資管系",
+	"children":
+	[
+		{"name": "系統規劃",
+		"children": [
+		{
+			"name": "JAVA",
+			"children": [
+		    	{
+			    "name": "JAVA 1級",
+			    "context": ["能建立Java環境", "了解類別與物件的概念", "了解Java基本變數、運算子、陣列及流程控制", "了解如何使用繼承、多型、抽象類別及介面", "能運用物件導向的概念設計程式解決問題"],
+			    "hasDialog": true,
+				"children": [
+		    	{
+				    "name": "JAVA 環境建構",
+				    "context": ["了解並能建構Java的開發環境"],
+					"isTech": true,
+					"nodeSvgShape":{
+						"shape":"circle",
+						"shapeProps":{
+							"r":10,
+							"fill":"white"
+						}
+					}
+				}, {
+				    "name": "JAVA 類別與物件",
+				    "context": ["了解類別與物件的概念"],
+				    "isTech": true,
+					"nodeSvgShape":{
+						"shape":"circle",
+						"shapeProps":{
+							"r":10,
+							"fill":"white"
+						}
+					}
+			    }, {
+				    "name": "JAVA 變數與運算",
+				    "context": ["了解並能實作Java變數、運算、陣列及流程控制的基本概念"],
+				    "isTech": true,
+					"nodeSvgShape":{
+						"shape":"circle",
+						"shapeProps":{
+							"r":10,
+							"fill":"white"
+						}
+					}
+			    }, {
+				    "name": "JAVA 繼承與多型",
+				    "context": ["了解如何使用繼承、多型、抽象類別及介面"],
+				    "isTech": true,
+					"nodeSvgShape":{
+						"shape":"circle",
+						"shapeProps":{
+							"r":10,
+							"fill":"white"
+						}
+					}
+			    }, {
+				    "name": "JAVA 物件導向",
+				    "context": ["能運用物件導向的概念設計程式解決問題"],
+				    "isTech": true,
+					"nodeSvgShape":{
+						"shape":"circle",
+						"shapeProps":{
+							"r":10,
+							"fill":"white"
+						}
+					}
+			    }]
+				}, {
+			    "name": "JAVA 2級",
+				"required":"習得 JAVA 1級",
+			    "context": ["了解並實作GUI圖像設計：JavaFx", "了解並使用例外處理(Exception Handling)", "了解執行緒與平行運算(Thread)", "了解與使用JDBC", "了解與使用泛型(Generic Collections)", "了解與使用序列化(Serialization)處理資料/物件", "能運用物件導向的概念設計專案解決問題"],
+			    "hasDialog": true,
+				"children": [
+		    	{
+				    "name": "JAVA GUI設計",
+				    "context": ["了解並實作GUI圖像設計：JavaFx"],
+					"isTech": true,
+					"nodeSvgShape":{
+						"shape":"circle",
+						"shapeProps":{
+							"r":10,
+							"fill":"white"
+						}
+					}
+				}, {
+				    "name": "JAVA 例外處理",
+				    "context": ["了解並使用例外處理(Exception Handling)"],
+				    "isTech": true,
+					"nodeSvgShape":{
+						"shape":"circle",
+						"shapeProps":{
+							"r":10,
+							"fill":"white"
+						}
+					}
+			    }, {
+				    "name": "JAVA 執行緒",
+				    "context": ["了解執行緒與平行運算(Thread)"],
+				    "isTech": true,
+					"nodeSvgShape":{
+						"shape":"circle",
+						"shapeProps":{
+							"r":10,
+							"fill":"white"
+						}
+					}
+			    }, {
+				    "name": "JDBC",
+				    "context": ["了解與使用JDBC"],
+				    "isTech": true,
+					"nodeSvgShape":{
+						"shape":"circle",
+						"shapeProps":{
+							"r":10,
+							"fill":"white"
+						}
+					}
+			    }, {
+				    "name": "JAVA 泛型",
+				    "context": ["了解與使用泛型(Generic Collections)"],
+				    "isTech": true,
+					"nodeSvgShape":{
+						"shape":"circle",
+						"shapeProps":{
+							"r":10,
+							"fill":"white"
+						}
+					}
+			    }, {
+				    "name": "JAVA 序列化處理",
+				    "context": ["了解與使用序列化(Serialization)處理資料/物件"],
+				    "isTech": true,
+					"nodeSvgShape":{
+						"shape":"circle",
+						"shapeProps":{
+							"r":10,
+							"fill":"white"
+						}
+					}
+			    }, {
+				    "name": "JAVA 物件導向實作",
+				    "context": ["能運用物件導向的概念設計專案解決問題"],
+				    "isTech": true,
+					"nodeSvgShape":{
+						"shape":"circle",
+						"shapeProps":{
+							"r":10,
+							"fill":"white"
+						}
+					}
+			    }]
+		    }]
+		}, {
+	    	"name": "HTML & CSS",
+	    	"children": [
+	        {
+		        "name": "HTML基本知識",
+		        "context": ["了解HTML、CSS基本語法與架構", "了解如何使用CSS建立特效及美化網頁", "了解如何使用CSS實作RWD", "了解如何使用HTML的表格", "了解如何使用HTML嵌入圖像", "了解如何使用HTML嵌入影音"],
+		        "hasDialog": true,
+				"children": [
+		    	{
+				    "name": "HTML 基本語法與架構",
+				    "context": ["了解HTML的語法與架構"],
+					"isTech": true,
+					"nodeSvgShape":{
+						"shape":"circle",
+						"shapeProps":{
+							"r":10,
+							"fill":"white"
+						}
+					}
+				}, {
+				    "name": "CSS 基本語法",
+				    "context": ["了解CSS的語法，並能使用CSS建立特效及美化網頁"],
+				    "isTech": true,
+					"nodeSvgShape":{
+						"shape":"circle",
+						"shapeProps":{
+							"r":10,
+							"fill":"white"
+						}
+					}
+			    }, {
+				    "name": "CSS RWD",
+				    "context": ["了解並能使用CSS實作RWD"],
+				    "isTech": true,
+					"nodeSvgShape":{
+						"shape":"circle",
+						"shapeProps":{
+							"r":10,
+							"fill":"white"
+						}
+					}
+			    }, {
+				    "name": "HTML 表格",
+				    "context": ["了解並能使用HTML的表格"],
+				    "isTech": true,
+					"nodeSvgShape":{
+						"shape":"circle",
+						"shapeProps":{
+							"r":10,
+							"fill":"white"
+						}
+					}
+			    }, {
+				    "name": "HTML 圖像影音",
+				    "context": ["了解如何使用HTML嵌入圖像與影音"],
+				    "isTech": true,
+					"nodeSvgShape":{
+						"shape":"circle",
+						"shapeProps":{
+							"r":10,
+							"fill":"white"
+						}
+					}
+			    }]
+	        }]
+	  	}, {
+	    	"name": "資料庫管理",
+	    	"children": [
+	      	{
+		        "name": "Database 基本知識",
+		        "context": ["了解資料庫的概念與模式", "了解各種關聯性代數", "了解各種實體與實體間的關係", "了解並能設計資料庫架構", "了解並能使用SQL語法進行增刪改查"],
+		        "hasDialog": true,
+				"children": [
+		    	{
+				    "name": "Database 基本概念",
+				    "context": ["了解資料庫的概念與模式"],
+					"isTech": true,
+					"nodeSvgShape":{
+						"shape":"circle",
+						"shapeProps":{
+							"r":10,
+							"fill":"white"
+						}
+					}
+				}, {
+				    "name": "Database 關聯性代數",
+				    "context": ["了解各種關聯性代數的含意，並能進行簡單運算"],
+				    "isTech": true,
+					"nodeSvgShape":{
+						"shape":"circle",
+						"shapeProps":{
+							"r":10,
+							"fill":"white"
+						}
+					}
+			    }, {
+				    "name": "Database 實體與關係",
+				    "context": ["了解各種實體與實體間的關係"],
+				    "isTech": true,
+					"nodeSvgShape":{
+						"shape":"circle",
+						"shapeProps":{
+							"r":10,
+							"fill":"white"
+						}
+					}
+			    }, {
+				    "name": "Database 架構",
+				    "context": ["了解並能設計資料庫架構"],
+				    "isTech": true,
+					"nodeSvgShape":{
+						"shape":"circle",
+						"shapeProps":{
+							"r":10,
+							"fill":"white"
+						}
+					}
+			    }, {
+				    "name": "Database SQL語法",
+				    "context": ["了解並能使用SQL語法進行增刪改查"],
+				    "isTech": true,
+					"nodeSvgShape":{
+						"shape":"circle",
+						"shapeProps":{
+							"r":10,
+							"fill":"white"
+						}
+					}
+			    }]
+		    }, {
+		        "name": "Database 實作",
+				"required":"習得 Database 基本知識",
+		        "context": ["了解並能運用進階SQL語法", "能夠從需求中擷取建構資料庫所需的資訊", "了解並能設計stored procedure", "了解並能使用view"],
+		        "hasDialog": true,
+				"children": [
+		    	{
+				    "name": "Database 進階SQL語法",
+				    "context": ["了解並能運用複合的SQL語法來撈出正確資料"],
+					"isTech": true,
+					"nodeSvgShape":{
+						"shape":"circle",
+						"shapeProps":{
+							"r":10,
+							"fill":"white"
+						}
+					}
+				}, {
+				    "name": "Database 需求擷取",
+				    "context": ["能夠從需求中擷取建構資料庫所需的資訊"],
+				    "isTech": true,
+					"nodeSvgShape":{
+						"shape":"circle",
+						"shapeProps":{
+							"r":10,
+							"fill":"white"
+						}
+					}
+			    }, {
+				    "name": "Database 預存程序",
+				    "context": ["了解並能設計stored procedure來協助資料庫運作"],
+				    "isTech": true,
+					"nodeSvgShape":{
+						"shape":"circle",
+						"shapeProps":{
+							"r":10,
+							"fill":"white"
+						}
+					}
+			    }, {
+				    "name": "Database 檢視表",
+				    "context": ["了解並能使用view來檢視其中的資料"],
+				    "isTech": true,
+					"nodeSvgShape":{
+						"shape":"circle",
+						"shapeProps":{
+							"r":10,
+							"fill":"white"
+						}
+					}
+			    }]
+		    }]
+	  	}, {
+	    	"name": "系統分析與設計",
+	    	"children": [
+	      	{
+		        "name": "系統分析與設計 基本知識",
+				"required":"習得 JAVA 2級, HTML基本知識, 以及Database 實作",
+		        "context": ["了解並能繪製各種diagram", "了解並能使用UML", "能夠從需求中擷取所需的資訊", "了解並能夠撰寫各種分析文件", "能夠依照文件建置一個完整的環境"],
+		        "hasDialog": true,
+				"children": [
+		    	{
+				    "name": "系統分析 Diagram",
+				    "context": ["了解各種diagram的概念及用途，並能將實際案例繪製成圖"],
+					"isTech": true,
+					"nodeSvgShape":{
+						"shape":"circle",
+						"shapeProps":{
+							"r":10,
+							"fill":"white"
+						}
+					}
+				}, {
+				    "name": "系統分析 UML",
+				    "context": ["了解UML的使用方法，並能用它完成diagram的繪製"],
+				    "isTech": true,
+					"nodeSvgShape":{
+						"shape":"circle",
+						"shapeProps":{
+							"r":10,
+							"fill":"white"
+						}
+					}
+			    }, {
+				    "name": "系統分析 需求擷取",
+				    "context": ["能夠從實際需求中擷取所需的資訊"],
+				    "isTech": true,
+					"nodeSvgShape":{
+						"shape":"circle",
+						"shapeProps":{
+							"r":10,
+							"fill":"white"
+						}
+					}
+			    }, {
+				    "name": "系統分析 撰寫文件",
+				    "context": ["了解不同分析文件的內容及目的，並能將實際案例撰寫成文件"],
+				    "isTech": true,
+					"nodeSvgShape":{
+						"shape":"circle",
+						"shapeProps":{
+							"r":10,
+							"fill":"white"
+						}
+					}
+			    }, {
+				    "name": "系統分析 實作",
+				    "context": ["能夠依照文件需求、diagram等資訊建置一個完整的環境"],
+				    "isTech": true,
+					"nodeSvgShape":{
+						"shape":"circle",
+						"shapeProps":{
+							"r":10,
+							"fill":"white"
+						}
+					}
+			    }]
+	      	}]
+	  	}]
+		},
+		{
+  "name": "網管",
+  "children": [
+    {
+      "name": "網路基礎架構",
+      "children": [
+        {
+          "name": "網路基礎架構 1級",
+          "context": ["完成此課程者，將具備以下之能力：理解網路設備運作之基礎,並對主/從(Client/Server)式架構有初步理解"],
+          "hasDialog": true,
+            "children": [
+              {
+                "name": "網路設備運作基礎",
+                "context": ["理解Router與Switch等網路基礎硬體設備的運作原理"],
+                "isTech": true,
+                "nodeSvgShape":{
+                  "shape":"circle",
+                    "shapeProps":{
+                      "r":10,
+                      "fill":"white"
+            }
+          }
+              },
+              {
+                "name": "主從式架構初解",
+                "context": ["理解主從雙方之角色及其益處"],
+                "isTech": true,
+                "nodeSvgShape":{
+                  "shape":"circle",
+                    "shapeProps":{
+                      "r":10,
+                      "fill":"white"
+            }
+          }
+              }
+            ]
+        },
+        {
+          "name": "網路基礎架構 2級",
+          "context":["完成此課程者，將具備以下之能力：對虛擬機之架設有初步理解與認識,並對網路位址之轉譯(NAT)有所理解"],
+          "hasDialog": true,
+            "children":[
+              {
+                "name": "虛擬機之架設及使用初解",
+                "context": ["能夠架設虛擬機並理解其用意"],
+                "isTech": true,
+                "nodeSvgShape":{
+                  "shape":"circle",
+                    "shapeProps":{
+                      "r":10,
+                      "fill":"white"
+            }
+          }
+              },
+              {
+                "name": "網路位址轉譯(NAT)",
+                "context": ["理解本技術的概念及IP轉換所欲解決之問題"],
+                "isTech": true,
+                "nodeSvgShape":{
+                  "shape":"circle",
+                    "shapeProps":{
+                      "r":10,
+                      "fill":"white"
+            }
+          }
+              }
+            ]
+        },
+        {
+          "name": "網路基礎架構 3級",
+          "context": ["完成此課程者，將具備以下之能力：理解國際標準化組織提出之七層OSI模型,並對微軟Hyper-V虛擬機器建置及使用有所理解"],
+          "hasDialog": true,
+            "children":[
+              {
+                "name": "七層OSI模型",
+                "context": ["認知到其分層標準及各層間之交互關係"],
+                "isTech": true,
+                "nodeSvgShape":{
+                  "shape":"circle",
+                    "shapeProps":{
+                      "r":10,
+                      "fill":"white"
+            }
+          }
+              },
+              {
+                "name": "微軟Hyper-V虛擬機器建置",
+                "context": ["認識到本產品的特點及其用處"],
+                "isTech": true,
+                "nodeSvgShape":{
+                  "shape":"circle",
+                    "shapeProps":{
+                      "r":10,
+                      "fill":"white"
+            }
+          }
+              }
+            ]
+        }
+      ]
+    },
+    {
+      "name": "網路服務",
+      "children": [
+        {
+          "name": "網路服務 1級",
+          "context": ["完成此課程者，將具備以下之能力：理解MIS人員必會的基本網路服務之運作原理"],
+          "hasDialog": true,
+            "children": [
+              {
+                "name":"基本網路服務",
+                "context":["理解DHCP、DNS、Web、FTP等基礎協定"],
+                "isTech":true,
+                "nodeSvgShape":{
+                  "shape":"circle",
+                    "shapeProps":{
+                      "r":10,
+                      "fill":"white"
+            }
+          }
+              }
+            ]
+        },
+        {
+          "name": "網路服務 2級",
+          "context": ["完成此課程者，將具備以下之能力：理解TCP/IP協定之原理並對IPv4與IPv6及子網段切割有所認識"],
+          "hasDialog": true,
+            "children":[
+              {
+                "name": "TCP/IP協定",
+                "context": ["理解TCP/IP之機制及其對傳輸資料所作之動作(如:封裝及定址等)"],
+                "isTech": true,
+                "nodeSvgShape":{
+                  "shape":"circle",
+                    "shapeProps":{
+                      "r":10,
+                      "fill":"white"
+            }
+          }
+              },
+              {
+                "name":"IP位址與子網段切割",
+                "context":["理解IPv4與IPv6之差異與子網段切割之用途"],
+                "isTech": true,
+                "nodeSvgShape":{
+                  "shape":"circle",
+                  "shapeProps":{
+                    "r":10,
+                    "fill":"white"
+            }
+          }
+              }
+            ]
+        },
+        {
+          "name": "網路服務 3級",
+          "context": ["完成此課程者，將具備以下之能力：對雲端運算(Cloud Computing)之原理及架構有所認識並得以使用之"],
+          "hasDialog": true,
+            "children":[
+              {
+                "name":"雲端運算",
+                "context":["能運用雲端運算並認識其服務模式"],
+                "isTech": true,
+                "nodeSvgShape":{
+                  "shape":"circle",
+                  "shapeProps":{
+                    "r":10,
+                    "fill":"white"
+            }
+          }
+              }
+            ]
+        }
+      ]
+    },
+    {
+      "name": "網路封包分析",
+      "children": [
+        {
+          "name": "網路封包分析 1級",
+          "context": ["完成此課程者，將具備以下之能力：對Wireshark有初步理解"],
+          "hasDialog": true,
+            "children":[
+              {
+                "name": "基礎Wireshark原理",
+                "context":["對Wireshark之安裝及基礎使用有理解"],
+                "isTech": true,
+                "nodeSvgShape":{
+                  "shape":"circle",
+                  "shapeProps":{
+                    "r":10,
+                    "fill":"white"
+            }
+          }
+              }
+            ]
+        },
+        {
+          "name": "網路封包分析 2級",
+          "context": ["能使用Wireshark截獲封包"],
+          "hasDialog": true,
+            "children":[
+              {
+                "name": "Wireshark分析",
+                "context": ["能使用Wireshark擷取封包"],
+                "isTech": true,
+                "nodeSvgShape":{
+                  "shape":"circle",
+                  "shapeProps":{
+                    "r":10,
+                    "fill":"white"
+            }
+          }
+              }
+            ]
+        },
+        {
+          "name": "網路封包分析 3級",
+          "context": ["能理解各類通訊協定之封包捕捉分析"],
+          "hasDialog": true,
+            "children":[
+              {
+                "name": "封包捕捉分析",
+                "context": ["理解各種協定所傳送之封包並用Wireshark分析之"],
+                "isTech": true,
+                "nodeSvgShape":{
+                  "shape":"circle",
+                  "shapeProps":{
+                    "r":10,
+                    "fill":"white"
+            }
+          }
+              }
+            ]
+        }
+      ]
+    }
+  ]
+},
+		{"name": "軟體工程",
+  		"children": [
+    		{
+      			"name": "Python",
+      			"children": [
+        			{
+			            "name": "Python 1級",
+			            "context":["能建立Python環境","了解Python基本語法","了解如何操作迴圈、函數","能看懂並引用外部套件/函式"] ,
+						"hasDialog":true,
+						"children":[
+						{
+							"name":"Python環境建置",
+							"context":["了解Python環境、Workplace及虛擬環境的設置"],
+							"isTech": true,
+							"nodeSvgShape":{
+								"shape":"circle",
+								"shapeProps":{
+									"r":10,
+									"fill":"white"
+								}
+							}
+						},{
+							"name":"Python基本語法",
+							"context":["了解Python基本資料型態、運算子、條件控制等語法"],
+							"isTech": true,
+							"nodeSvgShape":{
+								"shape":"circle",
+								"shapeProps":{
+									"r":10,
+									"fill":"white"
+								}
+							}
+						},{
+							"name":"Python迴圈與函式",
+							"context":["了解Python如何實作迴圈及定義函式"],
+							"isTech": true,
+							"nodeSvgShape":{
+								"shape":"circle",
+								"shapeProps":{
+									"r":10,
+									"fill":"white"
+								}
+							}
+						},{
+							"name":"Python 模組/封包用法",
+							"context":["了解Python如何使用import及呼叫模組/封包中的函式"],
+							"isTech": true,
+							"nodeSvgShape":{
+								"shape":"circle",
+								"shapeProps":{
+									"r":10,
+									"fill":"white"
+								}
+							}
+						}]
+        			}, {
+						"name": "Python 2級",
+						"required":"習得Python 1級",
+            			"context": ["了解網路爬蟲運作原理與實作","了解Python於架設網站的應用","了解Python如何進行資料分析"],
+						"hasDialog":true,
+						"children":[
+						{
+							"name":"Python網路爬蟲",
+							"context":["了解何謂網路爬蟲","了解如何使用Request套件擷取網站資料","了解如何使用Beautifulsoup解析網站資料"],
+							"isTech": true,
+							"nodeSvgShape":{
+								"shape":"circle",
+								"shapeProps":{
+									"r":10,
+									"fill":"white"
+								}
+							}
+						},{
+							"name":"Python網站應用",
+							"context":["使用Flask快速架設網站"],
+							"isTech": true,
+							"nodeSvgShape":{
+								"shape":"circle",
+								"shapeProps":{
+									"r":10,
+									"fill":"white"
+								}
+							}
+						},{
+							"name":"Python資料分析",
+							"context":["了解如何使用numpy處理矩陣運算","使用pandas處理結構化資料","使用matplotlib繪製圖表","使用scipy進行科學運算"],
+							"isTech": true,
+							"nodeSvgShape":{
+								"shape":"circle",
+								"shapeProps":{
+									"r":10,
+									"fill":"white"
+								}
+							}
+						}]
+					}]
+    		}, {
+				"name": "JAVA",
+				"children": [
+					{
+					"name": "JAVA 1級",
+					"context": ["能建立Java環境", "了解類別與物件的概念", "了解Java基本變數、運算子、陣列及流程控制", "了解如何使用繼承、多型、抽象類別及介面", "能運用物件導向的概念設計程式解決問題"],
+					"hasDialog": true,
+					"children": [
+					{
+						"name": "JAVA 環境建構",
+						"context": ["了解並能建構Java的開發環境"],
+						"isTech": true,
+						"nodeSvgShape":{
+							"shape":"circle",
+							"shapeProps":{
+								"r":10,
+								"fill":"white"
+							}
+						}
+					}, {
+						"name": "JAVA 類別與物件",
+						"context": ["了解類別與物件的概念"],
+						"isTech": true,
+						"nodeSvgShape":{
+							"shape":"circle",
+							"shapeProps":{
+								"r":10,
+								"fill":"white"
+							}
+						}
+					}, {
+						"name": "JAVA 變數與運算",
+						"context": ["了解並能實作Java變數、運算、陣列及流程控制的基本概念"],
+						"isTech": true,
+						"nodeSvgShape":{
+							"shape":"circle",
+							"shapeProps":{
+								"r":10,
+								"fill":"white"
+							}
+						}
+					}, {
+						"name": "JAVA 繼承與多型",
+						"context": ["了解如何使用繼承、多型、抽象類別及介面"],
+						"isTech": true,
+						"nodeSvgShape":{
+							"shape":"circle",
+							"shapeProps":{
+								"r":10,
+								"fill":"white"
+							}
+						}
+					}, {
+						"name": "JAVA 物件導向",
+						"context": ["能運用物件導向的概念設計程式解決問題"],
+						"isTech": true,
+						"nodeSvgShape":{
+							"shape":"circle",
+							"shapeProps":{
+								"r":10,
+								"fill":"white"
+							}
+						}
+					}]
+					}, {
+					"name": "JAVA 2級",
+					"required":"習得 JAVA 1級",
+					"context": ["了解並實作GUI圖像設計：JavaFx", "了解並使用例外處理(Exception Handling)", "了解執行緒與平行運算(Thread)", "了解與使用JDBC", "了解與使用泛型(Generic Collections)", "了解與使用序列化(Serialization)處理資料/物件", "能運用物件導向的概念設計專案解決問題"],
+					"hasDialog": true,
+					"children": [
+					{
+						"name": "JAVA GUI設計",
+						"context": ["了解並實作GUI圖像設計：JavaFx"],
+						"isTech": true,
+						"nodeSvgShape":{
+							"shape":"circle",
+							"shapeProps":{
+								"r":10,
+								"fill":"white"
+							}
+						}
+					}, {
+						"name": "JAVA 例外處理",
+						"context": ["了解並使用例外處理(Exception Handling)"],
+						"isTech": true,
+						"nodeSvgShape":{
+							"shape":"circle",
+							"shapeProps":{
+								"r":10,
+								"fill":"white"
+							}
+						}
+					}, {
+						"name": "JAVA 執行緒",
+						"context": ["了解執行緒與平行運算(Thread)"],
+						"isTech": true,
+						"nodeSvgShape":{
+							"shape":"circle",
+							"shapeProps":{
+								"r":10,
+								"fill":"white"
+							}
+						}
+					}, {
+						"name": "JDBC",
+						"context": ["了解與使用JDBC"],
+						"isTech": true,
+						"nodeSvgShape":{
+							"shape":"circle",
+							"shapeProps":{
+								"r":10,
+								"fill":"white"
+							}
+						}
+					}, {
+						"name": "JAVA 泛型",
+						"context": ["了解與使用泛型(Generic Collections)"],
+						"isTech": true,
+						"nodeSvgShape":{
+							"shape":"circle",
+							"shapeProps":{
+								"r":10,
+								"fill":"white"
+							}
+						}
+					}, {
+						"name": "JAVA 序列化處理",
+						"context": ["了解與使用序列化(Serialization)處理資料/物件"],
+						"isTech": true,
+						"nodeSvgShape":{
+							"shape":"circle",
+							"shapeProps":{
+								"r":10,
+								"fill":"white"
+							}
+						}
+					}, {
+						"name": "JAVA 物件導向實作",
+						"context": ["能運用物件導向的概念設計專案解決問題"],
+						"isTech": true,
+						"nodeSvgShape":{
+							"shape":"circle",
+							"shapeProps":{
+								"r":10,
+								"fill":"white"
+							}
+						}
+					}]
+				}]
+			}, {
+				"name": "HTML & CSS",
+				"children": [
+				{
+					"name": "HTML基本知識",
+					"context": ["了解HTML、CSS基本語法與架構", "了解如何使用CSS建立特效及美化網頁", "了解如何使用CSS實作RWD", "了解如何使用HTML的表格", "了解如何使用HTML嵌入圖像", "了解如何使用HTML嵌入影音"],
+					"hasDialog": true,
+					"children": [
+					{
+						"name": "HTML 基本語法與架構",
+						"context": ["了解HTML的語法與架構"],
+						"isTech": true,
+						"nodeSvgShape":{
+							"shape":"circle",
+							"shapeProps":{
+								"r":10,
+								"fill":"white"
+							}
+						}
+					}, {
+						"name": "CSS 基本語法",
+						"context": ["了解CSS的語法，並能使用CSS建立特效及美化網頁"],
+						"isTech": true,
+						"nodeSvgShape":{
+							"shape":"circle",
+							"shapeProps":{
+								"r":10,
+								"fill":"white"
+							}
+						}
+					}, {
+						"name": "CSS RWD",
+						"context": ["了解並能使用CSS實作RWD"],
+						"isTech": true,
+						"nodeSvgShape":{
+							"shape":"circle",
+							"shapeProps":{
+								"r":10,
+								"fill":"white"
+							}
+						}
+					}, {
+						"name": "HTML 表格",
+						"context": ["了解並能使用HTML的表格"],
+						"isTech": true,
+						"nodeSvgShape":{
+							"shape":"circle",
+							"shapeProps":{
+								"r":10,
+								"fill":"white"
+							}
+						}
+					}, {
+						"name": "HTML 圖像影音",
+						"context": ["了解如何使用HTML嵌入圖像與影音"],
+						"isTech": true,
+						"nodeSvgShape":{
+							"shape":"circle",
+							"shapeProps":{
+								"r":10,
+								"fill":"white"
+							}
+						}
+					}]
+				}]
+			  },{
+      			"name": "網頁設計",
+      			"children": [
+        			{
+						"name": "網頁設計 1級",
+						"required":"習得 HTML & CSS",
+          				"context": ["快速設計簡易的網頁"],
+						"hasDialog":true,
+						"children":[
+						{
+							"name":"網頁設計入門",
+							"context":["了解何謂RWD並實作","了解並能使用Bootstrap快速設計網站","了解並能使用jQuery對網站進行簡單操作"],
+							"isTech": true,
+							"nodeSvgShape":{
+								"shape":"circle",
+								"shapeProps":{
+									"r":10,
+									"fill":"white"
+								}
+						  	}
+						}]
+        			}, {
+						"name": "網頁設計 2級",
+						"required":"習得網頁設計 1級",
+						"context": ["前端開發","後端開發"],
+						"hasDialog":true,
+						"children":[
+						{
+							"name":"前端開發",
+							"context":["使用LESS/SASS撰寫更簡潔的CSS文件","使用React開發Javascript使用者介面","使用WebGL繪製網頁圖形"],
+							"isTech": true,
+							"nodeSvgShape":{
+								"shape":"circle",
+								"shapeProps":{
+									"r":10,
+									"fill":"white"
+								}
+							}
+						},{
+							"name":"後端開發",
+							"context":["使用MySQL建置資料庫","了解JSON及使用Ajax與前端互動","使用PHP開發網站","使用Node.js架設網頁伺服器"],
+							"isTech": true,
+							"nodeSvgShape":{
+								"shape":"circle",
+								"shapeProps":{
+									"r":10,
+									"fill":"white"
+								}
+							}
+						}]
+        			}]
+    		}, {
+      			"name": "AI人工智慧",
+      			"children":[
+        			{
+						"name": "AI人工智慧 1級",
+						"required":"習得Python 1級",
+          				"context": ["了解何謂機器學習","了解何謂深度學習"],
+						"hasDialog":true,
+						"children":[
+						{
+							"name":"機器學習",
+							"context":["了解分類(Classification)概念","了解機器學習的基本知識"],
+							"isTech": true,
+							"nodeSvgShape":{
+								"shape":"circle",
+								"shapeProps":{
+									"r":10,
+									"fill":"white"
+								}
+							}
+						},{
+							"name":"深度學習入門",
+							"context":["了解深度學習的基本知識","了解何謂Back Propagation及Gradient Decent","了解CNN網路原理","能利用CNN網路訓練模組辨識圖片"],
+							"isTech": true,
+							"nodeSvgShape":{
+								"shape":"circle",
+								"shapeProps":{
+									"r":10,
+									"fill":"white"
+								}
+							}
+						}]
+
+        			}, {
+						"name": "AI人工智慧 2級",
+						"required":"習得人工智慧 1級,Python 2級",
+						"hasDialog":true,
+						"context":["了解RNN種類及實作"],
+						"children":[
+						{
+							"name":"RNN",
+							"context":["了解RNN及LSTM原理","能使用RNN/LSTM撰寫程式預測股票/天氣趨勢"],
+							"isTech": true,
+							"nodeSvgShape":{
+								"shape":"circle",
+								"shapeProps":{
+									"r":10,
+									"fill":"white"
+								}
+							}
+						}]
+        			}, {
+						"name": "AI人工智慧 3級",
+						"context":["了解RL種類及實作"],
+						"required":"習得人工智慧 2級",
+						"hasDialog":true,
+          				"children":[
+						{
+							"name":"RL",
+							"context":["了解何謂增強式學習","了解QLearning運作原理","能利用增強式學習增進模組預測準確度"],
+							"isTech": true,
+							"nodeSvgShape":{
+								"shape":"circle",
+								"shapeProps":{
+									"r":10,
+									"fill":"white"
+								}
+							}
+						}]
+        			}]
+    		}]
+		},
+		{"name": "共通能力",
+		"children":[
+			{
+			"name":"C/C++",
+			"context":["熟悉各類變數宣告,迴圈及陣列等基本語法","能夠自定函數及熟悉遞迴..指標等的用法","能以本語法解決基本問題並以此為基礎學習其餘較高階之語言"],
+			"isTech":true,
+			"nodeSvgShape":{
+				"shape":"circle",
+				"shapeProps":{
+					"r":10,
+					"fill":"white"
+				}
+			}
+		},	{
+			"name":"計算機概論",
+			"context":["了解電腦的基本架構與運作原理","了解電腦的軟硬體設備及其應用","了解網際網路的基本知識"],
+			"isTech":true,
+			"nodeSvgShape":{
+				"shape":"circle",
+				"shapeProps":{
+					"r":10,
+					"fill":"white"
+				}
+			}
+		},  {
+			"name":"資訊管理導論",
+			"context":["理解資訊系統之定義及其競爭優勢","理解其在企業中之應用現況及對資料分析的影響","理解資訊系統對未來企業之影響,如共享經濟或物聯網"],
+			"isTech":true,
+			"nodeSvgShape":{
+				"shape":"circle",
+				"shapeProps":{
+					"r":10,
+					"fill":"white"
+				}
+			}
+		}, {
+			"name":"資料與檔案結構",
+			"context":["了解堆疊(stack/heap)原理及差異","了解搜尋及排序演算法","了解串列(Linked lists)及佇列(Queues)原理","了解樹(Tree)及圖形(Graph)原理"],
+			"isTech":true,
+			"nodeSvgShape":{
+				"shape":"circle",
+				"shapeProps":{
+					"r":10,
+					"fill":"white"
+				}
+			}
+		},  {
+			"name":"演算法",
+			"context":["能分辨演算法效率的好壞","了解貪心演算法原理與實例","了解動態規劃法原理與實例","了解分治演算法原理與實例","了解何謂幾何演算法並計算","了解計算理論及NP簡介"],
+			"isTech":true,
+			"nodeSvgShape":{
+				"shape":"circle",
+				"shapeProps":{
+					"r":10,
+					"fill":"white"
+				}
+			}
+		},{
+			"name":"企業資料通訊",
+			"context":["了解網路的基礎架構與傳輸模式","了解資料通訊的基礎原理與運作方式","了解網路通訊協定的原理"],
+			"isTech":true,
+			"nodeSvgShape":{
+				"shape":"circle",
+				"shapeProps":{
+					"r":10,
+					"fill":"white"
+				}
+			}
+		}]
+		}
+	]
+}
