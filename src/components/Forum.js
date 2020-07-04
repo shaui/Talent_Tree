@@ -1,6 +1,6 @@
 import React from 'react';
 import { Table, Button } from 'reactstrap';
-import './forum.css';
+import './Forum.css';
 
 class PostsTable extends React.Component {
 	render() {
@@ -56,34 +56,34 @@ class PostsTable extends React.Component {
 class PostingPage extends React.Component {
   render() {
     return (
-    	<div class="content">
-    		<div class="container banner-container">
-    			<div class="row"></div>
+    	<div className="content">
+    		<div className="container banner-container">
+    			<div className="row"></div>
     		</div>
 
 
-    		<div class="container">
-    			<div class="row justify-content-between">
-    				<div class="col-4">
+    		<div className="container">
+    			<div className="row justify-content-between">
+    				<div className="col-4">
     					<Button id="post-btn" color="primary">
     						發布文章
     					</Button>
     				</div>
-    				<div class="col-6">
+    				<div className="col-6">
     					{/* <Pagination /> */}
     				</div>
     			</div>
     		</div>
-    		<div class="container">
-    			<div class="row">
-    				<div class="col">
+    		<div className="container">
+    			<div className="row">
+    				<div className="col">
     					<PostsTable />
     				</div>
     			</div>
     		</div>
-    		<div class="container">
-    			<div class="row">
-    				<div class="col-6 align-self-end">
+    		<div className="container">
+    			<div className="row">
+    				<div className="col-6 align-self-end">
     					{/* <Pagination /> */}
     				</div>
     			</div>
