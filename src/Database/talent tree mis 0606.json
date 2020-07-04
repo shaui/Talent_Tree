@@ -1,8 +1,10 @@
 {
 	"name": "資管系",
+	"_collapsed": false,
 	"children":
 	[
 		{"name": "系統規劃",
+		"_collapsed": true,
 		"children": [
 		{
 			"name": "JAVA",
@@ -404,6 +406,7 @@
 		},
 		{
   "name": "網管",
+  "_collapsed": true,
   "children": [
     {
       "name": "網路基礎架構",
@@ -642,6 +645,7 @@
   ]
 },
 		{"name": "軟體工程",
+		"_collapsed": true,
   		"children": [
     		{
       			"name": "Python",
@@ -1075,6 +1079,7 @@
     		}]
 		},
 		{"name": "共通能力",
+		"_collapsed": true,
 		"children":[
 			{
 			"name":"C/C++",

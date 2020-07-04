@@ -1,12 +1,22 @@
 import React, {Component} from 'react';
 import './MyTree.css';
-import TechDialog from './TechDialog'
+import TechDialog from '../Utils/TechDialog'
+import CustomerSpinner from '../Utils/CustomerSpinner'
 import Tree from 'react-d3-tree';
-// import pyTreeData from '../Database/talent tree.json'
-// import treeDatas from '../Database/PythonTree.json'
 import $ from 'jquery'
 import subTreeData from '../Database/subTree.json'
 import userState from '../Database/userState.json'
+// import treeData from '../Database/PythonTree.json'
+// import treeData from '../Database/talent tree mis 0606.json'
+
+//FireBase
+import FirebaseMg from '../Utils/FirebaseMg.js'
+
+const fbMg = new FirebaseMg()
+var myRef = fbMg.myRef
+
+// var data = treeData
+
 
 // define the tree original position
 const TREE_POS = {
@@ -51,9 +61,9 @@ function getNode(treeData, nodeValue) {
 class MyTree extends Component{
 	constructor(props){
 		super(props)
-		var intialData = props.data
+		// var intialData = data
 		this.state = {
-			data: intialData,
+			data: null,
 			dialogStyle:{
 				display: 'none',
 				left: 0,
@@ -66,23 +76,45 @@ class MyTree extends Component{
 			// lightNodes: [],
 			isNotRender: false,
 			tree_first_g : '', //use to fix the dialog
-			treeRoot: {}
+			treeRoot: {},
+			isLoading: true
 		}
 		this.onMouseOverHandler = this.onMouseOverHandler.bind(this)
 		this.onMouseOutHnadler = this.onMouseOutHnadler.bind(this)
 		this.onClickHandler = this.onClickHandler.bind(this)
+
+		//Firebase getData
+		var origin_this = this
+	    myRef.once('value', function (snapshot) {
+	        //取得tree data
+	        let data = snapshot.val()
+
+			//初始化tree basic data
+	        origin_this.setState({
+	          data: data,
+	          isLoading: false
+	        })
+
+	        let first_g = $(".rd3t-tree-container > svg > g:first-child")
+			let first_g_class = first_g.attr('class')
+			// console.log("first_g_class",first_g_class)
+			origin_this.setState({
+				tree_first_g: first_g_class
+			})
+
+	    }) 
 	}
 
-	componentDidMount() {
-		console.log('componentDidMount')
-		let first_g = $(".rd3t-tree-container > svg > g:first-child")
-		let first_g_class = first_g.attr('class')
-		// console.log(first_g_class, typeof(first_g_class))
-		this.setState({
-			tree_first_g: first_g_class
-		})
-		// console.log("userState",userState['state'])
-  	}
+	// componentDidUpdate() {
+	// 	console.log('componentDidUpdate')
+	// 	let first_g = $(".rd3t-tree-container > svg > g:first-child")
+	// 	let first_g_class = first_g.attr('class')
+	// 	// console.log(first_g_class, typeof(first_g_class))
+	// 	this.setState({
+	// 		tree_first_g: first_g_class
+	// 	})
+	// 	// console.log("userState",userState['state'])
+ //  	}
 	
 
 
@@ -99,6 +131,7 @@ class MyTree extends Component{
 	// }
 
 	getPosition(css_attr){
+		// console.log('first_g_class',this.state.tree_first_g)
 		let pos_pair = css_attr.substring(9).split(" ")[0].split(",")
 		let pos = []
 		pos["x"] = pos_pair[0].substring(1)
@@ -300,55 +333,48 @@ class MyTree extends Component{
 		}
 	}
 
-	// modalToggle(){
-	// 	this.setState({
-	// 		isOpen: !this.state.isOpen
-	// 	})
-	// 	console.log(this.state.isOpen)
-	// }
-
 	render() {
 		let treeData = this.state.data
 		console.log("Render:", treeData)
-		// this.state.lightNodes.forEach(function(val, index){
-		// 	console.log("Render node:",val)
-		// 	val.attr({
-		// 		"fill": "yellow"
-		// 	})
-		// })
-		return (
-			<div className="custom-container">
-		      <Tree
-		        data= {treeData}
-		        orientation="vertical"
-		        nodeSize={
-		          {x: 140, y: 140}
-		        }
-		        separation={
-		          {siblings: 1, nonSiblings: 1}
-		        }
-		        initialDepth={1}
-		        scaleExtent={
-		          {min: 1, max: 2}
-		        }
+		if(this.state.isLoading){
+			return <CustomerSpinner />
+		}else {
+			return (
+				<div className="custom-container">
+			      <Tree
+			        data= {this.state.data}
+			        orientation="vertical"
+			        nodeSize={
+			          {x: 140, y: 140}
+			        }
+			        separation={
+			          {siblings: 1, nonSiblings: 1}
+			        }
+			        initialDepth={1}
+			        scaleExtent={
+			          {min: 1, max: 2}
+			        }
 
-		        textLayout={
-		          {textAnchor: "middle", x: 0, y: -20, transform: undefined }
-		        }
-		        translate={
-		          {x:TREE_POS.x, y: TREE_POS.y}
-		        }
-		        onMouseOver = {this.onMouseOverHandler}
-		        onMouseOut = {this.onMouseOutHnadler}
-		        onClick = {this.onClickHandler}
-		        transitionDuration={1}/>
-            
-		      <TechDialog 
-		      	title={this.state.dgTitle}
-		      	context={this.state.dgContext}
-		      	style={this.state.dialogStyle}/>
-		    </div>
-		);
+			        textLayout={
+			          {textAnchor: "middle", x: 0, y: -20, transform: undefined }
+			        }
+			        translate={
+			          {x:TREE_POS.x, y: TREE_POS.y}
+			        }
+			        onMouseOver = {this.onMouseOverHandler}
+			        onMouseOut = {this.onMouseOutHnadler}
+			        onClick = {this.onClickHandler}
+			        transitionDuration={1}/>
+	            
+			      <TechDialog 
+			      	title={this.state.dgTitle}
+			      	context={this.state.dgContext}
+			      	style={this.state.dialogStyle}/>
+			      
+			    </div>
+			);			
+		}
+
 	}
 }
 
