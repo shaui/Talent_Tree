@@ -17,7 +17,6 @@ class CustomerSpinner extends Component{
 					</div>
 				</div>	
 			</div>
-
 		)
 	}
 }

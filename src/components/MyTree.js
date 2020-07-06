@@ -15,17 +15,12 @@ import FirebaseMg from '../Utils/FirebaseMg.js'
 const fbMg = new FirebaseMg()
 var myRef = fbMg.myRef
 
-// var data = treeData
-
-
 // define the tree original position
 const TREE_POS = {
   x: window.innerWidth/2,
   y: 100
 }
 
-
-// let data = pyTreeData
 
 function getNode(treeData, nodeValue) {
 	var traverse = require('traverse')

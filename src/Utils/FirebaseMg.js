@@ -12,7 +12,8 @@ class FirebaseMg extends Component{
 		}
 
 		this.database = this.app.database();
-		this.myRef = this.database.ref()
+		this.myRef = this.database.ref();
+
 	}
 }
 
