@@ -1,10 +1,13 @@
 import MyTree from './components/MyTree' ;
 import PostingPage from './components/Forum' ;
 
+var data = treeData
+
 const routes= [
 	{
-		path: '/',
+		path: '/:data',
 		component: MyTree,
+		exact: true,
 		breadcrumbName: '首頁'
 	},
 	{
