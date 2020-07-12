@@ -1,0 +1,17 @@
+{
+	"TreeName":"資管系",
+	"nodeName":"JAVA",
+	"data":{
+        "name": "JAVA 4級",
+        "context": ["能建立Java環境", "了解類別與物件的概念", "了解Java基本變數、運算子、陣列及流程控制", "了解如何使用繼承、多型、抽象類別及介面", "能運用物件導向的概念設計程式解決問題"],
+        "isTech": true,
+        "nodeSvgShape": {
+          "shape": "circle",
+          "shapeProps": {
+            "r": 10,
+            "fill": "none"
+          }
+        }
+    }
+
+}

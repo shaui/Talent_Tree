@@ -1,23 +1,31 @@
 import React, {Component} from 'react';
 import './MyTree.css';
-import TechDialog from './TechDialog'
+import TechDialog from '../Utils/TechDialog'
+import CustomerSpinner from '../Utils/CustomerSpinner'
 import Tree from 'react-d3-tree';
-// import pyTreeData from '../Database/talent tree.json'
-// import treeDatas from '../Database/PythonTree.json'
 import $ from 'jquery'
+import subTreeData from '../Database/subTree.json'
+import userState from '../Database/userState.json'
+// import treeData from '../Database/PythonTree.json'
+// import treeData from '../Database/talent tree mis 0606.json'
+
+//FireBase
+import FirebaseMg from '../Utils/FirebaseMg.js'
+
+const fbMg = new FirebaseMg()
+var myRef = fbMg.myRef
 
 // define the tree original position
 const TREE_POS = {
   x: window.innerWidth/2,
-  y: 50
+  y: 100
 }
 
-// let data = pyTreeData
 
 function getNode(treeData, nodeValue) {
 	var traverse = require('traverse')
-
-	var node;
+	// var node;
+	var node = [];
 	// 對整筆data做traverse
 	traverse(treeData).reduce(function (acc, x) {
 	    if (this.isLeaf){
@@ -32,7 +40,11 @@ function getNode(treeData, nodeValue) {
 					// console.log(this.path[i])
 					target_node = target_node[this.path[i]] //往下走一層
 	    		}
-	    		node = target_node
+	    		// node = target_node
+	    		if(!node.includes(target_node)){
+	    			node.push(target_node)
+	    		}
+	    		
 				return false
 	    	}
 	    }
@@ -44,9 +56,9 @@ function getNode(treeData, nodeValue) {
 class MyTree extends Component{
 	constructor(props){
 		super(props)
-		var intialData = props.data
+		// var intialData = data
 		this.state = {
-			data: intialData,
+			data: null,
 			dialogStyle:{
 				display: 'none',
 				left: 0,
@@ -56,13 +68,50 @@ class MyTree extends Component{
 			dgContext: '',
 			pos_x: 0,
 			pos_y: 0,
-			lightNodes: [],
-			isNotRender: false
+			// lightNodes: [],
+			isNotRender: false,
+			tree_first_g : '', //use to fix the dialog
+			treeRoot: {},
+			isLoading: true
 		}
 		this.onMouseOverHandler = this.onMouseOverHandler.bind(this)
 		this.onMouseOutHnadler = this.onMouseOutHnadler.bind(this)
 		this.onClickHandler = this.onClickHandler.bind(this)
+
+		//Firebase getData
+		var origin_this = this
+	    myRef.once('value', function (snapshot) {
+	        //取得tree data
+	        let data = snapshot.val()
+
+			//初始化tree basic data
+	        origin_this.setState({
+	          data: data,
+	          isLoading: false
+	        })
+
+	        let first_g = $(".rd3t-tree-container > svg > g:first-child")
+			let first_g_class = first_g.attr('class')
+			// console.log("first_g_class",first_g_class)
+			origin_this.setState({
+				tree_first_g: first_g_class
+			})
+
+	    }) 
 	}
+
+	// componentDidUpdate() {
+	// 	console.log('componentDidUpdate')
+	// 	let first_g = $(".rd3t-tree-container > svg > g:first-child")
+	// 	let first_g_class = first_g.attr('class')
+	// 	// console.log(first_g_class, typeof(first_g_class))
+	// 	this.setState({
+	// 		tree_first_g: first_g_class
+	// 	})
+	// 	// console.log("userState",userState['state'])
+ //  	}
+	
+
 
 	// shouldComponentUpdate(nextProps, nextState) {
 	// 	console.log('shouldComponentUpdate', nextState.isNotRender)
@@ -71,13 +120,82 @@ class MyTree extends Component{
 	// 	    }
 	// 	return true;
 	// }
+
+	// getTreePos(tree_g_class){
+	// 	let tree_g = $('.' + tree_g_class).
+	// }
+
+	getPosition(css_attr){
+		// console.log('first_g_class',this.state.tree_first_g)
+		let pos_pair = css_attr.substring(9).split(" ")[0].split(",")
+		let pos = []
+		pos["x"] = pos_pair[0].substring(1)
+		pos["y"] = pos_pair[1].substring(0, pos_pair[1].length - 1)
+
+		return pos
+	}
+
+	getScale(css_attr){
+		let scale = css_attr.split(" ")[1]
+		scale = scale.substring(6, scale.length-1)
+
+		return scale
+	}
+
+	insertSubTree(originTree, subTree){
+		console.log(subTree.nodeName)
+		var node = getNode(originTree, subTree.nodeName)
+		console.log("insertSubTree", node)
+		for (var index in node){
+			let data = JSON.parse(JSON.stringify(subTree.data))
+			node[index]["children"].push(data)
+		}
+		console.log('insertSubTree:',node)
+	}
 	
 	onMouseOverHandler(nodeData, evt){
+	
+		//初始化root
+		//初始化state。如果可以在其他地方取得root，就在那裡初始化state
+		if(Object.keys(this.state.treeRoot).length === 0){
+			let root = nodeData; //把目前節點設為root
+			for(var i = 0; i< nodeData.depth; i++){
+				root = root.parent //往上找真的root
+			}
+			for (var i in userState['state']){
+			// console.log(userState['state'][i])
+				var node = getNode(root, userState['state'][i]['name'])
+				// console.log("666", node)
+	
+				for (var index in node){
+					node[index]["nodeSvgShape"] = userState['state'][i]['nodeSvgShape']
+				}
+				// console.log("666", node)
+			}
+			this.setState({
+				treeRoot : root,
+				data: root
+			})
+		}
+
+		//取得tree第一個g的座標
+		let tree_g = $('.' + this.state.tree_first_g)
+		let pos = this.getPosition(tree_g.attr('transform'))
+		let scale = this.getScale(tree_g.attr('transform'))
+		console.log("pos_x",pos.x, "pos_y", pos.y)
+		console.log("scale:", scale)
+		//取得節點的相對座標
+		let relative_x = nodeData.x*scale
+		let relative_y = nodeData.y*scale
+
 		console.log("onMouseOverHandler",nodeData)
-		let dialog_x = evt.clientX
-		let dialog_y = evt.clientY
+		//計算Dialog實際座標
+		let dialog_x = parseInt(pos.x, 10) + relative_x
+		let dialog_y = parseInt(pos.y, 10) + relative_y
+		console.log("Evt", evt.clientX, evt.clientY)
+
 		console.log("onMouseOverHandler", "dialog_x:", dialog_x, "dialog_y:", dialog_y)
-		if(nodeData.isTech){
+		if(nodeData.isTech || nodeData.hasDialog){
 			this.setState({
 				dialogStyle: {
 					display: 'block',
@@ -135,17 +253,31 @@ class MyTree extends Component{
 
 				// console.log("onClickHandler root:", root)
 				let treeData = root //把root當作修改的資料
+
+				/*實作insert node功能，待討論格式、如何指定Tree*/
+				// this.insertSubTree(treeData, subTreeData)
 				
 				console.log('onClickHandler treeData', this.state.data)
 				var node = getNode(treeData, nodeData.name)
 				// node = node["nodeSvgShape"]["shapeProps"]["fill"] = 'yellow'
-				node["nodeSvgShape"] = {
-					shape: "circle",
-			        shapeProps: {
-			          r: 10,
-			          fill: "yellow"
-			        }
+				console.log("NNNNNNNN",node)
+				for (var index in node){
+					node[index]["nodeSvgShape"] = {
+						shape: "circle",
+				        shapeProps: {
+				          r: 10,
+				          fill: "yellow"
+				        }
+					}
 				}
+
+				// nodeD["nodeSvgShape"] = {
+				// 	shape: "circle",
+			 //        shapeProps: {
+			 //          r: 10,
+			 //          fill: "yellow"
+			 //        }
+				// }
 				
 				// node["nodeSvgShape"]["shapeProps"]["fill"] = "yellow"
 				// console.log(node)
@@ -171,13 +303,22 @@ class MyTree extends Component{
 
 				let treeData = root //把root當作修改的資料
 				var node = getNode(treeData, nodeData.name) //取得目前節點位置
-				node["nodeSvgShape"] = { //修改節點
-					shape: "circle",
-			        shapeProps: {
-			          r: 10,
-			          fill: "none"
-			        }
+				for (var index in node){
+					node[index]["nodeSvgShape"] = {
+						shape: "circle",
+				        shapeProps: {
+				          r: 10,
+				          fill: "white"
+				        }
+					}
 				}
+				// node["nodeSvgShape"] = { //修改節點
+				// 	shape: "circle",
+			 //        shapeProps: {
+			 //          r: 10,
+			 //          fill: "none"
+			 //        }
+				// }
 					
 				console.log('onClickHandler treeData', treeData)
 				this.setState({
@@ -187,55 +328,48 @@ class MyTree extends Component{
 		}
 	}
 
-	// modalToggle(){
-	// 	this.setState({
-	// 		isOpen: !this.state.isOpen
-	// 	})
-	// 	console.log(this.state.isOpen)
-	// }
-
 	render() {
 		let treeData = this.state.data
 		console.log("Render:", treeData)
-		this.state.lightNodes.forEach(function(val, index){
-			console.log("Render node:",val)
-			val.attr({
-				"fill": "yellow"
-			})
-		})
-		return (
-			<div className="custom-container">
-		      <Tree
-		        data= {treeData}
-		        orientation="vertical"
-		        nodeSize={
-		          {x: 140, y: 140}
-		        }
-		        separation={
-		          {siblings: 1, nonSiblings: 1}
-		        }
-		        initialDepth={1}
-		        scaleExtent={
-		          {min: 1, max: 2}
-		        }
+		if(this.state.isLoading){
+			return <CustomerSpinner />
+		}else {
+			return (
+				<div className="custom-container">
+			      <Tree
+			        data= {this.state.data}
+			        orientation="vertical"
+			        nodeSize={
+			          {x: 140, y: 140}
+			        }
+			        separation={
+			          {siblings: 1, nonSiblings: 1}
+			        }
+			        initialDepth={1}
+			        scaleExtent={
+			          {min: 1, max: 2}
+			        }
 
-		        textLayout={
-		          {textAnchor: "middle", x: 0, y: -20, transform: undefined }
-		        }
-		        translate={
-		          {x:TREE_POS.x, y: TREE_POS.y}
-		        }
-		        onMouseOver = {this.onMouseOverHandler}
-		        onMouseOut = {this.onMouseOutHnadler}
-		        onClick = {this.onClickHandler}
-		        transitionDuration={1}/>
-            
-		      <TechDialog 
-		      	title={this.state.dgTitle}
-		      	context={this.state.dgContext}
-		      	style={this.state.dialogStyle}/>
-		    </div>
-		);
+			        textLayout={
+			          {textAnchor: "middle", x: 0, y: -20, transform: undefined }
+			        }
+			        translate={
+			          {x:TREE_POS.x, y: TREE_POS.y}
+			        }
+			        onMouseOver = {this.onMouseOverHandler}
+			        onMouseOut = {this.onMouseOutHnadler}
+			        onClick = {this.onClickHandler}
+			        transitionDuration={1}/>
+	            
+			      <TechDialog 
+			      	title={this.state.dgTitle}
+			      	context={this.state.dgContext}
+			      	style={this.state.dialogStyle}/>
+			      
+			    </div>
+			);			
+		}
+
 	}
 }
 
