@@ -24,7 +24,7 @@ const CustomNavbar = () => {
   const toggle = () => setIsOpen(!isOpen);
 
   return (
-    <Navbar color="light" light expand="md" style={{'width':'100vw', 'height':'10vh', 'position':'fixed', 'z-index':'99'}}>
+    <Navbar color="light" light expand="md" style={{'width':'100vw', 'height':'10vh', 'position':'fixed','top':'0px' , 'z-index':'99'}}>
       <NavbarToggler onClick={toggle} />
       <Collapse isOpen={isOpen} navbar>
         <Nav navbar>

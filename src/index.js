@@ -14,7 +14,7 @@ ReactDOM.render(
   <React.StrictMode>
   	<BrowserRouter>
   		<Switch>
-	  		<App/>
+			<App/>
   		</Switch>
   	</BrowserRouter>
     

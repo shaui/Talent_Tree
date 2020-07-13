@@ -43,8 +43,10 @@ function Comment(props) {
 					<img src="http://petonea.com/file//n373/t.jpg" className="card-avatar"/>
 				</div>
 				<div className="content">
-					<h5 class="user-name">Jonathan</h5>
-					<p className="card-text">This course aims to teach everyone the basics of programming computers using Python. We cover the basics of how one constructs a program from a series of simple instructions in Python. The course has no pre-requisites and avoids all but the simplest mathematics. Anyone with moderate computer experience should be able to master the materials in this course. </p>
+					<h5 class="user-name">2020/9/9</h5>
+					<p className="card-text">
+						關注了Tensorflow For CNN Cifar-10
+					</p>
 				</div>
 				<div className="actions">
 					<a href="#">
