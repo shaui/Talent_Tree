@@ -4,7 +4,7 @@ import './CustomerSpinner.css'
 class CustomerSpinner extends Component{
 	render(){
 		return(
-			<div class="container">
+			<div class="container spinner-container">
 				<div class="d-flex justify-content-center align-items-center w-100 h-100">
 					<div class="spinner-grow text-primary" role="status">
 					  <span class="sr-only">Loading...</span>

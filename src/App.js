@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { CustomNavbar } from './widgets';
+import CustomNavbar from './Utils/CustomNavbar';
 import { renderRoutes } from 'react-router-config';
 import routes from './routes';
 

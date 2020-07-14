@@ -1,24 +1,20 @@
 import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
-import logo from './logo.svg';
+import logo from '../logo.svg';
 import { 
   Collapse,
   Navbar,
   NavbarToggler,
-  NavbarBrand,
   Nav,
   NavItem,
   NavLink,
   UncontrolledDropdown,
   DropdownToggle,
   DropdownMenu,
-  DropdownItem,
-  Pagination, 
-  PaginationItem, 
-  PaginationLink } from 'reactstrap';
-import './bootstrap.min.css'
+  DropdownItem } from 'reactstrap';
 
 const CustomNavbar = () => {
+
   const [isOpen, setIsOpen] = useState(false);
 
   const toggle = () => setIsOpen(!isOpen);
@@ -46,7 +42,7 @@ const CustomNavbar = () => {
             </DropdownToggle>
             <DropdownMenu right>
               <DropdownItem>
-                <NavLink href="/forum/index">論壇總覽</NavLink>
+                <NavLink href="/forum">論壇總覽</NavLink>
               </DropdownItem>
               <DropdownItem>
                 <NavLink href="/forum/post">發布文章</NavLink>
@@ -69,38 +65,4 @@ const CustomNavbar = () => {
   );
 };
 
-const ForumPagination = () => {
-  return (
-    <Pagination size="sm" aria-label="Page navigation">
-      <PaginationItem>
-        <PaginationLink first href="#" />
-      </PaginationItem>
-      <PaginationItem>
-        <PaginationLink previous href="#" />
-      </PaginationItem>
-      <PaginationItem>
-        <PaginationLink href="#">
-          1
-        </PaginationLink>
-      </PaginationItem>
-      <PaginationItem>
-        <PaginationLink href="#">
-          2
-        </PaginationLink>
-      </PaginationItem>
-      <PaginationItem>
-        <PaginationLink href="#">
-          3
-        </PaginationLink>
-      </PaginationItem>
-      <PaginationItem>
-        <PaginationLink next href="#" />
-      </PaginationItem>
-      <PaginationItem>
-        <PaginationLink last href="#" />
-      </PaginationItem>
-    </Pagination>
-  );
-};
-
-export { CustomNavbar, ForumPagination };
+export default CustomNavbar;
