@@ -1,7 +1,8 @@
 import MyTree from './components/MyTree' ;
 import PostingPage from './components/Forum' ;
 import Firebase from './Utils/FirebaseMg.js'
-
+import CoursePage from './components/CoursePage'
+import SignInPage from './components/SignInPage.js'
 
 const routes= [
 	{
@@ -19,6 +20,16 @@ const routes= [
 		path: '/firebase',
 		component: Firebase,
 		breadcrumbName: '資料庫'
+	},
+	{
+		path: '/signIn',
+		component: SignInPage,
+		breadcrumbName: '登入'
+	},
+	{
+		path: '/coursePage',
+		component: CoursePage,
+		breadcrumbName: '課程'
 	}
 ];
 

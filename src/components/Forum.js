@@ -2,6 +2,7 @@ import React from 'react';
 import { Table, Button } from 'reactstrap';
 import './Forum.css';
 
+
 class PostsTable extends React.Component {
 	render() {
 		return (

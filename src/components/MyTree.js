@@ -6,14 +6,15 @@ import Tree from 'react-d3-tree';
 import $ from 'jquery'
 import subTreeData from '../Database/subTree.json'
 import userState from '../Database/userState.json'
-// import treeData from '../Database/PythonTree.json'
-// import treeData from '../Database/talent tree mis 0606.json'
 
 //FireBase
 import FirebaseMg from '../Utils/FirebaseMg.js'
 
+
 const fbMg = new FirebaseMg()
-var myRef = fbMg.myRef
+var root = fbMg.myRef
+var path = 'Trees/資管系'
+var myRef = root.child(path)
 
 // define the tree original position
 const TREE_POS = {
@@ -83,6 +84,7 @@ class MyTree extends Component{
 	    myRef.once('value', function (snapshot) {
 	        //取得tree data
 	        let data = snapshot.val()
+	        console.log("data data:",data)
 
 			//初始化tree basic data
 	        origin_this.setState({
@@ -233,13 +235,14 @@ class MyTree extends Component{
 	}
 
 	onClickHandler(nodeData, evt){
-
+		
 		// console.log("OnClick:", nodeData)
 		var selector = "#" + nodeData.id + " circle"
 		var $node = $(selector)
 		
 		if(nodeData.isTech){
 			let isConfirm = window.confirm("確定點亮技能樹?")
+
 			if(isConfirm){
 
 				// $node.attr({
@@ -361,11 +364,10 @@ class MyTree extends Component{
 			        onClick = {this.onClickHandler}
 			        transitionDuration={1}/>
 	            
-			      <TechDialog 
+			      <TechDialog
 			      	title={this.state.dgTitle}
 			      	context={this.state.dgContext}
 			      	style={this.state.dialogStyle}/>
-			      
 			    </div>
 			);			
 		}

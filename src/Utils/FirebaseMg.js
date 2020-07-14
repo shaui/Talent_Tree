@@ -1,6 +1,10 @@
 import React, { Component } from 'react';
+
+//Firebase
 import firebase from 'firebase';
 import config from '../firebaseConfig';
+import 'firebase/auth';
+
 
 class FirebaseMg extends Component{
 	constructor(props) {
@@ -13,8 +17,10 @@ class FirebaseMg extends Component{
 
 		this.database = this.app.database();
 		this.myRef = this.database.ref();
-
+		this.auth = this.app.auth();
 	}
+	// *** Auth API ***
+
 }
 
 export default FirebaseMg;
