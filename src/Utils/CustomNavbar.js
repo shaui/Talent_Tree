@@ -1,67 +1,35 @@
-import React, { useState } from 'react';
-import { Link } from 'react-router-dom';
+import React from 'react';
 import logo from '../logo.svg';
-import { 
-  Collapse,
+import {
   Navbar,
-  NavbarToggler,
   Nav,
-  NavItem,
-  NavLink,
-  UncontrolledDropdown,
-  DropdownToggle,
-  DropdownMenu,
-  DropdownItem } from 'reactstrap';
+  NavDropdown } from 'react-bootstrap';
 
 const CustomNavbar = () => {
 
-  const [isOpen, setIsOpen] = useState(false);
-
-  const toggle = () => setIsOpen(!isOpen);
-
   return (
-    <Navbar color="light" light expand="md" style={{'width':'100vw', 'height':'10vh', 'position':'fixed','top':'0px' , 'z-index':'99'}}>
-      <NavbarToggler onClick={toggle} />
-      <Collapse isOpen={isOpen} navbar>
-        <Nav navbar>
-          <NavItem>
-            <NavLink href="/">
-              <img src={logo} alt="react-router-breadcrumb" width="30" height="30" />
-            </NavLink>
 
-          </NavItem>
-          <NavItem>
-            <NavLink href="/">首頁</NavLink>
-          </NavItem>
-          <NavItem>
-            <NavLink href="/">技能樹</NavLink>
-          </NavItem>
-          <UncontrolledDropdown nav inNavbar>
-            <DropdownToggle nav caret>
-              論壇
-            </DropdownToggle>
-            <DropdownMenu right>
-              <DropdownItem>
-                <NavLink href="/forum">論壇總覽</NavLink>
-              </DropdownItem>
-              <DropdownItem>
-                <NavLink href="/forum/post">發布文章</NavLink>
-              </DropdownItem>
-              <DropdownItem>
-                <NavLink href="/forum/posts">我的帖子</NavLink>
-              </DropdownItem>
-            </DropdownMenu>
-          </UncontrolledDropdown>
-          
+    <Navbar bg="light" expand="lg" style={{'width':'100vw', 'height':'10vh', 'position':'fixed','top':'0px' , 'zIndex':'99'}}>
+      <Navbar.Brand href="#home">
+        <img src={logo} alt="react-router-breadcrumb" width="50" height="50" />
+      </Navbar.Brand>
+      <Navbar.Toggle aria-controls="basic-navbar-nav" />
+      <Navbar.Collapse id="basic-navbar-nav" >
+        <Nav className="mr-auto">
+          <Nav.Link href="/">首頁</Nav.Link>
+          <Nav.Link href="/">技能樹</Nav.Link>
+          <NavDropdown title="論壇" id="basic-nav-dropdown">
+            <NavDropdown.Item href="/forum">論壇總覽</NavDropdown.Item>
+            <NavDropdown.Item href="/forum/post">發布文章</NavDropdown.Item>
+            <NavDropdown.Item href="/forum/posts">我的帖子</NavDropdown.Item>
+          </NavDropdown>
         </Nav>
-        <Nav navbar className="ml-auto">
-            <NavItem>
-              <NavLink href="/signIn">會員登入</NavLink>
-            </NavItem>
+        <Nav className="ml-auto">
+          <Nav.Link href="/signIn">會員登入</Nav.Link>
         </Nav>
-        
-      </Collapse>
+      </Navbar.Collapse>
     </Navbar>
+
   );
 };
 

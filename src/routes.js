@@ -1,5 +1,5 @@
 import MyTree from './components/MyTree' ;
-import PostingPage from './components/Forum' ;
+import PostsPage from './components/Forum' ;
 import Firebase from './Utils/FirebaseMg.js'
 import CoursePage from './components/CoursePage'
 import SignInPage from './components/SignInPage.js'
@@ -13,7 +13,8 @@ const routes= [
 	},
 	{
 		path: '/forum',
-		component: PostingPage,
+		component: PostsPage,
+		exact: true,
 		breadcrumbName: '論壇'
 	},
 	{
