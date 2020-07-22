@@ -14,11 +14,11 @@
     "react-bootstrap": "^1.2.0",
     "react-d3-tree": "^1.16.1",
     "react-dom": "^16.13.1",
+    "react-router-config": "^5.1.1",
     "react-firebaseui": "^4.1.0",
     "react-router-dom": "^5.2.0",
     "react-scripts": "3.4.1",
     "react-tree-graph": "^4.1.0",
-    "reactstrap": "^8.4.1",
     "traverse": "^0.6.6"
   },
   "scripts": {
