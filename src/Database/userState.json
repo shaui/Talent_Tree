@@ -3,6 +3,7 @@
 	"state":[
 		{
 			"name": "LV3",
+			"completed": 0.2,
 			"nodeSvgShape": {
 		  		"shape": "circle",
 		  		"shapeProps": {

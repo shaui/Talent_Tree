@@ -2,13 +2,11 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import './index.css';
 import App from './App';
-import treeData from './Database/talent tree.json'
 import {BrowserRouter, Switch} from 'react-router-dom'
 import 'bootstrap/dist/css/bootstrap.min.css'
 
 import * as serviceWorker from './serviceWorker';
 
-var data = treeData
 
 ReactDOM.render(
   <React.StrictMode>

@@ -1,0 +1,21 @@
+/*button*/
+/*#post-btn {
+color: #494949 !important;
+text-transform: uppercase;
+background: #ffffff;
+padding: 0.5em 0.8em;
+border: 3px solid #494949 !important;
+border-radius: 6px;
+display: inline-block;
+transition: all 0.3s ease 0s;
+}
+#post-btn:hover {
+color: #494949 !important;
+border-radius: 50px;
+border-color: #494949 !important;
+transition: all 0.3s ease 0s;
+}*/
+
+.button-col {
+	text-align: right;
+}
