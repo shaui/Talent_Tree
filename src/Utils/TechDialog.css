@@ -1,0 +1,47 @@
+.TechDialog.techDialog{
+	position: fixed;
+	display: none;
+	width: 250px;
+	background-color: black;
+	opacity: 60%;
+	border-radius: 20px;
+	padding: 7px 15px;
+	color: white;
+	z-index: 1000;
+}
+
+.TechDialog.techDialog img{
+	width: 20px;
+	height: 20px;
+	display: inline-block;
+	margin-left: 10px;
+	margin-right: 10px;
+}
+
+.TechDialog.techDialog a{
+	color: lightgray;
+	text-decoration: none;
+	font-weight:bold;
+	font-family: 'Noto Sans TC', sans-serif;
+	font-size: 18px
+}
+
+.TechDialog.techDialog h5{
+	display: inline-block;
+	font-weight:bold;
+	margin:5px 0px;
+	font-family: 'Noto Sans TC', sans-serif;
+	font-size: 20px
+}
+
+.TechDialog.techDialog p{
+	display: inline-block;
+	font-family: 'Noto Sans TC', sans-serif;
+	margin: 3px 0px;
+}
+
+.TechDialog.techDialog hr{
+	color:white;
+	border-color:white;
+	margin: 7px 5px;
+}

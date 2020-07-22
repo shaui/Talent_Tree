@@ -1,0 +1,40 @@
+.HomaPage.row-style{
+	padding: 20px
+}
+
+.HomaPage.btn{
+	margin-right: 10px;
+}
+
+.HomaPage.circular-avatar {
+  display: inline-block;
+  position: relative;
+  width: 80px;
+  height: 80px;
+  overflow: hidden;
+  border-radius: 50%;
+}
+
+.HomaPage.circular-avatar img {
+  width: auto;
+  height: 100%;
+  margin-left: -50px;
+}
+
+.HomaPage.card .HomaPage.card-body .content {
+  padding-left: 80px;
+  margin-left: 20px;
+
+}
+
+.HomaPage.card {
+  width: 49%;
+  margin: 5px;
+}
+
+/*.card-avatar {
+  width: 80px;
+  height: 80px;
+  overflow: hidden;
+  border-radius: 50%;
+}*/

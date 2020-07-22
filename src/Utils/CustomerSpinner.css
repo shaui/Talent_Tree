@@ -1,0 +1,8 @@
+.CustomerSpinner.spinner-grow{
+	margin: 10px;
+}
+
+.CustomerSpinner.spinner-container{
+	width: 100vw;
+	height: 100vh;
+}

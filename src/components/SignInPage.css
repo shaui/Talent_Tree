@@ -1,0 +1,27 @@
+.SignInPage.coutom-model {
+	max-width: 30% !important;
+	 
+}
+
+
+.SignInPage.headFont{
+	font-family: 'Galada', cursive;
+	text-align: center;
+}
+
+.SignInPage.sign-div{
+	text-align:center;
+}
+
+.SignInPage.sign-msg{
+	width: 60%;
+	margin:5px;
+}
+
+.SignInPage.sign-btn{
+	display: inline-block;
+	width: 60%;
+	margin: 5px 0px;
+}
+
+

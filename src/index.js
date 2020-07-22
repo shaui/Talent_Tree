@@ -2,10 +2,9 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import './index.css';
 import App from './App';
-import TechDialog from './components/TechDialog'
-import MyTree from './components/MyTree'
 import treeData from './Database/talent tree.json'
 import {BrowserRouter, Switch} from 'react-router-dom'
+import 'bootstrap/dist/css/bootstrap.min.css'
 
 import * as serviceWorker from './serviceWorker';
 
@@ -15,7 +14,7 @@ ReactDOM.render(
   <React.StrictMode>
   	<BrowserRouter>
   		<Switch>
-	  		<App/>
+			<App/>
   		</Switch>
   	</BrowserRouter>
     
