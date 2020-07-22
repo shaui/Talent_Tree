@@ -1,10 +1,14 @@
 import React, {Component} from 'react';
 import './MyTree.css';
+
+//Component
 import TechDialog from '../Utils/TechDialog'
 import CustomerSpinner from '../Utils/CustomerSpinner'
+import Checkwindow from '../Utils/Checkwindow.js'
+
+//Tree package
 import Tree from 'react-d3-tree';
 import $ from 'jquery'
-import subTreeData from '../Database/subTree.json'
 import userState from '../Database/userState.json'
 
 //FireBase
@@ -59,7 +63,7 @@ class MyTree extends Component{
 		super(props)
 		// var intialData = data
 		this.state = {
-			data: null,
+			data: {},
 			dialogStyle:{
 				display: 'none',
 				left: 0,
@@ -73,7 +77,9 @@ class MyTree extends Component{
 			isNotRender: false,
 			tree_first_g : '', //use to fix the dialog
 			treeRoot: {},
-			isLoading: true
+			isLoading: true,
+			isCheckwindowShow: false,
+			selectedNodeData:{}
 		}
 		this.onMouseOverHandler = this.onMouseOverHandler.bind(this)
 		this.onMouseOutHnadler = this.onMouseOutHnadler.bind(this)
@@ -101,31 +107,6 @@ class MyTree extends Component{
 
 	    }) 
 	}
-
-	// componentDidUpdate() {
-	// 	console.log('componentDidUpdate')
-	// 	let first_g = $(".rd3t-tree-container > svg > g:first-child")
-	// 	let first_g_class = first_g.attr('class')
-	// 	// console.log(first_g_class, typeof(first_g_class))
-	// 	this.setState({
-	// 		tree_first_g: first_g_class
-	// 	})
-	// 	// console.log("userState",userState['state'])
- //  	}
-	
-
-
-	// shouldComponentUpdate(nextProps, nextState) {
-	// 	console.log('shouldComponentUpdate', nextState.isNotRender)
-	//     if (nextState.isNotRender) {
-	// 	      return false;
-	// 	    }
-	// 	return true;
-	// }
-
-	// getTreePos(tree_g_class){
-	// 	let tree_g = $('.' + tree_g_class).
-	// }
 
 	getPosition(css_attr){
 		// console.log('first_g_class',this.state.tree_first_g)
@@ -169,11 +150,13 @@ class MyTree extends Component{
 				var node = getNode(root, userState['state'][i]['name'])
 				// console.log("666", node)
 	
+				//更新樣式
 				for (var index in node){
 					node[index]["nodeSvgShape"] = userState['state'][i]['nodeSvgShape']
 				}
 				// console.log("666", node)
 			}
+			
 			this.setState({
 				treeRoot : root,
 				data: root
@@ -241,94 +224,155 @@ class MyTree extends Component{
 		var $node = $(selector)
 		
 		if(nodeData.isTech){
-			let isConfirm = window.confirm("確定點亮技能樹?")
+			this.popCheckWindow()
+			this.setState({
+				selectedNodeData:nodeData
+			})
+			// let isConfirm = window.confirm("確定點亮技能樹?")
 
-			if(isConfirm){
+			// if(isConfirm){
+			// 	let root = nodeData; //把目前節點設為root
+			// 	for(var i = 0; i< nodeData.depth; i++){
+			// 		root = root.parent //往上找真的root
+			// 	}
 
-				// $node.attr({
-				// 	"fill": "yellow"
-				// })
+			// 	// console.log("onClickHandler root:", root)
+			// 	let treeData = root //把root當作修改的資料
 
-				let root = nodeData; //把目前節點設為root
-				for(var i = 0; i< nodeData.depth; i++){
-					root = root.parent //往上找真的root
-				}
-
-				// console.log("onClickHandler root:", root)
-				let treeData = root //把root當作修改的資料
-
-				/*實作insert node功能，待討論格式、如何指定Tree*/
-				// this.insertSubTree(treeData, subTreeData)
+			// 	/*實作insert node功能，待討論格式、如何指定Tree*/
+			// 	// this.insertSubTree(treeData, subTreeData)
 				
-				console.log('onClickHandler treeData', this.state.data)
-				var node = getNode(treeData, nodeData.name)
-				// node = node["nodeSvgShape"]["shapeProps"]["fill"] = 'yellow'
-				console.log("NNNNNNNN",node)
-				for (var index in node){
-					node[index]["nodeSvgShape"] = {
-						shape: "circle",
-				        shapeProps: {
-				          r: 10,
-				          fill: "yellow"
-				        }
-					}
-				}
+			// 	console.log('onClickHandler treeData', this.state.data)
+			// 	var node = getNode(treeData, nodeData.name)
+			// 	// node = node["nodeSvgShape"]["shapeProps"]["fill"] = 'yellow'
+			// 	console.log("NNNNNNNN",node)
+			// 	for (var index in node){
+			// 		node[index]["nodeSvgShape"] = {
+			// 			shape: "circle",
+			// 	        shapeProps: {
+			// 	          r: 10,
+			// 	          fill: "yellow"
+			// 	        }
+			// 		}
+			// 	}
 
-				// nodeD["nodeSvgShape"] = {
-				// 	shape: "circle",
-			 //        shapeProps: {
-			 //          r: 10,
-			 //          fill: "yellow"
-			 //        }
-				// }
-				
-				// node["nodeSvgShape"]["shapeProps"]["fill"] = "yellow"
-				// console.log(node)
-				console.log('onClickHandler treeData', treeData)
-				console.log('onClickHandler treeData', this.state.data)
-				this.setState({
-					// lightNodes: nodes
-					// isNotRender: true,
-					data: treeData
+			// 	console.log('onClickHandler treeData', treeData)
+			// 	console.log('onClickHandler treeData', this.state.data)
+			// 	this.setState({
+			// 		data: treeData
 					
-				})
-				console.log('onClickHandler treeData', this.state.data)
-				// console.log('this.state.data:', this.state.data)
-			}else {
-				// $node.attr({
-				// 	"fill": "none"
-				// })
+			// 	})
+			// 	console.log('onClickHandler treeData', this.state.data)
+			// 	// console.log('this.state.data:', this.state.data)
 
-				let root = nodeData; //把目前節點設為root
-				for(var i = 0; i< nodeData.depth; i++){
-					root = root.parent //往上找真的root
-				}
 
-				let treeData = root //把root當作修改的資料
-				var node = getNode(treeData, nodeData.name) //取得目前節點位置
-				for (var index in node){
-					node[index]["nodeSvgShape"] = {
-						shape: "circle",
-				        shapeProps: {
-				          r: 10,
-				          fill: "white"
-				        }
-					}
-				}
-				// node["nodeSvgShape"] = { //修改節點
-				// 	shape: "circle",
-			 //        shapeProps: {
-			 //          r: 10,
-			 //          fill: "none"
-			 //        }
-				// }
+			// }else {
+
+
+			// 	let root = nodeData; //把目前節點設為root
+			// 	for(var i = 0; i< nodeData.depth; i++){
+			// 		root = root.parent //往上找真的root
+			// 	}
+
+			// 	let treeData = root //把root當作修改的資料
+			// 	var node = getNode(treeData, nodeData.name) //取得目前節點位置
+			// 	for (var index in node){
+			// 		node[index]["nodeSvgShape"] = {
+			// 			shape: "circle",
+			// 	        shapeProps: {
+			// 	          r: 10,
+			// 	          fill: "white"
+			// 	        }
+			// 		}
+			// 	}
+			// 	// node["nodeSvgShape"] = { //修改節點
+			// 	// 	shape: "circle",
+			//  //        shapeProps: {
+			//  //          r: 10,
+			//  //          fill: "none"
+			//  //        }
+			// 	// }
 					
-				console.log('onClickHandler treeData', treeData)
-				this.setState({
-					data: treeData
-				})
+			// 	console.log('onClickHandler treeData', treeData)
+			// 	this.setState({
+			// 		data: treeData
+			// 	})
+			// }
+		}
+	}
+
+	popCheckWindow(){
+		this.setState({
+			isCheckwindowShow: true
+		})		
+	}
+
+	handleConfirm = () =>{
+		let nodeData = this.state.selectedNodeData
+		let root = nodeData; //把目前節點設為root
+		for(var i = 0; i< nodeData.depth; i++){
+			root = root.parent //往上找真的root
+		}
+
+		// console.log("onClickHandler root:", root)
+		let treeData = root //把root當作修改的資料
+
+		/*實作insert node功能，待討論格式、如何指定Tree*/
+		// this.insertSubTree(treeData, subTreeData)
+		
+		console.log('onClickHandler treeData', this.state.data)
+		var node = getNode(treeData, nodeData.name)
+		// node = node["nodeSvgShape"]["shapeProps"]["fill"] = 'yellow'
+		console.log("NNNNNNNN",node)
+		for (var index in node){
+			node[index]["nodeSvgShape"] = {
+				shape: "circle",
+		        shapeProps: {
+		          r: 10,
+		          fill: "yellow"
+		        }
 			}
 		}
+
+		console.log('onClickHandler treeData', treeData)
+		console.log('onClickHandler treeData', this.state.data)
+		this.setState({
+			data: treeData
+			
+		})
+		console.log('onClickHandler treeData', this.state.data)
+		// console.log('this.state.data:', this.state.data)
+		this.setState({
+			isCheckwindowShow: false
+		})
+	}
+
+	handleCancel = () =>{
+		let nodeData = this.state.selectedNodeData
+		let root = nodeData; //把目前節點設為root
+		for(var i = 0; i< nodeData.depth; i++){
+			root = root.parent //往上找真的root
+		}
+
+		let treeData = root //把root當作修改的資料
+		var node = getNode(treeData, nodeData.name) //取得目前節點位置
+		for (var index in node){
+			node[index]["nodeSvgShape"] = {
+				shape: "circle",
+		        shapeProps: {
+		          r: 10,
+		          fill: "white"
+		        }
+			}
+		}
+			
+		console.log('onClickHandler treeData', treeData)
+		this.setState({
+			data: treeData
+		})
+		this.setState({
+			isCheckwindowShow: false
+		})		
 	}
 
 	render() {
@@ -338,7 +382,7 @@ class MyTree extends Component{
 			return <CustomerSpinner />
 		}else {
 			return (
-				<div className="custom-container">
+				<div className="MyTree custom-container">
 			      <Tree
 			        data= {this.state.data}
 			        orientation="vertical"
@@ -368,6 +412,12 @@ class MyTree extends Component{
 			      	title={this.state.dgTitle}
 			      	context={this.state.dgContext}
 			      	style={this.state.dialogStyle}/>
+			      	
+			      <Checkwindow
+			      	isShow={this.state.isCheckwindowShow}
+					handleConfirm={this.handleConfirm}
+					handleCancel={this.handleCancel}
+			      	/>
 			    </div>
 			);			
 		}

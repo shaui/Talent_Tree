@@ -8,21 +8,21 @@ function Course(props) {
 		<div>
 			<h1>Python</h1>
 		</div>
-      <div className="row course-icon">
+      <div className="CoursePage row course-icon">
       	<div className="col">
       		<img src="https://encrypted-tbn0.gstatic.com/images?q=tbn%3AANd9GcRw728JESaDNMSj_h3zrUUD49Xwgf0WNGAQcZKn7Kk9aZm2fGMK&usqp=CAU" className="img-thumbnail float-left" alt="Cinque Terre" style={{'width':'20vw','marginBottom':'10px'}}/>
-      		<div className="row course-introduction">
+      		<div className="CoursePage row course-introduction">
 		<div className="col">
-		    <p className="text-justify">Ambitioni dedisse scripsisse iudicaretur. Cras mattis iudicium purus sit amet fermentum. Donec sed odio operae, eu vulputate felis rhoncus. Praeterea iter est quasdam res quas ex communi. At nos hinc posthac, sitientis piros Afros. Petierunt uti sibi concilium totius Galliae in diem certam indicere. Cras mattis iudicium purus sit amet fermentum.</p>
+		    <p className="CoursePage text-justify">Ambitioni dedisse scripsisse iudicaretur. Cras mattis iudicium purus sit amet fermentum. Donec sed odio operae, eu vulputate felis rhoncus. Praeterea iter est quasdam res quas ex communi. At nos hinc posthac, sitientis piros Afros. Petierunt uti sibi concilium totius Galliae in diem certam indicere. Cras mattis iudicium purus sit amet fermentum.</p>
 		</div>
       </div>
 
-      <div className="row course-link">
+      <div className="CoursePage row course-link">
 		<div className="col">
-			<a href="#" class="btn btn-info" role="button" aria-pressed="true">Course 1</a>
-			<a href="#" class="btn btn-info" role="button" aria-pressed="true">Course 2</a>
-			<a href="#" class="btn btn-info" role="button" aria-pressed="true">Course 3</a>
-			<a href="#" class="btn btn-info" role="button" aria-pressed="true">Course 4</a>
+			<a href="#" class="CoursePage btn btn-info" role="button" aria-pressed="true">Course 1</a>
+			<a href="#" class="CoursePage btn btn-info" role="button" aria-pressed="true">Course 2</a>
+			<a href="#" class="CoursePage btn btn-info" role="button" aria-pressed="true">Course 3</a>
+			<a href="#" class="CoursePage btn btn-info" role="button" aria-pressed="true">Course 4</a>
 		</div>
       </div>
       	</div>
@@ -36,19 +36,19 @@ function Course(props) {
 function Comment(props) {
   return (
     <div className="container">
-		<div className="card">
-			<div className="card-body">
+		<div className="CoursePage card">
+			<div className="CoursePage card-body">
 
-				<div className="circular-avatar float-left">
-					<img src="http://petonea.com/file//n373/t.jpg" className="card-avatar"/>
+				<div className="CoursePage circular-avatar float-left">
+					<img src="http://petonea.com/file//n373/t.jpg" className="CoursePage card-avatar"/>
 				</div>
-				<div className="content">
-					<h5 class="user-name">2020/9/9</h5>
-					<p className="card-text">
+				<div className="CoursePage content">
+					<h5 class="CoursePage user-name">2020/9/9</h5>
+					<p className="CoursePage card-text">
 						關注了Tensorflow For CNN Cifar-10
 					</p>
 				</div>
-				<div className="actions">
+				<div className="CoursePage actions">
 					<a href="#">
 						<span class="glyphicon glyphicon-heart" aria-hidden="true"></span>
 					</a>
@@ -71,12 +71,12 @@ class CoursePage extends Component{
 	render() {
 		return (
 			<div className='container' style={{'paddingTop':'10vh'}}>
-				<div className='row row-style'>
+				<div className='CoursePage row row-style'>
 					<div className='col' style={{'backgroundColor':'white'}}>
 						<Course />
 					</div>
 				</div>
-				<div className='row row-style'>
+				<div className='CoursePage row row-style'>
 					<div className='col' style={{'backgroundColor':'white'}}>
 						<Comment />
 						<Comment />

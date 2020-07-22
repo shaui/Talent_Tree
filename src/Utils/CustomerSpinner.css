@@ -1,8 +1,8 @@
-.spinner-grow{
+.CustomerSpinner.spinner-grow{
 	margin: 10px;
 }
 
-.spinner-container{
+.CustomerSpinner.spinner-container{
 	width: 100vw;
 	height: 100vh;
 }

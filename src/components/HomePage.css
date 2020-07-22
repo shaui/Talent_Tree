@@ -1,12 +1,12 @@
-.CoursePage.row-style{
+.HomaPage.row-style{
 	padding: 20px
 }
 
-.CoursePage.btn{
+.HomaPage.btn{
 	margin-right: 10px;
 }
 
-.CoursePage.circular-avatar {
+.HomaPage.circular-avatar {
   display: inline-block;
   position: relative;
   width: 80px;
@@ -15,16 +15,21 @@
   border-radius: 50%;
 }
 
-.CoursePage.circular-avatar img {
+.HomaPage.circular-avatar img {
   width: auto;
   height: 100%;
   margin-left: -50px;
 }
 
-.CoursePage.card .CoursePage.card-body .content {
-	padding-left: 80px;
-	margin-left: 20px;
+.HomaPage.card .HomaPage.card-body .content {
+  padding-left: 80px;
+  margin-left: 20px;
 
+}
+
+.HomaPage.card {
+  width: 49%;
+  margin: 5px;
 }
 
 /*.card-avatar {

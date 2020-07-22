@@ -65,14 +65,23 @@ class SignInPage extends Component{
 		          <Button variant="primary" onClick={this.handleShow}>
 			       	會員登入
 			      </Button>
-		          <Modal show={this.state.isShow} onHide={this.handleClose}>
+		          <Modal dialogClassName="SignInPage coutom-model" show={this.state.isShow} onHide={this.handleClose}>
 
 			        <Modal.Body>
-			        	<h1 className='headFont'>Talent-Tree</h1>
-			        	<p style={{'text-align': 'center', 'paddingBottom':'10px'}}>Sing in to Talent-Tree here</p>
-						<div style={{'margin': '0'}}>
-							<input type="text" />
-
+			        	<h1 className='SignInPage headFont'>Talent-Tree</h1>
+			        	<p style={{'textAlign': 'center'}}>Sing in to Talent-Tree here</p>
+						<div className='SignInPage sign-div'>
+							<input class="SignInPage sign-msg" type="text" name="email" placeholder="Email"/><br/>
+						  	<input class="SignInPage sign-msg" type="password" name="pwd" placeholder="Password"/><br/>
+							<div class="SignInPage sign-btn">
+								<Button variant="primary" style={{'float':'left', 'width':'48%', 'margin':'0px'}}>
+									Sign In
+								</Button>
+								<Button variant="primary" style={{'float':'right', 'width':'48%', 'margin':'0px'}}>
+									Sign Up
+								</Button>
+							</div>
+							
 						</div>
 						
 						<StyledFirebaseAuth uiConfig={uiConfig} firebaseAuth={fbMg.auth} />

@@ -27,10 +27,11 @@ class TechDialog extends Component{
 
 		let contextList = this.props.context
 
+		var i = 1
 		if(contextList.length > 0){
 			var contexts = contextList.map((context, index) =>
 				<p key = {index}>
-					{context}
+					{index+1}. {context}
 				</p>
 			);
 		}
@@ -39,12 +40,14 @@ class TechDialog extends Component{
 
 		// console.log(contexts)
 		return (
-			<div className="techDialog" onMouseLeave={this.onMouseLeaveHnadler}>
-				<img src="https://www.woniuxy.com/train/img/python1.png" alt="None"/>
-				<h5 style={{'display':'inline-block'}}>{this.props.title}</h5>
-				<p></p>
+			<div className="TechDialog techDialog" onMouseLeave={this.onMouseLeaveHnadler}>
+				<h5>{this.props.title}</h5>
+				<hr/>
+				<p>課程標準：</p>
+				<br/>
 				{contexts}
-				<a href="/forum">前往課程......</a>
+				<br/>
+				<a href="/forum" style={{'float':'right'}}>前往課程 &rarr;</a>
 			</div>
 		);
 	}

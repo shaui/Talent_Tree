@@ -1,5 +1,5 @@
 /*Treeview*/
-div.custom-container {
+.MyTree.custom-container {
 	width: 100vw;
  	height: 100vh;
  	background-color: lightgray;
