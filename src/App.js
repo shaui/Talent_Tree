@@ -1,5 +1,9 @@
 import React, { Component } from 'react';
+
+//Component
 import CustomNavbar from './Utils/CustomNavbar';
+import SideBar from './Utils/SideBar.js'
+
 import { renderRoutes } from 'react-router-config';
 import routes from './routes';
 // import treeData from './Database/PythonTree.json'
@@ -67,6 +71,7 @@ class App extends Component {
       	<div className="">
       		<div className="main">
   	    		<CustomNavbar/>
+            <SideBar />
 
             {/* use renderRoutes method here*/}
             {renderRoutes(routes)}

@@ -4,6 +4,8 @@ import PostingPage from './components/PostingPage.js' ;
 import Firebase from './Utils/FirebaseMg.js'
 import CoursePage from './components/CoursePage'
 import SignInPage from './components/SignInPage.js'
+import HomePage from './components/HomePage.js';
+import TreeMenu from './components/TreeMenu.js'
 
 const routes= [
 	{
@@ -37,6 +39,16 @@ const routes= [
 		path: '/coursePage',
 		component: CoursePage,
 		breadcrumbName: '課程'
+	},
+	{
+		path: '/home',
+		component: HomePage,
+		breadcrumbName: '近期活動'
+	},
+	{
+		path: '/treeMenu',
+		component: TreeMenu,
+		breadcrumbName: '技能樹總覽'
 	}
 ];
 
