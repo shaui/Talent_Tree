@@ -1,10 +1,16 @@
 import React, { Component } from 'react';
 import { CustomNavbar } from './components';
 import { Route } from 'react-router-dom';
+
+//Component
 import PostingPage from './forum';
 import MyTree from './components/MyTree'
 import CoursePage from './components/CoursePage'
 import SignInPage from './components/SignInPage.js'
+import SideBar from './Utils/SideBar.js'
+import HomePage from './components/HomePage.js'
+import TreeMenu from './components/TreeMenu.js'
+import Checkwindow from './Utils/Checkwindow.js'
 // import treeData from './Database/PythonTree.json'
 // import treeData from './Database/talent tree mis 0606.json'
 
@@ -70,14 +76,21 @@ class App extends Component {
       	<div className="">
       		<div className="main">
   	    		<CustomNavbar/>
+            <SideBar />
             <Route
               path="/"
               exact
               component={MyTree}/>
             
-  	    		<Route path="/forum" component={PostingPage} />
-            <Route path="/signIn" component={SignInPage} />
-            <Route path="/coursePage" component={CoursePage} />
+  	    		<Route exact path="/forum" component={PostingPage} />
+            <Route exact path="/signIn" component={SignInPage} />
+            <Route exact path="/coursePage" component={CoursePage} />
+            <Route exact path="/sideBar" component={SideBar} />
+
+            <Route exact path="/home" component={HomePage} />
+            <Route exact path="/treeMenu" component={TreeMenu} />
+            <Route exact path="/check" component={Checkwindow} />
+
   	    	</div>
       	</div>
       </UserContext.Provider>

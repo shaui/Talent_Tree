@@ -4,16 +4,16 @@ import './CustomerSpinner.css'
 class CustomerSpinner extends Component{
 	render(){
 		return(
-			<div class="container spinner-container">
-				<div class="d-flex justify-content-center align-items-center w-100 h-100">
-					<div class="spinner-grow text-primary" role="status">
-					  <span class="sr-only">Loading...</span>
+			<div className="CustomerSpinner container spinner-container">
+				<div className="CustomerSpinner d-flex justify-content-center align-items-center w-100 h-100">
+					<div className="CustomerSpinner spinner-grow text-primary" role="status">
+					  <span className="CustomerSpinner sr-only">Loading...</span>
 					</div>
-					<div class="spinner-grow text-secondary" role="status">
-					  <span class="sr-only">Loading...</span>
+					<div className="CustomerSpinner spinner-grow text-secondary" role="status">
+					  <span className="CustomerSpinner sr-only">Loading...</span>
 					</div>
-					<div class="spinner-grow text-dark" role="status">
-					  <span class="sr-only">Loading...</span>
+					<div className="CustomerSpinner spinner-grow text-dark" role="status">
+					  <span className="CustomerSpinner sr-only">Loading...</span>
 					</div>
 				</div>	
 			</div>
