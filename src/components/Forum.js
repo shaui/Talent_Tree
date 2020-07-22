@@ -1,11 +1,9 @@
 import React from 'react';
-import {
-  Table,
-  Button } from 'react-bootstrap';
+import { Table } from 'react-bootstrap';
 import './Forum.css';
 import FirebaseMg from '../Utils/FirebaseMg.js'
 
-function Posts(props) {
+function PostsTable(props) {
 	const posts = props.data ;
 	const postItems = posts.map( (post) =>
 		<tr>
@@ -38,23 +36,10 @@ function Posts(props) {
 	);
 }
 
-class PostsTable extends React.Component {
-	constructor(props) {
-		super(props);
-	}
-
-	render() {
-		return (
-			<Posts data={this.props.data} ></Posts>
-		);
-	}
-}
-
 class PostsPage extends React.Component {
 	constructor(props) {
 		super(props);
 		this.state = {data: []} ;
-
 	}
 	
 	componentDidMount() {
@@ -70,6 +55,7 @@ class PostsPage extends React.Component {
 		.catch( (error) => {
 			console.log(error) ;
 		} ) ;
+		console.log(this.props);
 	}
 
 	render() {
