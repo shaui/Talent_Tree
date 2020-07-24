@@ -1,8 +1,16 @@
 import React, { Component } from 'react';
+import { Route } from 'react-router-dom';
 
 //Component
 import CustomNavbar from './Utils/CustomNavbar';
 import SideBar from './Utils/SideBar.js'
+import MyTree from './components/MyTree.js' ;
+import PostsPage from './components/Forum.js' ;
+import PostingPage from './components/PostingPage.js' ;
+import CoursePage from './components/CoursePage'
+import SignInPage from './components/SignInPage.js'
+import HomePage from './components/HomePage.js';
+import TreeMenu from './components/TreeMenu.js'
 
 import { renderRoutes } from 'react-router-config';
 import routes from './routes';
@@ -72,9 +80,12 @@ class App extends Component {
       		<div className="main">
   	    		<CustomNavbar/>
             <SideBar />
-
-            {/* use renderRoutes method here*/}
-            {renderRoutes(routes)}
+            <Route exact path="/" component={MyTree} />
+            <Route exact path="/forum" component={PostsPage} />
+            <Route exact path="/forum/post" component={PostingPage} />
+            <Route exact path="/coursePage" component={CoursePage} />
+            <Route exact path="/home" component={HomePage} />
+            <Route exact path="/treeMenu" component={TreeMenu} />
   	    	</div>
       	</div>
       </UserContext.Provider>
