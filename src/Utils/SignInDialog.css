@@ -1,0 +1,27 @@
+.SignInDialog.coutom-model {
+	max-width: 30% !important;
+	 
+}
+
+
+.SignInDialog.headFont{
+	font-family: 'Galada', cursive;
+	text-align: center;
+}
+
+.SignInDialog.sign-div{
+	text-align:center;
+}
+
+.SignInDialog.sign-msg{
+	width: 60%;
+	margin:5px;
+}
+
+.SignInDialog.sign-btn{
+	display: inline-block;
+	width: 60%;
+	margin: 5px 0px;
+}
+
+
