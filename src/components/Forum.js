@@ -43,6 +43,7 @@ class PostsPage extends React.Component {
 	}
 	
 	componentDidMount() {
+		console.log("###",this.props.location.state) //可以觀看傳遞的參數
 		const fbMg = new FirebaseMg() ;
 		var root = fbMg.myRef ;
 		var path = 'Posts' ;

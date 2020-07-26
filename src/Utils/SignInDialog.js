@@ -24,7 +24,7 @@ class SignInDialog extends Component{
 	  // Popup signin flow rather than redirect flow.
 	  signInFlow: 'popup',
 	  // Redirect to /signedIn after sign in is successful. Alternatively you can provide a callbacks.signInSuccess function.
-	  signInSuccessUrl: '/',
+	  signInSuccessUrl: '/home',
 	  // We will display Google and Facebook as auth providers.
 	  signInOptions: [
 	    firebase.auth.GoogleAuthProvider.PROVIDER_ID,
@@ -33,7 +33,7 @@ class SignInDialog extends Component{
 	  callbacks:{
 	  	signInSuccessWithAuthResult: () => {
 	  		this.props.handleClose() //Close the Modal
-	  		return false
+	  		return true
 	  	}
 	  }
 	};

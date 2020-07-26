@@ -35,7 +35,7 @@ class SideBar extends Component{
 					                Home
 				            </NavText>
 				        </NavItem>
-				        <NavItem eventKey="histroy">
+				        <NavItem eventKey="profile">
 				            <NavIcon>
 				            		<i className="fa fa-fw fa-line-chart" style={{ fontSize: '1.75em' }} />				            	
 				            </NavIcon>
