@@ -1,11 +1,30 @@
-import React from 'react';
+import React, { useState, useContext } from 'react';
+
+
 import logo from '../logo.svg';
 import {
   Navbar,
   Nav,
-  NavDropdown } from 'react-bootstrap';
+  NavDropdown,
+  Button } from 'react-bootstrap';
+
+import SignInDialog from './SignInDialog.js'
+
+import UserContext from '../Contexts/UserContext.js'
+import firebase from 'firebase';
+
+
 
 const CustomNavbar = () => {
+  const context = useContext(UserContext)
+  const [show, setShow] = useState(false);
+
+  const handleShow = () => {
+    setShow(true);
+  }
+  const handleClose = () => {
+    setShow(false);
+  }
 
   return (
 
@@ -25,9 +44,15 @@ const CustomNavbar = () => {
           </NavDropdown>
         </Nav>
         <Nav className="ml-auto">
-          <Nav.Link href="/signIn">會員登入</Nav.Link>
+        {
+          context.user ? 
+            <Button variant="primary" onClick={() => firebase.auth().signOut()}>會員登出</Button>
+          :
+            <Button variant="primary" onClick={handleShow}>會員登入</Button>
+        }
         </Nav>
       </Navbar.Collapse>
+      <SignInDialog isShow={show} handleClose={handleClose}/>
     </Navbar>
 
   );

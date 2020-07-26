@@ -1,0 +1,43 @@
+
+.Profile.content{
+    width:80%;
+    font-family: 'Noto Sans TC', sans-serif !important;
+    font-size: 18pt;
+    margin-left:10vw;
+    margin-top:10vh;
+
+}
+.Profile.divider {
+    border-bottom: 3px solid #f0f0f0;
+    margin-top:auto;
+    margin-bottom: 16pt;
+}
+.Profile.userInfo{
+    margin-top:5%;
+    margin-bottom:5%;
+    margin-left:5%;
+    margin-right:5%;
+}
+
+.Profile.Card_Title{
+    margin-left:28pt;
+    font-size:28pt;
+}
+
+.Profile.icon{
+    font-size:32px;
+    float:right;
+    color:grey;
+    margin-right:1%;
+    margin-left:1%;
+    margin-top:2%;
+}
+
+.Profile.icon2{
+    font-size:32px;
+    color:grey;
+    margin-right:0;
+    margin-left:0;
+    margin-top:2%;
+}
+

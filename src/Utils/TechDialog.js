@@ -1,4 +1,5 @@
 import React, {Component} from 'react';
+import { Link } from 'react-router-dom';
 import './TechDialog.css';
 import $ from 'jquery'
 
@@ -47,7 +48,10 @@ class TechDialog extends Component{
 				<br/>
 				{contexts}
 				<br/>
-				<a href="/forum" style={{'float':'right'}}>前往課程 &rarr;</a>
+				<Link to={{
+					pathname:"/forum",
+          			state:{"path":this.props.path}
+				}} style={{'float':'right'}}>前往課程 &rarr;</Link>
 			</div>
 		);
 	}
