@@ -1,0 +1,15 @@
+.hunt.hidden { display: none; }
+
+.hunt.border-div {
+	border-width: 2px;
+	border-style: solid;
+	border-color: black;
+	border-radius: 2px;
+}
+
+div.hunt.row div:first-child hr.hunt {
+	display: none;
+}
+hr.hunt {
+	margin: 10px auto;
+}

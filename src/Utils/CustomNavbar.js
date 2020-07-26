@@ -29,7 +29,7 @@ const CustomNavbar = () => {
   return (
 
     <Navbar bg="light" expand="lg" style={{'width':'100vw', 'height':'10vh', 'position':'fixed','top':'0px' , 'zIndex':'99'}}>
-      <Navbar.Brand href="#home">
+      <Navbar.Brand href="/">
         <img src={logo} alt="react-router-breadcrumb" width="50" height="50" />
       </Navbar.Brand>
       <Navbar.Toggle aria-controls="basic-navbar-nav" />
@@ -37,6 +37,7 @@ const CustomNavbar = () => {
         <Nav className="mr-auto">
           <Nav.Link href="/">首頁</Nav.Link>
           <Nav.Link href="/">技能樹</Nav.Link>
+          <Nav.Link href="/hunt">企業專區</Nav.Link>
           <NavDropdown title="論壇" id="basic-nav-dropdown">
             <NavDropdown.Item href="/forum">論壇總覽</NavDropdown.Item>
             <NavDropdown.Item href="/forum/post">發布文章</NavDropdown.Item>

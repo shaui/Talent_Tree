@@ -6,6 +6,7 @@ import CoursePage from './components/CoursePage'
 import SignInPage from './components/SignInPage.js'
 import HomePage from './components/HomePage.js';
 import TreeMenu from './components/TreeMenu.js'
+import HuntingPage from './components/HuntingPage.js'
 
 const routes= [
 	{
@@ -19,11 +20,13 @@ const routes= [
 		component: PostsPage,
 		exact: true,
 		breadcrumbName: '論壇',
-	},
-	{
-	    path: '/forum/post',
-	    component: PostingPage,
-	    breadcrumbName: '發文頁面'
+		routes: [
+			{
+			    path: '/forum/post',
+			    component: PostingPage,
+			    breadcrumbName: '發文頁面'
+			},
+		]
 	},
 	{
 		path: '/firebase',
@@ -49,6 +52,11 @@ const routes= [
 		path: '/treeMenu',
 		component: TreeMenu,
 		breadcrumbName: '技能樹總覽'
+	},
+	{
+		path: '/huntingPage',
+		component: HuntingPage,
+		breadcrumbName: '企業頁面'
 	}
 ];
 
