@@ -26,7 +26,7 @@ class SideBar extends Component{
 				    style={{'position':'fixed','top':'10vh'}}
 				>
 				    <SideNav.Toggle />
-				    <SideNav.Nav defaultSelected="home">
+				    <SideNav.Nav defaultSelected=" ">
 				        <NavItem eventKey="home">
 				            <NavIcon>
 									<i className="fa fa-fw fa-home" style={{ fontSize: '1.75em' }} />		            	
@@ -35,7 +35,7 @@ class SideBar extends Component{
 					                Home
 				            </NavText>
 				        </NavItem>
-				        <NavItem eventKey="histroy">
+				        <NavItem eventKey="profile">
 				            <NavIcon>
 				            		<i className="fa fa-fw fa-line-chart" style={{ fontSize: '1.75em' }} />				            	
 				            </NavIcon>

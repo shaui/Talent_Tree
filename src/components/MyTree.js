@@ -17,8 +17,6 @@ import FirebaseMg from '../Utils/FirebaseMg.js'
 
 const fbMg = new FirebaseMg()
 var root = fbMg.myRef
-var path = 'Trees/資管系'
-var myRef = root.child(path)
 
 // define the tree original position
 const TREE_POS = {
@@ -79,7 +77,8 @@ class MyTree extends Component{
 			treeRoot: {},
 			isLoading: true,
 			isCheckwindowShow: false,
-			selectedNodeData:{}
+			selectedNodeData:{},
+			hoverNodePath:""
 		}
 		this.onMouseOverHandler = this.onMouseOverHandler.bind(this)
 		this.onMouseOutHnadler = this.onMouseOutHnadler.bind(this)
@@ -87,25 +86,171 @@ class MyTree extends Component{
 
 		//Firebase getData
 		var origin_this = this
-	    myRef.once('value', function (snapshot) {
+	    
+	}
+
+	componentDidMount(){
+		console.log("componentDidMount:")
+		this.initTreeData()
+
+
+		// myRef.once('value', function (snapshot) {
+	 //        //取得tree data
+	 //        let data = snapshot.val()
+	 //        console.log("data data:",data)
+
+		// 	//初始化tree basic data
+	 //        origin_this.setState({
+	 //          data: data,
+	 //          isLoading: false
+	 //        })
+
+	 //        let first_g = $(".rd3t-tree-container > svg > g:first-child")
+		// 	let first_g_class = first_g.attr('class')
+		// 	// console.log("first_g_class",first_g_class)
+		// 	origin_this.setState({
+		// 		tree_first_g: first_g_class
+		// 	})
+
+	 //    }) 
+	}
+
+	changeNodeColor(data){
+  		//更改技能樹每一層的顏色
+  		let treeData = data
+  		console.log("changeNodeColor:", treeData)
+
+  		treeData["nodeSvgShape"]={
+  			shape: "circle",
+  			shapeProps: {
+  				r: 13,
+  				strokeWidth: 3
+  			}
+  		}
+		for (var index1 in treeData['children']){
+			let firstGen = treeData['children'][index1]
+			firstGen["nodeSvgShape"] = {
+				shape: "rect",
+		        shapeProps: {
+		          	width: 22,
+				    height: 22,
+				    x: -10,
+				    y: -10,
+				    strokeWidth: 3,
+				    transform: "rotate(45) skewX(10) skewY(10)",
+		          	fill: "Moccasin",
+		          	stroke: "orange"
+		        }
+			}
+			for (var index2 in firstGen['children']){
+				let secondGen = firstGen['children'][index2]
+				secondGen["nodeSvgShape"] = {
+					shape: "rect",
+			        shapeProps: {
+			          	width: 22,
+					    height: 22,
+					    x: -10,
+					    y: -10,
+				    	strokeWidth: 3,
+			          	fill: "LightSkyBlue",
+		          		stroke: "RoyalBlue"
+			        }
+				}
+				for (var index3 in secondGen['children']){
+					let thirdGen = secondGen['children'][index3]
+					if(!thirdGen.isTech){
+						thirdGen["nodeSvgShape"] = {
+							shape: "circle",
+					        shapeProps: {
+					          	r: 12,
+				    			strokeWidth: 3,
+					          	fill: "LightGreen",
+			            		stroke: "LimeGreen"
+					        }
+						}
+					}
+				}
+			}
+		}
+		console.log("changeColor:", treeData)
+		return treeData
+  	}
+
+	initTreeData(nodeData){
+
+		let path = 'Trees/資管系'
+		let myRef = root.child(path)
+
+		//Construct the tree
+		myRef.once('value', (snapshot) => {
 	        //取得tree data
 	        let data = snapshot.val()
 	        console.log("data data:",data)
 
+			let treeData = this.changeNodeColor(data)
+			
 			//初始化tree basic data
-	        origin_this.setState({
-	          data: data,
+	        this.setState({
+	          data: treeData,
 	          isLoading: false
 	        })
 
 	        let first_g = $(".rd3t-tree-container > svg > g:first-child")
 			let first_g_class = first_g.attr('class')
 			// console.log("first_g_class",first_g_class)
-			origin_this.setState({
+			this.setState({
 				tree_first_g: first_g_class
 			})
 
 	    }) 
+	    
+
+	}
+
+	initUserTreeState(nodeData){
+		//初始化tree的資料，讓他變成完整的tree(包含collapsed、paremt)。如果可以在其他地方取得root，就在那裡初始化，只有第一次會跑進if裡面
+		let treeRoot = nodeData; //把目前節點設為root
+		for(var i = 0; i< nodeData.depth; i++){
+			treeRoot = treeRoot.parent //往上找真的root，
+		}
+		
+		let path = 'Users/userID/treeState/資管系/state'
+    	let myRef = root.child(path)
+
+    	myRef.once('value', (snapshot) => {
+    		//取得user treeState
+	    	let userTreeState = snapshot.val()
+
+	    	//遍歷每個技能
+			userTreeState.forEach( (skill) =>{
+				let skillStds = skill["children"]
+				console.log("skillStds:", skillStds)
+
+				//遍歷每個技能標準
+				for (var i in skillStds){
+
+					//取得某一標準在tree中的資料
+					var node = getNode(treeRoot, skillStds[i]['name'])
+		
+					//更新樣式，因為traverse不知道為甚麼會拿到多個元素，所以用For都跑一次
+					for (var index in node){
+						console.log("skillStds[i]:",skillStds[i]['nodeSvgShape'])
+						node[index]["nodeSvgShape"] = skillStds[i]['nodeSvgShape']
+					}
+					// console.log("666", node)
+				}
+
+			})
+			
+			this.setState({
+				treeRoot : treeRoot,
+				data: treeRoot
+			})
+    	})
+		
+
+		
+
 	}
 
 	getPosition(css_attr){
@@ -125,6 +270,20 @@ class MyTree extends Component{
 		return scale
 	}
 
+	getNodePath(nodeData){
+		let path = ""
+
+		let tempNode = nodeData;
+		for(var i = 0; i< nodeData.depth + 1; i++){
+			path = tempNode.name + "/" + path
+			if(tempNode.parent){
+				tempNode = tempNode.parent
+			}
+		}
+
+		return path
+	}
+
 	insertSubTree(originTree, subTree){
 		console.log(subTree.nodeName)
 		var node = getNode(originTree, subTree.nodeName)
@@ -135,33 +294,38 @@ class MyTree extends Component{
 		}
 		console.log('insertSubTree:',node)
 	}
+
 	
 	onMouseOverHandler(nodeData, evt){
-	
-		//初始化root
-		//初始化state。如果可以在其他地方取得root，就在那裡初始化state
+		console.log("onMouseOverHandler:",nodeData)
 		if(Object.keys(this.state.treeRoot).length === 0){
-			let root = nodeData; //把目前節點設為root
-			for(var i = 0; i< nodeData.depth; i++){
-				root = root.parent //往上找真的root
-			}
-			for (var i in userState['state']){
-			// console.log(userState['state'][i])
-				var node = getNode(root, userState['state'][i]['name'])
-				// console.log("666", node)
-	
-				//更新樣式
-				for (var index in node){
-					node[index]["nodeSvgShape"] = userState['state'][i]['nodeSvgShape']
-				}
-				// console.log("666", node)
-			}
-			
-			this.setState({
-				treeRoot : root,
-				data: root
-			})
+			this.initUserTreeState(nodeData)
 		}
+		
+		//初始化tree的資料，讓他變成完整的tree(包含collapsed、paremt)。如果可以在其他地方取得root，就在那裡初始化，只有第一次會跑進if裡面
+		// if(Object.keys(this.state.treeRoot).length === 0){
+		// 	let root = nodeData; //把目前節點設為root
+		// 	for(var i = 0; i< nodeData.depth; i++){
+		// 		root = root.parent //往上找真的root，
+		// 	}
+
+		// 	for (var i in userState['state']){
+
+		// 		var node = getNode(root, userState['state'][i]['name'])
+		// 		console.log("6868", node)
+	
+		// 		//更新樣式，因為traverse不知道為甚麼會拿到多個元素，所以用For都跑一次
+		// 		for (var index in node){
+		// 			node[index]["nodeSvgShape"] = userState['state'][i]['nodeSvgShape']
+		// 		}
+		// 		// console.log("666", node)
+		// 	}
+			
+		// 	this.setState({
+		// 		treeRoot : root,
+		// 		data: root
+		// 	})
+		// }
 
 		//取得tree第一個g的座標
 		let tree_g = $('.' + this.state.tree_first_g)
@@ -181,6 +345,11 @@ class MyTree extends Component{
 
 		console.log("onMouseOverHandler", "dialog_x:", dialog_x, "dialog_y:", dialog_y)
 		if(nodeData.isTech || nodeData.hasDialog){
+
+			//get the hover path
+			let path = this.getNodePath(nodeData)
+			console.log("!!!",path)
+
 			this.setState({
 				dialogStyle: {
 					display: 'block',
@@ -191,9 +360,11 @@ class MyTree extends Component{
 				dgContext: nodeData.context,
 				pos_x: dialog_x,
 				pos_y: dialog_y,
+				hoverNodePath:path
 				// isOpen: false
 			})
 		}
+		
 	}
 
 	onMouseOutHnadler(nodeData, evt){
@@ -310,6 +481,8 @@ class MyTree extends Component{
 	handleConfirm = () =>{
 		let nodeData = this.state.selectedNodeData
 		let root = nodeData; //把目前節點設為root
+
+		//不能直接用this.state.data當作tree,因為它其實有許多資料沒有寫完整 Ex : collapse...
 		for(var i = 0; i< nodeData.depth; i++){
 			root = root.parent //往上找真的root
 		}
@@ -329,7 +502,8 @@ class MyTree extends Component{
 				shape: "circle",
 		        shapeProps: {
 		          r: 10,
-		          fill: "yellow"
+		          fill: "yellow",
+		          stroke: "OrangeRed"
 		        }
 			}
 		}
@@ -389,8 +563,10 @@ class MyTree extends Component{
 			        nodeSize={
 			          {x: 140, y: 140}
 			        }
+			        pathFunc={"step"}
+			        depthFactor={170}
 			        separation={
-			          {siblings: 1, nonSiblings: 1}
+			          {siblings: 1.2, nonSiblings: 1.2}
 			        }
 			        initialDepth={1}
 			        scaleExtent={
@@ -401,7 +577,7 @@ class MyTree extends Component{
 			          {textAnchor: "middle", x: 0, y: -20, transform: undefined }
 			        }
 			        translate={
-			          {x:TREE_POS.x, y: TREE_POS.y}
+			          {x:TREE_POS.x + 10, y: TREE_POS.y + 20}
 			        }
 			        onMouseOver = {this.onMouseOverHandler}
 			        onMouseOut = {this.onMouseOutHnadler}
@@ -411,7 +587,8 @@ class MyTree extends Component{
 			      <TechDialog
 			      	title={this.state.dgTitle}
 			      	context={this.state.dgContext}
-			      	style={this.state.dialogStyle}/>
+			      	style={this.state.dialogStyle}
+			      	path={this.state.hoverNodePath}/>
 			      	
 			      <Checkwindow
 			      	isShow={this.state.isCheckwindowShow}

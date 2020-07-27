@@ -3,4 +3,11 @@
 	width: 100vw;
  	height: 100vh;
  	background-color: lightgray;
+ 	background-image: linear-gradient(rgba(255,255,255,0.6), rgba(255,255,255,0.6)),url("../Database/background.jpg");
+ 	background-position: center;
+    background-repeat: no-repeat;
+    background-size: cover;
+}
+text.nodeNameBase {
+	font-family: 'Noto Sans TC', sans-serif;
 }

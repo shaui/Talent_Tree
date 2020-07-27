@@ -2,7 +2,7 @@
 	"treeName":"資管系",
 	"state":[
 		{
-			"name": "LV3",
+			"name": "JAVA 環境建構",
 			"completed": 0.2,
 			"nodeSvgShape": {
 		  		"shape": "circle",
@@ -13,7 +13,7 @@
 			}
 		},
 		{
-			"name": "LV2",
+			"name": "JAVA 類別與物件",
 			"nodeSvgShape": {
 				"shape": "circle",
 				"shapeProps": {

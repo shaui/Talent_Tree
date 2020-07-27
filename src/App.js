@@ -63,7 +63,7 @@ class App extends Component {
   }
 
   componentDidMount = () =>{
-    console.log("context:", this.context)
+    console.log("context:", this.context.user)
     firebase.auth().onAuthStateChanged(userAuth => {
       if(userAuth){
         console.log('App user:', userAuth, userAuth.uid)
@@ -76,12 +76,17 @@ class App extends Component {
   }
 
   render() {
+
     return (
       <UserContext.Provider value={{user: this.state.user}}>
       	<div className="">
       		<div className="main">
   	    		<CustomNavbar/>
-            <SideBar />
+            {
+              this.state.user ?
+                <SideBar />
+              : null 
+            }
             <Route exact path="/" component={MyTree} />
             <Route exact path="/forum" component={PostsPage} />
             <Route exact path="/forum/post" component={PostingPage} />
@@ -89,7 +94,7 @@ class App extends Component {
             <Route exact path="/course" component={CoursePage} />
             <Route exact path="/home" component={HomePage} />
             <Route exact path="/treeMenu" component={TreeMenu} />
-            <Route exact path="/Profile" component={Profile} />
+            <Route exact path="/profile" component={Profile} />
   	    	</div>
       	</div>
       </UserContext.Provider>
