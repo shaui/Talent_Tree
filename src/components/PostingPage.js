@@ -1,6 +1,6 @@
 import React from 'react';
 import { Form, Button, Col } from 'react-bootstrap';
-import { Link } from 'react-router-dom';
+import { withRouter } from "react-router-dom"
 import FirebaseMg from '../Utils/FirebaseMg.js'
 import './PostingPage.css';
 
@@ -17,7 +17,7 @@ function _uuid() {
   });
 }
 
-class PostingForm extends React.Component {
+class PostingPage extends React.Component {
 	constructor(props) {
 		super(props);
 		this.state = {
@@ -41,6 +41,7 @@ class PostingForm extends React.Component {
 					name: "--請選擇技能--"
 				}
 			],
+			defaultData: this.props.location.state
 		} ;
 		this.chooseSubject = this.chooseSubject.bind(this) ;
 		this.chooseField = this.chooseField.bind(this) ;
@@ -152,12 +153,19 @@ class PostingForm extends React.Component {
 			dislike: 0,
 			view: 0,
 			timePosted: new Date().toLocaleString()
+		} ).then( () => {
+			// redirect
+			this.props.history.push("/forum")
 		} )
+		.catch( (error) => {
+			console.log(error) ;
+		} ) ;
+		e.preventDefault() ;
 	}
 
 	render ( ) {
-		const data = this.props.data
-		const hasDefault = Boolean( data )
+		const defaultData = this.state.defaultData
+		const hasDefault = Boolean( defaultData )
 		let subjectInput ;
 		let fieldInput ;
 		let skillInput ;
@@ -172,7 +180,7 @@ class PostingForm extends React.Component {
 			          as="select"
 			          disabled
 			          required>
-			          <option>{data.subject}</option>
+			          <option>{defaultData.subject}</option>
 			          <option>資管系</option>
 			        </Form.Control>
 			      </Form.Group>
@@ -186,7 +194,7 @@ class PostingForm extends React.Component {
 			          as="select" 
 			          disabled
 			          required>
-			          <option>{data.field}</option>
+			          <option>{defaultData.field}</option>
 			        </Form.Control>
 			      </Form.Group>
 			  	</Col>
@@ -199,7 +207,7 @@ class PostingForm extends React.Component {
 			          as="select" 
 			          disabled
 			          required>
-			          <option>{data.skill}</option>
+			          <option>{defaultData.skill}</option>
 			        </Form.Control>
 			      </Form.Group>
 			  	</Col>
@@ -212,7 +220,7 @@ class PostingForm extends React.Component {
 			          as="select" 
 			          disabled
 			          required>
-			          <option>{data.subskill}</option>
+			          <option>{defaultData.subskill}</option>
 			        </Form.Control>
 			      </Form.Group>
 			  	</Col>
@@ -343,12 +351,9 @@ class PostingForm extends React.Component {
 					  <div className="container">
 					  	<div className="row justify-content-end">
 					  	  <div className="col-md-4 button-col">
-					  	  	<button id="post-btn" className="primary" type="submit">
-						  	  	<Link 
-						  	  	to={{ pathname:'/forum' }} >
-									發布文章
-								</Link>
-							</button>
+					  	  	<Button id="post-btn" className="primary" type="submit">
+						  	  	發布文章
+							</Button>
 					  		
 					  	  </div>
 					  	  <div className="col-md-1">
@@ -363,13 +368,4 @@ class PostingForm extends React.Component {
 	}
 }
 
-class PostingPage extends React.Component {
-
-	render() {
-		return (
-			<PostingForm data={ this.props.location.state } />
-		);
-	}
-}
-
-export default PostingPage;
+export default withRouter(PostingPage) ;
