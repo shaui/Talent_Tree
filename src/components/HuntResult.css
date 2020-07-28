@@ -1,0 +1,42 @@
+/*Navbar*/
+/*li.nav-item:last-child {
+	margin-left: auto !important;
+}*/
+
+/*固定table長度*/
+thead th:nth-child(1).hunt,
+tbody td:nth-child(1).hunt,
+thead th:nth-child(4).hunt,
+tbody td:nth-child(4).hunt {
+	width: 10em;
+}
+
+/*垂直置中*/
+.table th.hunt, 
+.table td.hunt {
+  vertical-align: middle !important;
+  font-family: 'Noto Sans TC', sans-serif;
+}
+
+th.hunt, .userName.hunt, .userEmail.hunt{
+  font-size: 20px;
+}
+
+/*button*/
+#post-btn {
+color: #494949 !important;
+text-transform: uppercase;
+background: #ffffff;
+padding: 0.5em 0.8em;
+border: 3px solid #494949 !important;
+border-radius: 6px;
+display: inline-block;
+transition: all 0.3s ease 0s;
+}
+
+#post-btn:hover {
+color: #494949 !important;
+border-radius: 50px;
+border-color: #494949 !important;
+transition: all 0.3s ease 0s;
+}

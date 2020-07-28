@@ -3,6 +3,8 @@ import { Card, Form, Button, Row, Col } from 'react-bootstrap';
 import FirebaseMg from '../Utils/FirebaseMg.js';
 import './HuntingPage.css';
 
+import HuntResult from './HuntResult.js' ;
+
 class HuntingForm extends React.Component {
 	constructor(props) {
 		super(props);
@@ -30,11 +32,14 @@ class HuntingForm extends React.Component {
 			showFields: false,
 			showSkills: false,
 			showSubskills: false,
+			showResult: false,
+			option: []
 		} ;
 		this.chooseSubject = this.chooseSubject.bind(this) ;
 		this.chooseField = this.chooseField.bind(this) ;
 		this.chooseSkill = this.chooseSkill.bind(this) ;
 		this.chooseSubskill = this.chooseSubskill.bind(this) ;
+		this.handleSubmit = this.handleSubmit.bind(this) ;
 	}
 	
 	componentDidMount() {
@@ -412,23 +417,46 @@ class HuntingForm extends React.Component {
 					subskillObjs: [
 						{ 
 							name: "",
-	
 						}
 					]
 				} )
 			} 
 			else {
 				this.setState( {
-					skillObjs: newSubskillObjs
+					subskillObjs: newSubskillObjs
 				} )
 			}
 		}
 	}
-	render ( ) {
+
+	handleSubmit(e) {
+
+		e.preventDefault() ;
+
+		const elems = e.target.elements
+		
+		// console.log( "subject:", elems.subject );
+		// console.log( "field:", elems.field );
+		// console.log( "skill:", elems.skill );
+		// console.log( "subskill:", elems.subskill );
+		const subskillInputs = Array.from(elems.subskill).filter( (input) => {
+				return input.checked 
+			}
+		)
+		const subskills = subskillInputs.map( (input) =>
+			input.value
+		)
+		this.setState( {
+			option: subskills,
+			showResult: true
+		} )
+	}
+
+	render( ) {
 
 		// 因為有多選，所以當某個上層節點被取消勾選時，
 		// 要保持其他勾選的上層節點的children的render（條件render）
-		const skillObjs = this.state.skillObjs
+		let skillObjs = this.state.skillObjs
 		const chooseSkill = this.chooseSkill
 		let skillBoxes = this.state.fieldObjs.map( (fieldObj, index) => {
 
@@ -445,13 +473,15 @@ class HuntingForm extends React.Component {
 		    		type={'checkbox'} 
 		    		onClick={ chooseSkill }
 		    		value={ skill.name }
+		    		name="skill"
 		    		checked /> :
 		    		<Form.Check 
 		    		inline 
 		    		label={ skill.name } 
 		    		type={'checkbox'} 
 		    		onClick={ chooseSkill }
-		    		value={ skill.name } />
+		    		value={ skill.name }
+		    		name="skill" />
 			} )
 
 			return (
@@ -470,7 +500,7 @@ class HuntingForm extends React.Component {
 
 		} )
 
-		const subskillObjs = this.state.subskillObjs
+		let subskillObjs = this.state.subskillObjs
 		const chooseSubskill = this.chooseSubskill
 		let subskillBoxes = skillObjs.map( (skillObj) => {
 
@@ -487,13 +517,15 @@ class HuntingForm extends React.Component {
 		    		type={'checkbox'} 
 		    		onClick={ chooseSubskill }
 		    		value={ subskill.name }
+		    		name="subskill"
 		    		checked /> :
 		    		<Form.Check 
 		    		inline 
 		    		label={ subskill.name } 
 		    		type={'checkbox'} 
 		    		onClick={ chooseSubskill }
-		    		value={ subskill.name } />
+		    		value={ subskill.name }
+		    		name="subskill" />
 			} )
 			return (
 				<Col md={{ span: 11, offset: 1 }} sm={{ span: 11, offset: 1 }} xs={{ span: 11, offset: 1 }} >
@@ -516,7 +548,7 @@ class HuntingForm extends React.Component {
 					  <Card.Header>人才徵選</Card.Header>
 					  <Card.Body>
 					    <Card.Title>條件選擇</Card.Title>
-					    <Form>
+					    <Form onSubmit={this.handleSubmit} >
 						  <Form.Row>
 						  	
 						  	<Col md={{ span: 2, offset: 1 }} sm={6} xs={12}>
@@ -537,7 +569,8 @@ class HuntingForm extends React.Component {
 							    		label={ this.state.subjects.name } 
 							    		type={'radio'} 
 							    		onChange={ this.chooseSubject }
-							    		value={ this.state.subjects.name } />
+							    		value={ this.state.subjects.name }
+							    		name="subject" />
 							        }
 						        </div>
 						      </Form.Group>
@@ -557,7 +590,8 @@ class HuntingForm extends React.Component {
 								    		label={ field.name } 
 								    		type={'checkbox'} 
 								    		onClick={ this.chooseField }
-								    		value={ field.name } />
+								    		value={ field.name }
+								    		name="field" />
 							        	)
 							        }
 						        </div>
@@ -567,7 +601,7 @@ class HuntingForm extends React.Component {
 
 						  <Form.Row>
 						  	<Col md={{ span: 10, offset: 1 }} sm={12} xs={12} className={this.state.showSkills ? '' : 'hidden hunt'}>
-						  	  <Form.Group controlId="field">
+						  	  <Form.Group controlId="skill">
 						        <Form.Label>選擇技能</Form.Label>
 						        <Row className="hunt">
 						        	{ skillBoxes }
@@ -578,7 +612,7 @@ class HuntingForm extends React.Component {
 
 						  <Form.Row>
 						  	<Col md={{ span: 10, offset: 1 }} sm={12} xs={12} className={this.state.showSubskills ? '' : 'hidden hunt'}>
-						  	  <Form.Group controlId="field">
+						  	  <Form.Group controlId="subskill">
 						        <Form.Label>選擇子技能</Form.Label>
 						        <Row className="hunt">
 						        	{ subskillBoxes }
@@ -602,7 +636,9 @@ class HuntingForm extends React.Component {
 						</Form>
 					  </Card.Body>
 					</Card>
-					
+					{
+						this.state.showResult ? <HuntResult option={this.state.option} /> : ""
+					}
 				</div>
 			</div>
 		);
