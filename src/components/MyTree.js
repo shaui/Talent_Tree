@@ -172,7 +172,6 @@ class MyTree extends Component{
 				}
 			}
 		}
-		console.log("changeColor:", treeData)
 		return treeData
   	}
 
@@ -187,6 +186,7 @@ class MyTree extends Component{
 	        let data = snapshot.val()
 	        console.log("data data:",data)
 
+			//改變tree樣式
 			let treeData = this.changeNodeColor(data)
 			
 			//初始化tree basic data
@@ -271,11 +271,11 @@ class MyTree extends Component{
 	}
 
 	getNodePath(nodeData){
-		let path = ""
+		let path = []
 
 		let tempNode = nodeData;
 		for(var i = 0; i< nodeData.depth + 1; i++){
-			path = tempNode.name + "/" + path
+			path.push(tempNode.name)
 			if(tempNode.parent){
 				tempNode = tempNode.parent
 			}
@@ -302,31 +302,6 @@ class MyTree extends Component{
 			this.initUserTreeState(nodeData)
 		}
 		
-		//初始化tree的資料，讓他變成完整的tree(包含collapsed、paremt)。如果可以在其他地方取得root，就在那裡初始化，只有第一次會跑進if裡面
-		// if(Object.keys(this.state.treeRoot).length === 0){
-		// 	let root = nodeData; //把目前節點設為root
-		// 	for(var i = 0; i< nodeData.depth; i++){
-		// 		root = root.parent //往上找真的root，
-		// 	}
-
-		// 	for (var i in userState['state']){
-
-		// 		var node = getNode(root, userState['state'][i]['name'])
-		// 		console.log("6868", node)
-	
-		// 		//更新樣式，因為traverse不知道為甚麼會拿到多個元素，所以用For都跑一次
-		// 		for (var index in node){
-		// 			node[index]["nodeSvgShape"] = userState['state'][i]['nodeSvgShape']
-		// 		}
-		// 		// console.log("666", node)
-		// 	}
-			
-		// 	this.setState({
-		// 		treeRoot : root,
-		// 		data: root
-		// 	})
-		// }
-
 		//取得tree第一個g的座標
 		let tree_g = $('.' + this.state.tree_first_g)
 		let pos = this.getPosition(tree_g.attr('transform'))
@@ -478,7 +453,49 @@ class MyTree extends Component{
 		})		
 	}
 
+	updateNodeColor(color){
+		let nodePath = this.state.hoverNodePath
+		let skillName = nodePath[1]
+		let skillStd = nodePath[0]
+
+		let path = "Users/userID/treeState/" + "資管系" + "/state"
+    	let myRef = root.child(path)
+
+    	myRef.once('value', (snapshot) => {
+			let data = snapshot.val()
+			let path1 = 666 
+			let path2 = 666
+			let skillNode = []
+
+			data.forEach( (skill, index) =>{
+				
+				if(skill["name"] === skillName){
+					path1 = index
+
+					skill["children"].forEach( (std, index) =>{
+						if(std["name"] === skillStd){
+							path2 = index
+						}
+					})
+				}
+			})
+
+			path = path + "/" + path1 + "/children/" + path2 + "/nodeSvgShape/shapeProps"
+			myRef = root.child(path)
+			myRef.update({"fill": color})
+				
+
+    	}).then( (result) => {
+    		return myRef
+    	}).catch( (failureCallback) =>{
+			// console.log("failureCallback:",failureCallback)
+    	});
+	}
+
 	handleConfirm = () =>{
+		this.updateNodeColor("yellow")
+
+
 		let nodeData = this.state.selectedNodeData
 		let root = nodeData; //把目前節點設為root
 
@@ -493,10 +510,9 @@ class MyTree extends Component{
 		/*實作insert node功能，待討論格式、如何指定Tree*/
 		// this.insertSubTree(treeData, subTreeData)
 		
-		console.log('onClickHandler treeData', this.state.data)
 		var node = getNode(treeData, nodeData.name)
 		// node = node["nodeSvgShape"]["shapeProps"]["fill"] = 'yellow'
-		console.log("NNNNNNNN",node)
+
 		for (var index in node){
 			node[index]["nodeSvgShape"] = {
 				shape: "circle",
@@ -508,20 +524,15 @@ class MyTree extends Component{
 			}
 		}
 
-		console.log('onClickHandler treeData', treeData)
-		console.log('onClickHandler treeData', this.state.data)
 		this.setState({
-			data: treeData
-			
-		})
-		console.log('onClickHandler treeData', this.state.data)
-		// console.log('this.state.data:', this.state.data)
-		this.setState({
-			isCheckwindowShow: false
+			data: treeData,
+			isCheckwindowShow: false	
 		})
 	}
 
 	handleCancel = () =>{
+		this.updateNodeColor("white")
+		
 		let nodeData = this.state.selectedNodeData
 		let root = nodeData; //把目前節點設為root
 		for(var i = 0; i< nodeData.depth; i++){
