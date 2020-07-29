@@ -1,0 +1,773 @@
+{
+  "LinkedIn" : "https://",
+  "activities" : [ {
+    "description" : "中央資管嘉年華 榮獲新創團隊組第一名",
+    "name" : "資管專題競賽 第一名",
+    "time" : "2020/09/09"
+  }, {
+    "description" : "取得ITE 資訊專業人員鑑定之資訊管理(應用)專業人員之合格證照",
+    "name" : "資訊管理(應用)專業人員 證照",
+    "time" : "2020/6/15"
+  }, {
+    "description" : "網站測試成功",
+    "time" : "2020-07-30"
+  } ],
+  "artwork" : [ {
+    "description" : "整合相關學習資源，幫助學生找到自己的人生規劃；亦可在上面找到實習機會之線上教學資源整合平台",
+    "link" : "https://talenttree.com.tw",
+    "name" : "talenttree技能樹"
+  }, {
+    "description" : "CPE 認證結果為前3%",
+    "link" : "none",
+    "name" : "CPE 證照"
+  }, null, {
+    "description" : "測試",
+    "name" : "測試"
+  }, {
+    "description" : "真的",
+    "link" : "",
+    "name" : "我快成功ㄌ"
+  } ],
+  "birthday" : "1999/09/01",
+  "email" : "abc123456@gmail.com",
+  "github" : "https://github.com/",
+  "history" : {
+    "2019" : [ {
+      "name" : "Python 1級",
+      "time" : "2019/1/1"
+    }, {
+      "name" : "Python 2級",
+      "time" : "2019/10/2"
+    } ],
+    "2020" : [ {
+      "name" : "JAVA 1級",
+      "time" : "2020/7/7"
+    }, {
+      "name" : "JAVA 2級",
+      "time" : "2020/7/9"
+    }, {
+      "name" : "網路封包分析 1級",
+      "time" : "2020/7/15"
+    } ]
+  },
+  "name" : "陳志剛",
+  "phone" : "0912345678",
+  "progress" : [ {
+    "completed" : 0.2,
+    "name" : "JAVA LV1"
+  }, {
+    "completed" : 0.5,
+    "name" : "Tensorflow"
+  }, {
+    "completed" : 0.4,
+    "name" : "HTML"
+  }, {
+    "completed" : 0.4,
+    "name" : "JS"
+  } ],
+  "treeState" : {
+    "土木系" : {
+      "state" : [ {
+        "children" : [ {
+          "name" : "土木測試"
+        } ],
+        "completed" : 0,
+        "name" : "土木技能 LV1",
+        "time" : "2020/7/24"
+      } ]
+    },
+    "資管系" : {
+      "state" : [ {
+        "children" : [ {
+          "name" : "JAVA 環境建構",
+          "nodeSvgShape" : {
+            "shape" : "circle",
+            "shapeProps" : {
+              "fill" : "white",
+              "r" : 10,
+              "stroke" : "orangered"
+            }
+          }
+        }, {
+          "name" : "JAVA 類別與物件",
+          "nodeSvgShape" : {
+            "shape" : "circle",
+            "shapeProps" : {
+              "fill" : "white",
+              "r" : 10,
+              "stroke" : "orangered"
+            }
+          }
+        }, {
+          "name" : "JAVA 變數與運算",
+          "nodeSvgShape" : {
+            "shape" : "circle",
+            "shapeProps" : {
+              "fill" : "white",
+              "r" : 10,
+              "stroke" : "orangered"
+            }
+          }
+        }, {
+          "name" : "JAVA 繼承與多型",
+          "nodeSvgShape" : {
+            "shape" : "circle",
+            "shapeProps" : {
+              "fill" : "white",
+              "r" : 10,
+              "stroke" : "orangered"
+            }
+          }
+        }, {
+          "name" : "JAVA 物件導向",
+          "nodeSvgShape" : {
+            "shape" : "circle",
+            "shapeProps" : {
+              "fill" : "white",
+              "r" : 10,
+              "stroke" : "orangered"
+            }
+          }
+        } ],
+        "completed" : 0,
+        "name" : "JAVA 1級",
+        "time" : "2020/7/23"
+      }, {
+        "children" : [ {
+          "name" : "JAVA GUI設計",
+          "nodeSvgShape" : {
+            "shape" : "circle",
+            "shapeProps" : {
+              "fill" : "white",
+              "r" : 10,
+              "stroke" : "orangered"
+            }
+          }
+        }, {
+          "name" : "JAVA例外處理",
+          "nodeSvgShape" : {
+            "shape" : "circle",
+            "shapeProps" : {
+              "fill" : "white",
+              "r" : 10,
+              "stroke" : "orangered"
+            }
+          }
+        }, {
+          "name" : "JAVA執行緒",
+          "nodeSvgShape" : {
+            "shape" : "circle",
+            "shapeProps" : {
+              "fill" : "white",
+              "r" : 10,
+              "stroke" : "orangered"
+            }
+          }
+        }, {
+          "name" : "JDBC",
+          "nodeSvgShape" : {
+            "shape" : "circle",
+            "shapeProps" : {
+              "fill" : "white",
+              "r" : 10,
+              "stroke" : "orangered"
+            }
+          }
+        }, {
+          "name" : "JAVA泛型",
+          "nodeSvgShape" : {
+            "shape" : "circle",
+            "shapeProps" : {
+              "fill" : "white",
+              "r" : 10,
+              "stroke" : "orangered"
+            }
+          }
+        }, {
+          "name" : "JAVA序列化處理",
+          "nodeSvgShape" : {
+            "shape" : "circle",
+            "shapeProps" : {
+              "fill" : "white",
+              "r" : 10,
+              "stroke" : "orangered"
+            }
+          }
+        }, {
+          "name" : "JAVA物件導向實作",
+          "nodeSvgShape" : {
+            "shape" : "circle",
+            "shapeProps" : {
+              "fill" : "white",
+              "r" : 10,
+              "stroke" : "orangered"
+            }
+          }
+        } ],
+        "completed" : 0,
+        "name" : "JAVA 2級",
+        "time" : "2020/7/23"
+      }, {
+        "children" : [ {
+          "name" : "HTML基本語法與架構",
+          "nodeSvgShape" : {
+            "shape" : "circle",
+            "shapeProps" : {
+              "fill" : "white",
+              "r" : 10,
+              "stroke" : "orangered"
+            }
+          }
+        }, {
+          "name" : "CSS基本語法",
+          "nodeSvgShape" : {
+            "shape" : "circle",
+            "shapeProps" : {
+              "fill" : "white",
+              "r" : 10,
+              "stroke" : "orangered"
+            }
+          }
+        }, {
+          "name" : "CSS RWD",
+          "nodeSvgShape" : {
+            "shape" : "circle",
+            "shapeProps" : {
+              "fill" : "white",
+              "r" : 10,
+              "stroke" : "orangered"
+            }
+          }
+        }, {
+          "name" : "HTML表格",
+          "nodeSvgShape" : {
+            "shape" : "circle",
+            "shapeProps" : {
+              "fill" : "white",
+              "r" : 10,
+              "stroke" : "orangered"
+            }
+          }
+        }, {
+          "name" : "HTML圖像影音",
+          "nodeSvgShape" : {
+            "shape" : "circle",
+            "shapeProps" : {
+              "fill" : "white",
+              "r" : 10,
+              "stroke" : "orangered"
+            }
+          }
+        } ],
+        "completed" : 0,
+        "name" : "HTML基本知識",
+        "time" : "2020/7/23"
+      }, {
+        "children" : [ {
+          "name" : "Database基本概念",
+          "nodeSvgShape" : {
+            "shape" : "circle",
+            "shapeProps" : {
+              "fill" : "white",
+              "r" : 10,
+              "stroke" : "orangered"
+            }
+          }
+        }, {
+          "name" : "Database關聯性代數",
+          "nodeSvgShape" : {
+            "shape" : "circle",
+            "shapeProps" : {
+              "fill" : "white",
+              "r" : 10,
+              "stroke" : "orangered"
+            }
+          }
+        }, {
+          "name" : "Database實體與關係",
+          "nodeSvgShape" : {
+            "shape" : "circle",
+            "shapeProps" : {
+              "fill" : "white",
+              "r" : 10,
+              "stroke" : "orangered"
+            }
+          }
+        }, {
+          "name" : "Database架構",
+          "nodeSvgShape" : {
+            "shape" : "circle",
+            "shapeProps" : {
+              "fill" : "white",
+              "r" : 10,
+              "stroke" : "orangered"
+            }
+          }
+        }, {
+          "name" : "Database SQL語法",
+          "nodeSvgShape" : {
+            "shape" : "circle",
+            "shapeProps" : {
+              "fill" : "white",
+              "r" : 10,
+              "stroke" : "orangered"
+            }
+          }
+        } ],
+        "completed" : 0,
+        "name" : "Database基本知識",
+        "time" : "2020/7/23"
+      }, {
+        "children" : [ {
+          "name" : "Database進階SQL語法",
+          "nodeSvgShape" : {
+            "shape" : "circle",
+            "shapeProps" : {
+              "fill" : "white",
+              "r" : 10,
+              "stroke" : "orangered"
+            }
+          }
+        }, {
+          "name" : "Database需求擷取",
+          "nodeSvgShape" : {
+            "shape" : "circle",
+            "shapeProps" : {
+              "fill" : "white",
+              "r" : 10,
+              "stroke" : "orangered"
+            }
+          }
+        }, {
+          "name" : "Database預存程序",
+          "nodeSvgShape" : {
+            "shape" : "circle",
+            "shapeProps" : {
+              "fill" : "white",
+              "r" : 10,
+              "stroke" : "orangered"
+            }
+          }
+        }, {
+          "name" : "Database檢視表",
+          "nodeSvgShape" : {
+            "shape" : "circle",
+            "shapeProps" : {
+              "fill" : "white",
+              "r" : 10,
+              "stroke" : "orangered"
+            }
+          }
+        } ],
+        "completed" : 0,
+        "name" : "Database實作",
+        "time" : "2020/7/23"
+      }, {
+        "children" : [ {
+          "name" : "系統分析Diagram",
+          "nodeSvgShape" : {
+            "shape" : "circle",
+            "shapeProps" : {
+              "fill" : "white",
+              "r" : 10,
+              "stroke" : "orangered"
+            }
+          }
+        }, {
+          "name" : "系統分析UML",
+          "nodeSvgShape" : {
+            "shape" : "circle",
+            "shapeProps" : {
+              "fill" : "white",
+              "r" : 10,
+              "stroke" : "orangered"
+            }
+          }
+        }, {
+          "name" : "系統分析 需求擷取",
+          "nodeSvgShape" : {
+            "shape" : "circle",
+            "shapeProps" : {
+              "fill" : "white",
+              "r" : 10,
+              "stroke" : "orangered"
+            }
+          }
+        }, {
+          "name" : "系統分析 撰寫文件",
+          "nodeSvgShape" : {
+            "shape" : "circle",
+            "shapeProps" : {
+              "fill" : "white",
+              "r" : 10,
+              "stroke" : "orangered"
+            }
+          }
+        }, {
+          "name" : "系統分析 實作",
+          "nodeSvgShape" : {
+            "shape" : "circle",
+            "shapeProps" : {
+              "fill" : "white",
+              "r" : 10,
+              "stroke" : "orangered"
+            }
+          }
+        } ],
+        "completed" : 0,
+        "name" : "系統分析與設計 基本知識",
+        "time" : "2020/7/23"
+      }, {
+        "children" : [ {
+          "name" : "網路設備運作基礎",
+          "nodeSvgShape" : {
+            "shape" : "circle",
+            "shapeProps" : {
+              "fill" : "white",
+              "r" : 10,
+              "stroke" : "orangered"
+            }
+          }
+        }, {
+          "name" : "主從式架構初解",
+          "nodeSvgShape" : {
+            "shape" : "circle",
+            "shapeProps" : {
+              "fill" : "white",
+              "r" : 10,
+              "stroke" : "orangered"
+            }
+          }
+        } ],
+        "completed" : 0,
+        "name" : "網路基礎架構 1級",
+        "time" : "2020/7/23"
+      }, {
+        "children" : [ {
+          "name" : "虛擬機之架設及使用初解",
+          "nodeSvgShape" : {
+            "shape" : "circle",
+            "shapeProps" : {
+              "fill" : "white",
+              "r" : 10,
+              "stroke" : "orangered"
+            }
+          }
+        }, {
+          "name" : "網路位址轉譯(NAT)",
+          "nodeSvgShape" : {
+            "shape" : "circle",
+            "shapeProps" : {
+              "fill" : "white",
+              "r" : 10,
+              "stroke" : "orangered"
+            }
+          }
+        } ],
+        "completed" : 0,
+        "name" : "網路基礎架構 2級",
+        "time" : "2020/7/23"
+      }, {
+        "children" : [ {
+          "name" : "七層OSI模型",
+          "nodeSvgShape" : {
+            "shape" : "circle",
+            "shapeProps" : {
+              "fill" : "white",
+              "r" : 10,
+              "stroke" : "orangered"
+            }
+          }
+        }, {
+          "name" : "微軟Hyper-V虛擬機器建置",
+          "nodeSvgShape" : {
+            "shape" : "circle",
+            "shapeProps" : {
+              "fill" : "white",
+              "r" : 10,
+              "stroke" : "orangered"
+            }
+          }
+        } ],
+        "completed" : 0,
+        "name" : "網路基礎架構 3級",
+        "time" : "2020/7/23"
+      }, {
+        "children" : [ {
+          "name" : "基本網路服務",
+          "nodeSvgShape" : {
+            "shape" : "circle",
+            "shapeProps" : {
+              "fill" : "white",
+              "r" : 10,
+              "stroke" : "orangered"
+            }
+          }
+        } ],
+        "completed" : 0,
+        "name" : "網路服務 1級",
+        "time" : "2020/7/23"
+      }, {
+        "children" : [ {
+          "name" : "TCP/IP協定",
+          "nodeSvgShape" : {
+            "shape" : "circle",
+            "shapeProps" : {
+              "fill" : "white",
+              "r" : 10,
+              "stroke" : "orangered"
+            }
+          }
+        }, {
+          "name" : "IP位址與子網段切割",
+          "nodeSvgShape" : {
+            "shape" : "circle",
+            "shapeProps" : {
+              "fill" : "white",
+              "r" : 10,
+              "stroke" : "orangered"
+            }
+          }
+        } ],
+        "completed" : 0,
+        "name" : "網路服務 2級",
+        "time" : "2020/7/23"
+      }, {
+        "children" : [ {
+          "name" : "雲端運算",
+          "nodeSvgShape" : {
+            "shape" : "circle",
+            "shapeProps" : {
+              "fill" : "white",
+              "r" : 10,
+              "stroke" : "orangered"
+            }
+          }
+        } ],
+        "completed" : 0,
+        "name" : "網路服務 3級",
+        "time" : "2020/7/23"
+      }, {
+        "children" : [ {
+          "name" : "基礎Wireshark原理",
+          "nodeSvgShape" : {
+            "shape" : "circle",
+            "shapeProps" : {
+              "fill" : "white",
+              "r" : 10,
+              "stroke" : "orangered"
+            }
+          }
+        } ],
+        "completed" : 0,
+        "name" : "網路封包分析 1級",
+        "time" : "2020/7/23"
+      }, {
+        "children" : [ {
+          "name" : "Wireshark分析",
+          "nodeSvgShape" : {
+            "shape" : "circle",
+            "shapeProps" : {
+              "fill" : "white",
+              "r" : 10,
+              "stroke" : "orangered"
+            }
+          }
+        } ],
+        "completed" : 0,
+        "name" : "網路封包分析 2級",
+        "time" : "2020/7/23"
+      }, {
+        "children" : [ {
+          "name" : "封包捕捉分析",
+          "nodeSvgShape" : {
+            "shape" : "circle",
+            "shapeProps" : {
+              "fill" : "white",
+              "r" : 10,
+              "stroke" : "orangered"
+            }
+          }
+        } ],
+        "completed" : 0,
+        "name" : "網路封包分析 3級",
+        "time" : "2020/7/23"
+      }, {
+        "children" : [ {
+          "name" : "Python環境建置",
+          "nodeSvgShape" : {
+            "shape" : "circle",
+            "shapeProps" : {
+              "fill" : "white",
+              "r" : 10,
+              "stroke" : "orangered"
+            }
+          }
+        }, {
+          "name" : "Python基本語法",
+          "nodeSvgShape" : {
+            "shape" : "circle",
+            "shapeProps" : {
+              "fill" : "white",
+              "r" : 10,
+              "stroke" : "orangered"
+            }
+          }
+        }, {
+          "name" : "Python迴圈與函式",
+          "nodeSvgShape" : {
+            "shape" : "circle",
+            "shapeProps" : {
+              "fill" : "white",
+              "r" : 10,
+              "stroke" : "orangered"
+            }
+          }
+        }, {
+          "name" : "Python模組/封包用法",
+          "nodeSvgShape" : {
+            "shape" : "circle",
+            "shapeProps" : {
+              "fill" : "white",
+              "r" : 10,
+              "stroke" : "orangered"
+            }
+          }
+        } ],
+        "completed" : 0,
+        "name" : "Python 1級",
+        "time" : "2020/7/23"
+      }, {
+        "children" : [ {
+          "name" : "Python網路爬蟲",
+          "nodeSvgShape" : {
+            "shape" : "circle",
+            "shapeProps" : {
+              "fill" : "white",
+              "r" : 10,
+              "stroke" : "orangered"
+            }
+          }
+        }, {
+          "name" : "Python網站應用",
+          "nodeSvgShape" : {
+            "shape" : "circle",
+            "shapeProps" : {
+              "fill" : "white",
+              "r" : 10,
+              "stroke" : "orangered"
+            }
+          }
+        }, {
+          "name" : "Python資料分析",
+          "nodeSvgShape" : {
+            "shape" : "circle",
+            "shapeProps" : {
+              "fill" : "white",
+              "r" : 10,
+              "stroke" : "orangered"
+            }
+          }
+        } ],
+        "completed" : 0,
+        "name" : "Python 2級",
+        "time" : "2020/7/23"
+      }, {
+        "children" : [ {
+          "name" : "網頁設計入門",
+          "nodeSvgShape" : {
+            "shape" : "circle",
+            "shapeProps" : {
+              "fill" : "white",
+              "r" : 10,
+              "stroke" : "orangered"
+            }
+          }
+        } ],
+        "completed" : 0,
+        "name" : "網頁設計 1級",
+        "time" : "2020/7/23"
+      }, {
+        "children" : [ {
+          "name" : "前端開發",
+          "nodeSvgShape" : {
+            "shape" : "circle",
+            "shapeProps" : {
+              "fill" : "white",
+              "r" : 10,
+              "stroke" : "orangered"
+            }
+          }
+        }, {
+          "name" : "後端開發",
+          "nodeSvgShape" : {
+            "shape" : "circle",
+            "shapeProps" : {
+              "fill" : "white",
+              "r" : 10,
+              "stroke" : "orangered"
+            }
+          }
+        } ],
+        "completed" : 0,
+        "name" : "網頁設計 2級",
+        "time" : "2020/7/23"
+      }, {
+        "children" : [ {
+          "name" : "機器學習",
+          "nodeSvgShape" : {
+            "shape" : "circle",
+            "shapeProps" : {
+              "fill" : "white",
+              "r" : 10,
+              "stroke" : "orangered"
+            }
+          }
+        }, {
+          "name" : "深度學習入門",
+          "nodeSvgShape" : {
+            "shape" : "circle",
+            "shapeProps" : {
+              "fill" : "white",
+              "r" : 10,
+              "stroke" : "orangered"
+            }
+          }
+        } ],
+        "completed" : 0,
+        "name" : "AI人工智慧 1級",
+        "time" : "2020/7/23"
+      }, {
+        "children" : [ {
+          "name" : "RNN",
+          "nodeSvgShape" : {
+            "shape" : "circle",
+            "shapeProps" : {
+              "fill" : "white",
+              "r" : 10,
+              "stroke" : "orangered"
+            }
+          }
+        } ],
+        "completed" : 0,
+        "name" : "AI人工智慧 2級",
+        "time" : "2020/7/23"
+      }, {
+        "children" : [ {
+          "name" : "RL",
+          "nodeSvgShape" : {
+            "shape" : "circle",
+            "shapeProps" : {
+              "fill" : "white",
+              "r" : 10,
+              "stroke" : "orangered"
+            }
+          }
+        } ],
+        "completed" : 0,
+        "name" : "AI人工智慧 3級",
+        "time" : "2020/7/23"
+      } ]
+    }
+  }
+}

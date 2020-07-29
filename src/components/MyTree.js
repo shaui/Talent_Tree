@@ -15,6 +15,8 @@ import userState from '../Database/userState.json'
 import FirebaseMg from '../Utils/FirebaseMg.js'
 
 
+
+
 const fbMg = new FirebaseMg()
 var root = fbMg.myRef
 
@@ -164,7 +166,7 @@ class MyTree extends Component{
 					        shapeProps: {
 					          	r: 12,
 				    			strokeWidth: 3,
-					          	fill: "LightGreen",
+					          	fill: "white",
 			            		stroke: "LimeGreen"
 					        }
 						}
@@ -374,76 +376,7 @@ class MyTree extends Component{
 			this.setState({
 				selectedNodeData:nodeData
 			})
-			// let isConfirm = window.confirm("確定點亮技能樹?")
-
-			// if(isConfirm){
-			// 	let root = nodeData; //把目前節點設為root
-			// 	for(var i = 0; i< nodeData.depth; i++){
-			// 		root = root.parent //往上找真的root
-			// 	}
-
-			// 	// console.log("onClickHandler root:", root)
-			// 	let treeData = root //把root當作修改的資料
-
-			// 	/*實作insert node功能，待討論格式、如何指定Tree*/
-			// 	// this.insertSubTree(treeData, subTreeData)
-				
-			// 	console.log('onClickHandler treeData', this.state.data)
-			// 	var node = getNode(treeData, nodeData.name)
-			// 	// node = node["nodeSvgShape"]["shapeProps"]["fill"] = 'yellow'
-			// 	console.log("NNNNNNNN",node)
-			// 	for (var index in node){
-			// 		node[index]["nodeSvgShape"] = {
-			// 			shape: "circle",
-			// 	        shapeProps: {
-			// 	          r: 10,
-			// 	          fill: "yellow"
-			// 	        }
-			// 		}
-			// 	}
-
-			// 	console.log('onClickHandler treeData', treeData)
-			// 	console.log('onClickHandler treeData', this.state.data)
-			// 	this.setState({
-			// 		data: treeData
-					
-			// 	})
-			// 	console.log('onClickHandler treeData', this.state.data)
-			// 	// console.log('this.state.data:', this.state.data)
-
-
-			// }else {
-
-
-			// 	let root = nodeData; //把目前節點設為root
-			// 	for(var i = 0; i< nodeData.depth; i++){
-			// 		root = root.parent //往上找真的root
-			// 	}
-
-			// 	let treeData = root //把root當作修改的資料
-			// 	var node = getNode(treeData, nodeData.name) //取得目前節點位置
-			// 	for (var index in node){
-			// 		node[index]["nodeSvgShape"] = {
-			// 			shape: "circle",
-			// 	        shapeProps: {
-			// 	          r: 10,
-			// 	          fill: "white"
-			// 	        }
-			// 		}
-			// 	}
-			// 	// node["nodeSvgShape"] = { //修改節點
-			// 	// 	shape: "circle",
-			//  //        shapeProps: {
-			//  //          r: 10,
-			//  //          fill: "none"
-			//  //        }
-			// 	// }
-					
-			// 	console.log('onClickHandler treeData', treeData)
-			// 	this.setState({
-			// 		data: treeData
-			// 	})
-			// }
+			
 		}
 	}
 
@@ -492,72 +425,179 @@ class MyTree extends Component{
     	});
 	}
 
-	handleConfirm = () =>{
-		this.updateNodeColor("yellow")
-
-
-		let nodeData = this.state.selectedNodeData
-		let root = nodeData; //把目前節點設為root
-
-		//不能直接用this.state.data當作tree,因為它其實有許多資料沒有寫完整 Ex : collapse...
-		for(var i = 0; i< nodeData.depth; i++){
-			root = root.parent //往上找真的root
-		}
-
-		// console.log("onClickHandler root:", root)
-		let treeData = root //把root當作修改的資料
-
-		/*實作insert node功能，待討論格式、如何指定Tree*/
-		// this.insertSubTree(treeData, subTreeData)
+	updateProgress(){
+		let nodePath = this.state.hoverNodePath
+		let skillName = nodePath[1]
+		let skillStd = nodePath[0]
+		let childrenLength = this.state.selectedNodeData["parent"]["children"].length
 		
-		var node = getNode(treeData, nodeData.name)
-		// node = node["nodeSvgShape"]["shapeProps"]["fill"] = 'yellow'
+		let path = "Users/" + "userID" + "/progress/" + skillName
+    	let myRef = root.child(path)
 
-		for (var index in node){
-			node[index]["nodeSvgShape"] = {
-				shape: "circle",
-		        shapeProps: {
-		          r: 10,
-		          fill: "yellow",
-		          stroke: "OrangeRed"
-		        }
+    	myRef.once('value', (snapshot)=> {
+			let data = snapshot.val()
+			if(data){
+				let progress = data['completed']
+				let completedNum = data['children'].length
+				//如果一開始沒有,data預設為0
+				if(!completedNum){
+					completedNum = 0
+				}
+
+				//update skill standard information
+				let childrenData = new Object()
+				childrenData[completedNum] = skillStd
+				myRef.child("children").update(childrenData)
+
+				
+				//update progress
+				progress = progress + 1/childrenLength
+
+				//避免因除法導致小數點未進位
+				if(0.95 <= progress && progress <= 1){
+					progress = 1
+				}
+				myRef.update({
+					"completed": progress
+				})
+			}else{
+				let path = "Users/" + "userID" + "/progress"
+				let myRef = root.child(path)
+				
+				let progressData = new Object()
+				progressData[skillName] = {
+					"children":{
+						0: skillStd
+					},
+					"completed": 1/childrenLength
+				}
+				myRef.update(progressData)
 			}
+
+    	}).then((result)=>{
+
+    	})
+
+	}
+
+	handleConfirm = () =>{
+		if(this.state.selectedNodeData["nodeSvgShape"]["shapeProps"]["fill"] === "yellow"){
+			alert("此技能已點亮，不需要再次點亮喔!")
+		}else{
+			this.updateNodeColor("yellow")
+			this.updateProgress()
+
+			let nodeData = this.state.selectedNodeData
+			let root = nodeData; //把目前節點設為root
+
+			//不能直接用this.state.data當作tree,因為它其實有許多資料沒有寫完整 Ex : collapse...
+			for(var i = 0; i< nodeData.depth; i++){
+				root = root.parent //往上找真的root
+			}
+
+			// console.log("onClickHandler root:", root)
+			let treeData = root //把root當作修改的資料
+
+			/*實作insert node功能，待討論格式、如何指定Tree*/
+			// this.insertSubTree(treeData, subTreeData)
+			
+			var node = getNode(treeData, nodeData.name)
+			// node = node["nodeSvgShape"]["shapeProps"]["fill"] = 'yellow'
+
+			for (var index in node){
+				node[index]["nodeSvgShape"] = {
+					shape: "circle",
+			        shapeProps: {
+			          r: 10,
+			          fill: "yellow",
+			          stroke: "OrangeRed"
+			        }
+				}
+			}
+
+			this.setState({
+				data: treeData,
+				isCheckwindowShow: false	
+			})			
 		}
 
-		this.setState({
-			data: treeData,
-			isCheckwindowShow: false	
-		})
+	}
+
+	cancelSkillNode(){
+		let nodePath = this.state.hoverNodePath
+		let skillName = nodePath[1]
+		let skillStd = nodePath[0]
+		let childrenLength = this.state.selectedNodeData["parent"]["children"].length
+		
+		let path = "Users/" + "userID" + "/progress/" + skillName
+    	let myRef = root.child(path)
+
+
+    	myRef.once('value', (snapshot)=>{
+    		let data = snapshot.val()
+
+    		//update children
+	    	let remainData = []
+	    	let childrenData = new Object()
+
+    		data["children"].forEach((child, index)=>{
+    			if(child !== skillStd){
+					remainData.push(child)
+    			}
+    		})
+
+    		remainData.forEach((child, index)=>{
+    			childrenData[index] = child
+    		})
+
+			//update progress
+    		let progress = data['completed']
+    		progress = progress - 1/childrenLength
+
+    		myRef.update({
+    			"children":childrenData,
+				"completed":progress
+    		})
+
+
+    	})
 	}
 
 	handleCancel = () =>{
-		this.updateNodeColor("white")
-		
-		let nodeData = this.state.selectedNodeData
-		let root = nodeData; //把目前節點設為root
-		for(var i = 0; i< nodeData.depth; i++){
-			root = root.parent //往上找真的root
+		if(this.state.selectedNodeData["nodeSvgShape"]["shapeProps"]["fill"] === "white"){
+			alert("此技能本來就未點亮!")
+		}else{
+			this.updateNodeColor("white")
+			this.cancelSkillNode()
+			
+			let nodeData = this.state.selectedNodeData
+			let root = nodeData; //把目前節點設為root
+			for(var i = 0; i< nodeData.depth; i++){
+				root = root.parent //往上找真的root
+			}
+
+			let treeData = root //把root當作修改的資料
+			var node = getNode(treeData, nodeData.name) //取得目前節點位置
+			for (var index in node){
+				node[index]["nodeSvgShape"] = {
+					shape: "circle",
+			        shapeProps: {
+			          r: 10,
+			          fill: "white"
+			        }
+				}
+			}
+				
+			console.log('onClickHandler treeData', treeData)
+			this.setState({
+				data: treeData
+			})
+			this.setState({
+				isCheckwindowShow: false
+			})			
 		}
 
-		let treeData = root //把root當作修改的資料
-		var node = getNode(treeData, nodeData.name) //取得目前節點位置
-		for (var index in node){
-			node[index]["nodeSvgShape"] = {
-				shape: "circle",
-		        shapeProps: {
-		          r: 10,
-		          fill: "white"
-		        }
-			}
-		}
-			
-		console.log('onClickHandler treeData', treeData)
-		this.setState({
-			data: treeData
-		})
-		this.setState({
-			isCheckwindowShow: false
-		})		
+		
 	}
 
 	render() {

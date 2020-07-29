@@ -24,6 +24,10 @@ import firebase from 'firebase';
 import FirebaseMg from './Utils/FirebaseMg.js'
 import UserContext from './Contexts/UserContext'
 
+//initial user data
+import basicUserData from './Database/basicUserData.json'
+
+
 const fbMg = new FirebaseMg()
 var root = fbMg.myRef
 
@@ -52,10 +56,7 @@ class App extends Component {
           console.log('myRef: cannot find the user.')
           var insertNode = root.child('Users')
           var initData = new Object()
-          initData[userID] = {
-            history: 666,
-            userState: 777
-          }
+          initData[userID] = basicUserData
           insertNode.update(initData)
         }
         
