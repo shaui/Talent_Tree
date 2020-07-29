@@ -484,8 +484,8 @@ class MyTree extends Component{
 		if(this.state.selectedNodeData["nodeSvgShape"]["shapeProps"]["fill"] === "yellow"){
 			alert("此技能已點亮，不需要再次點亮喔!")
 		}else{
-			this.updateNodeColor("yellow")
-			this.updateProgress()
+			this.updateNodeColor("yellow") //for treeState
+			this.updateProgress() //for progress
 
 			let nodeData = this.state.selectedNodeData
 			let root = nodeData; //把目前節點設為root
@@ -554,10 +554,17 @@ class MyTree extends Component{
     		let progress = data['completed']
     		progress = progress - 1/childrenLength
 
-    		myRef.update({
-    			"children":childrenData,
-				"completed":progress
-    		})
+    		//例外處理，如果把所有節點取消，刪除整個技能節點資料
+    		if(progress <= 0.05){
+    			myRef.remove()
+    		}else{
+ 	    		myRef.update({
+	    			"children":childrenData,
+					"completed":progress
+	    		})   			
+    		}
+
+
 
 
     	})
@@ -567,8 +574,8 @@ class MyTree extends Component{
 		if(this.state.selectedNodeData["nodeSvgShape"]["shapeProps"]["fill"] === "white"){
 			alert("此技能本來就未點亮!")
 		}else{
-			this.updateNodeColor("white")
-			this.cancelSkillNode()
+			this.updateNodeColor("white") //for treeState
+			this.cancelSkillNode() //for progress
 			
 			let nodeData = this.state.selectedNodeData
 			let root = nodeData; //把目前節點設為root
