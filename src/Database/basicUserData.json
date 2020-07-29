@@ -52,19 +52,6 @@
   },
   "name" : "陳志剛",
   "phone" : "0912345678",
-  "progress" : [ {
-    "completed" : 0.2,
-    "name" : "JAVA LV1"
-  }, {
-    "completed" : 0.5,
-    "name" : "Tensorflow"
-  }, {
-    "completed" : 0.4,
-    "name" : "HTML"
-  }, {
-    "completed" : 0.4,
-    "name" : "JS"
-  } ],
   "treeState" : {
     "土木系" : {
       "state" : [ {

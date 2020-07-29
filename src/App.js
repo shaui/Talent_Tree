@@ -88,7 +88,8 @@ class App extends Component {
                 <SideBar />
               : null 
             }
-            <Route exact path="/" component={MyTree} />
+            <Route exact path="/" component={null} />
+            <Route exact path="/tree" component={MyTree} />
             <Route exact path="/forum" component={PostsPage} />
             <Route exact path="/forum/post" component={PostingPage} />
             <Route exact path="/hunt" component={HuntingPage} />

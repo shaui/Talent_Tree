@@ -9,13 +9,12 @@ import Checkwindow from '../Utils/Checkwindow.js'
 //Tree package
 import Tree from 'react-d3-tree';
 import $ from 'jquery'
-import userState from '../Database/userState.json'
 
 //FireBase
 import FirebaseMg from '../Utils/FirebaseMg.js'
 
-
-
+//Context
+import UserContext from '../Contexts/UserContext'
 
 const fbMg = new FirebaseMg()
 var root = fbMg.myRef
@@ -59,6 +58,7 @@ function getNode(treeData, nodeValue) {
 }
 
 class MyTree extends Component{
+	static contextType = UserContext;
 	constructor(props){
 		super(props)
 		// var intialData = data
@@ -94,6 +94,7 @@ class MyTree extends Component{
 	componentDidMount(){
 		console.log("componentDidMount:")
 		this.initTreeData()
+
 
 
 		// myRef.once('value', function (snapshot) {
@@ -216,7 +217,7 @@ class MyTree extends Component{
 			treeRoot = treeRoot.parent //往上找真的root，
 		}
 		
-		let path = 'Users/userID/treeState/資管系/state'
+		let path = 'Users/' + this.context.user.uid + '/treeState/資管系/state'
     	let myRef = root.child(path)
 
     	myRef.once('value', (snapshot) => {
@@ -391,7 +392,7 @@ class MyTree extends Component{
 		let skillName = nodePath[1]
 		let skillStd = nodePath[0]
 
-		let path = "Users/userID/treeState/" + "資管系" + "/state"
+		let path = "Users/" + this.context.user.uid + "/treeState/" + "資管系" + "/state"
     	let myRef = root.child(path)
 
     	myRef.once('value', (snapshot) => {
@@ -431,7 +432,7 @@ class MyTree extends Component{
 		let skillStd = nodePath[0]
 		let childrenLength = this.state.selectedNodeData["parent"]["children"].length
 		
-		let path = "Users/" + "userID" + "/progress/" + skillName
+		let path = "Users/" + this.context.user.uid + "/progress/" + skillName
     	let myRef = root.child(path)
 
     	myRef.once('value', (snapshot)=> {
@@ -461,7 +462,7 @@ class MyTree extends Component{
 					"completed": progress
 				})
 			}else{
-				let path = "Users/" + "userID" + "/progress"
+				let path = "Users/" + this.context.user.uid + "/progress"
 				let myRef = root.child(path)
 				
 				let progressData = new Object()
@@ -529,7 +530,7 @@ class MyTree extends Component{
 		let skillStd = nodePath[0]
 		let childrenLength = this.state.selectedNodeData["parent"]["children"].length
 		
-		let path = "Users/" + "userID" + "/progress/" + skillName
+		let path = "Users/" + this.context.user.uid + "/progress/" + skillName
     	let myRef = root.child(path)
 
 
