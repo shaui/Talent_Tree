@@ -195,7 +195,7 @@ class MyTree extends Component{
 			//初始化tree basic data
 	        this.setState({
 	          data: treeData,
-	          isLoading: false
+				isLoading:false
 	        })
 
 	        let first_g = $(".rd3t-tree-container > svg > g:first-child")
@@ -211,6 +211,7 @@ class MyTree extends Component{
 	}
 
 	initUserTreeState(nodeData){
+		console.log("initUserTreeState:",nodeData)
 		//初始化tree的資料，讓他變成完整的tree(包含collapsed、paremt)。如果可以在其他地方取得root，就在那裡初始化，只有第一次會跑進if裡面
 		let treeRoot = nodeData; //把目前節點設為root
 		for(var i = 0; i< nodeData.depth; i++){
@@ -300,11 +301,12 @@ class MyTree extends Component{
 
 	
 	onMouseOverHandler(nodeData, evt){
-		console.log("onMouseOverHandler:",nodeData)
+		console.log("mouseOVER")
+
 		if(Object.keys(this.state.treeRoot).length === 0){
 			this.initUserTreeState(nodeData)
 		}
-		
+
 		//取得tree第一個g的座標
 		let tree_g = $('.' + this.state.tree_first_g)
 		let pos = this.getPosition(tree_g.attr('transform'))
@@ -341,7 +343,9 @@ class MyTree extends Component{
 				hoverNodePath:path
 				// isOpen: false
 			})
-		}
+		}			
+		
+
 		
 	}
 
@@ -368,7 +372,7 @@ class MyTree extends Component{
 
 	onClickHandler(nodeData, evt){
 		
-		// console.log("OnClick:", nodeData)
+		console.log("OnClick:", nodeData)
 		var selector = "#" + nodeData.id + " circle"
 		var $node = $(selector)
 		
@@ -610,7 +614,7 @@ class MyTree extends Component{
 
 	render() {
 		let treeData = this.state.data
-		console.log("Render:", treeData)
+		console.log("Render:", treeData, this.state.isLoading)
 		if(this.state.isLoading){
 			return <CustomerSpinner />
 		}else {

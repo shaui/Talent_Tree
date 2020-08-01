@@ -131,7 +131,7 @@
             }
           }
         }, {
-          "name" : "JAVA例外處理",
+          "name" : "JAVA 例外處理",
           "nodeSvgShape" : {
             "shape" : "circle",
             "shapeProps" : {
@@ -141,7 +141,7 @@
             }
           }
         }, {
-          "name" : "JAVA執行緒",
+          "name" : "JAVA 執行緒",
           "nodeSvgShape" : {
             "shape" : "circle",
             "shapeProps" : {
@@ -161,7 +161,7 @@
             }
           }
         }, {
-          "name" : "JAVA泛型",
+          "name" : "JAVA 泛型",
           "nodeSvgShape" : {
             "shape" : "circle",
             "shapeProps" : {
@@ -171,7 +171,7 @@
             }
           }
         }, {
-          "name" : "JAVA序列化處理",
+          "name" : "JAVA 序列化處理",
           "nodeSvgShape" : {
             "shape" : "circle",
             "shapeProps" : {
@@ -181,7 +181,7 @@
             }
           }
         }, {
-          "name" : "JAVA物件導向實作",
+          "name" : "JAVA 物件導向實作",
           "nodeSvgShape" : {
             "shape" : "circle",
             "shapeProps" : {
@@ -196,7 +196,7 @@
         "time" : "2020/7/23"
       }, {
         "children" : [ {
-          "name" : "HTML基本語法與架構",
+          "name" : "HTML 基本語法與架構",
           "nodeSvgShape" : {
             "shape" : "circle",
             "shapeProps" : {
@@ -206,7 +206,7 @@
             }
           }
         }, {
-          "name" : "CSS基本語法",
+          "name" : "CSS 基本語法",
           "nodeSvgShape" : {
             "shape" : "circle",
             "shapeProps" : {
@@ -226,7 +226,7 @@
             }
           }
         }, {
-          "name" : "HTML表格",
+          "name" : "HTML 表格",
           "nodeSvgShape" : {
             "shape" : "circle",
             "shapeProps" : {
@@ -236,7 +236,7 @@
             }
           }
         }, {
-          "name" : "HTML圖像影音",
+          "name" : "HTML 圖像影音",
           "nodeSvgShape" : {
             "shape" : "circle",
             "shapeProps" : {
@@ -251,7 +251,7 @@
         "time" : "2020/7/23"
       }, {
         "children" : [ {
-          "name" : "Database基本概念",
+          "name" : "Database 基本概念",
           "nodeSvgShape" : {
             "shape" : "circle",
             "shapeProps" : {
@@ -261,7 +261,7 @@
             }
           }
         }, {
-          "name" : "Database關聯性代數",
+          "name" : "Database 關聯性代數",
           "nodeSvgShape" : {
             "shape" : "circle",
             "shapeProps" : {
@@ -271,7 +271,7 @@
             }
           }
         }, {
-          "name" : "Database實體與關係",
+          "name" : "Database 實體與關係",
           "nodeSvgShape" : {
             "shape" : "circle",
             "shapeProps" : {
@@ -281,7 +281,7 @@
             }
           }
         }, {
-          "name" : "Database架構",
+          "name" : "Database 架構",
           "nodeSvgShape" : {
             "shape" : "circle",
             "shapeProps" : {
@@ -302,11 +302,11 @@
           }
         } ],
         "completed" : 0,
-        "name" : "Database基本知識",
+        "name" : "Database 基本知識",
         "time" : "2020/7/23"
       }, {
         "children" : [ {
-          "name" : "Database進階SQL語法",
+          "name" : "Database 進階SQL語法",
           "nodeSvgShape" : {
             "shape" : "circle",
             "shapeProps" : {
@@ -316,7 +316,7 @@
             }
           }
         }, {
-          "name" : "Database需求擷取",
+          "name" : "Database 需求擷取",
           "nodeSvgShape" : {
             "shape" : "circle",
             "shapeProps" : {
@@ -326,7 +326,7 @@
             }
           }
         }, {
-          "name" : "Database預存程序",
+          "name" : "Database 預存程序",
           "nodeSvgShape" : {
             "shape" : "circle",
             "shapeProps" : {
@@ -336,7 +336,7 @@
             }
           }
         }, {
-          "name" : "Database檢視表",
+          "name" : "Database 檢視表",
           "nodeSvgShape" : {
             "shape" : "circle",
             "shapeProps" : {
@@ -347,11 +347,11 @@
           }
         } ],
         "completed" : 0,
-        "name" : "Database實作",
+        "name" : "Database 實作",
         "time" : "2020/7/23"
       }, {
         "children" : [ {
-          "name" : "系統分析Diagram",
+          "name" : "系統分析 Diagram",
           "nodeSvgShape" : {
             "shape" : "circle",
             "shapeProps" : {
@@ -361,7 +361,7 @@
             }
           }
         }, {
-          "name" : "系統分析UML",
+          "name" : "系統分析 UML",
           "nodeSvgShape" : {
             "shape" : "circle",
             "shapeProps" : {

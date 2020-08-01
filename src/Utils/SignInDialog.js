@@ -24,7 +24,7 @@ class SignInDialog extends Component{
 	  // Popup signin flow rather than redirect flow.
 	  signInFlow: 'popup',
 	  // Redirect to /signedIn after sign in is successful. Alternatively you can provide a callbacks.signInSuccess function.
-	  signInSuccessUrl: '/home',
+	  signInSuccessUrl: '/',
 	  // We will display Google and Facebook as auth providers.
 	  signInOptions: [
 	    firebase.auth.GoogleAuthProvider.PROVIDER_ID,
@@ -38,7 +38,6 @@ class SignInDialog extends Component{
 	  }
 	};
 
-
 	render(){
 		return(
 	      <div style={{'margin-top':'12vh'}}>
@@ -51,7 +50,7 @@ class SignInDialog extends Component{
 						<input class="SignInDialog sign-msg" type="text" name="email" placeholder="Email"/><br/>
 					  	<input class="SignInDialog sign-msg" type="password" name="pwd" placeholder="Password"/><br/>
 						<div class="SignInDialog sign-btn">
-							<Button variant="primary" style={{'float':'left', 'width':'48%', 'margin':'0px'}}>
+							<Button variant="primary" style={{'float':'left', 'width':'48%', 'margin':'0px'}} >
 								Sign In
 							</Button>
 							<Button variant="primary" style={{'float':'right', 'width':'48%', 'margin':'0px'}}>

@@ -1,6 +1,5 @@
 import React, { useState, useContext } from 'react';
 
-
 import logo from '../logo.svg';
 import {
   Navbar,

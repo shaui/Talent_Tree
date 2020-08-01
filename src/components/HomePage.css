@@ -32,9 +32,16 @@
   margin: 5px;
 }
 
-/*.card-avatar {
-  width: 80px;
-  height: 80px;
-  overflow: hidden;
-  border-radius: 50%;
-}*/
+.HomePage.tag{
+    display:inline-block;
+
+    border-radius: 25px;
+    background-color:grey;
+    color:white;
+    font-family: 'Noto Sans TC', sans-serif;
+    text-align: center;
+    margin-right: 5px;
+    margin-bottom: 3px;
+    margin-top: 10px;
+    padding: 3px 15px;
+}

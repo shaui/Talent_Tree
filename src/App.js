@@ -40,6 +40,8 @@ class App extends Component {
     this.state = {
       user: null
     }
+    console.log("APP Construt")
+
   }
 
   initUserData = (userID) => {
@@ -63,8 +65,7 @@ class App extends Component {
     })
   }
 
-  componentDidMount = () =>{
-    console.log("context:", this.context.user)
+  initAuth(){
     firebase.auth().onAuthStateChanged(userAuth => {
       if(userAuth){
         console.log('App user:', userAuth, userAuth.uid)
@@ -74,6 +75,10 @@ class App extends Component {
       }
       this.setState({ user: userAuth});
     })
+  }
+
+  componentDidMount = () =>{
+    this.initAuth()
   }
 
   render() {
