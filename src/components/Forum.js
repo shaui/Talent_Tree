@@ -1,15 +1,19 @@
 import React from 'react';
-import { Table } from 'react-bootstrap';
+import { Button, Table } from 'react-bootstrap';
 import { Link } from 'react-router-dom';
 import './Forum.css';
 import FirebaseMg from '../Utils/FirebaseMg.js';
 
+import CustomPagination from '../Utils/CustomPagination';
+
 function PostLink(props) {
 	const name = props.name
+	const id = props.id
+	console.log(id);
 	return (
 		<Link to={{
 		     pathname:'/course',
-		     state: {courseName: name}
+		     state: {courseID: id}
 		}}> 
 			{ name }
 		</Link>
@@ -24,7 +28,7 @@ function PostsTable(props) {
 			<tr>
 	          <th scope="row">{posts[i].type}</th>
 	          <td>
-	          	<PostLink name={posts[i].name} />
+	          	<PostLink name={posts[i].name} id={i} />
 	          </td>
 	          <td>{posts[i].user}</td>
 	          <td>{posts[i].course.comments ? posts[i].course.comments.length : 0}/{posts[i].view}</td>
@@ -78,11 +82,13 @@ class PostsPage extends React.Component {
 		console.log("###",this.props.location.state) //可以觀看傳遞的參數
 		const fbMg = new FirebaseMg() ;
 		var root = fbMg.myRef ;
-		var path = 'Posts' ;
+		var path = 'Posts/JAVA 1級' ;
 		var myRef = root.child(path) ;
 		myRef.once('value').then( (snapshot) => {
 			let data = snapshot.val() ;
-			this.setState({data}) ;
+			this.setState( {
+				data
+			} ) ;
 		} )
 		.catch( (error) => {
 			console.log(error) ;
@@ -106,15 +112,16 @@ class PostsPage extends React.Component {
 							     	subject: "test",
 							     	field: "test",
 							     	skill: "test",
-							     	subskill: "test" }
+							     	subskill: "test",
+							     	standards: ["test XXX", "test AAA", "test BBB", "test CCC"] }
 							}}> 
-								<button id="post-btn" className="primary">
+								<button className="post-btn">
 									發布文章
 								</button>
 							</Link>
 						</div>
 						<div className="col-6">
-							{/* <Pagination /> */}
+							<CustomPagination posts={this.state.data} />
 						</div>
 					</div>
 				</div>
@@ -128,7 +135,7 @@ class PostsPage extends React.Component {
 				<div className="container">
 					<div className="row">
 						<div className="col-6 align-self-end">
-							{/* <Pagination /> */}
+							<CustomPagination posts={this.state.data} />
 						</div>
 					</div>
 				</div>

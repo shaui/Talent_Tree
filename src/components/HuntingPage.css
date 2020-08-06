@@ -13,3 +13,33 @@ div.hunt.row div:first-child hr.hunt {
 hr.hunt {
 	margin: 10px auto;
 }
+
+.hunt.button-col {
+	text-align: right;
+}
+
+.hunt.card-header {
+	display: flex;
+    align-items: center; 
+    justify-content: space-between;
+}
+
+.hunt.card-header text,
+.hunt.card-header button {
+	vertical-align: middle;
+}
+
+.hunt.alert-enter {
+  opacity: 0;
+}
+.hunt.alert-enter-active {
+  opacity: 1;
+  transition: opacity 200ms;
+}
+.hunt.alert-exit {
+  opacity: 1;
+}
+.hunt.alert-exit-active {
+  opacity: 0;
+  transition: opacity 200ms;
+}
