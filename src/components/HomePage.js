@@ -1,8 +1,24 @@
 import React, {Component} from 'react';
+import { Link } from 'react-router-dom';
 import './HomePage.css'
 import $ from 'jquery'
+import {ProgressBar} from 'react-bootstrap';
+
+//Component
+import CustomerSpinner from '../Utils/CustomerSpinner'
+
+//FireBase
+import FirebaseMg from '../Utils/FirebaseMg.js'
+
+//Context
+import UserContext from '../Contexts/UserContext'
+
+const fbMg = new FirebaseMg()
+var root = fbMg.myRef
+
 
 function Record(props) {
+
   return (
 		<div className="HomaPage card">
 			<div className="HomaPage card-body">
@@ -11,15 +27,23 @@ function Record(props) {
 					<img src="http://petonea.com/file//n373/t.jpg" className="HomaPage card-avatar"/>
 				</div>
 				<div className="HomaPage content">
-					<h5 className="HomaPage user-name">2020/9/9</h5>
-					<p className="HomaPage card-text">
-						關注了Tensorflow For CNN Cifar-10
-					</p>
+					<h5 className="HomaPage user-name">正在學習 {props.skillName}</h5>
+					<ProgressBar striped variant="success" now={props.progress} label={`${props.progress}%`} style={{"height":"25px"}}/>
 				</div>
-				<div className="HomaPage actions">
-					<a href="#">
-						<span className="HomaPage glyphicon glyphicon-heart" aria-hidden="true"></span>
-					</a>
+				<br/>
+
+				<div className="HomaPage actions" style={{"marginTop":"5px", "font-size":"15px"}}>
+					{
+						props.stdArray.map( std =>(
+							<span className='HomePage tag'>✔ {std}</span>
+						))
+					}
+					<span>
+						<Link to={{
+							pathname:"/forum",
+		          			state:{"path":props.skillName}
+						}} className="HomePage right">前往課程</Link>				
+					</span>
 				</div>
 			</div>
 		</div>
@@ -27,14 +51,60 @@ function Record(props) {
 }
 
 class HomePage extends Component{
+	static contextType = UserContext;
 	constructor(props){
 		super(props)
 		this.state = {
-
+			isLoading: true,
+			recordData: {}
 		}
 	}
 
+	componentDidMount(){
+		fbMg.auth.onAuthStateChanged(userAuth =>{
+			let path = 'Users/' + userAuth.uid + "/progress"
+			let myRef = root.child(path)
+
+			myRef.once('value', (snapshot) =>{
+				let data = snapshot.val()
+				let recordData = []
+				
+				console.log("Home Progress:", data)
+
+				for(var key in data){
+					let skillDataArray = [] //用來記錄所有skill的資料
+
+					let skillData = data[key]
+					let progress = Math.round(skillData["completed"]*100)
+					console.log("Progress:", progress)
+
+					skillDataArray.push(key)
+					skillDataArray.push(skillData["children"])
+					skillDataArray.push(progress)
+					console.log("skillDataArray:",skillDataArray)
+
+					recordData.push(skillDataArray)
+				}
+
+				this.setState({
+					isLoading: false,
+					recordData: recordData
+				})
+
+			}).then(() =>{
+				
+			})					
+		})
+
+
+	}
+
+	initData(user){
+
+	}
+
 	render(){
+
 		return(
 			<div className='container' style={{'paddingTop':'10vh'}}>
 				<div className='HomaPage row row-style'>
@@ -42,18 +112,21 @@ class HomePage extends Component{
 						<div className="container card-container">
 							<h3>近期活動</h3>
 							<hr/>
-							<div className="row">
-								<Record />
-								<Record />
-								<Record />
-								<Record />
-								<Record />
-								<Record />
-								<Record />
-								<Record />
-								<Record />
-								<Record />
-							</div>
+							{
+								this.state.isLoading ?
+									<CustomerSpinner />	
+								:
+									<div className="row">
+										{
+											this.state.recordData.map((skillArr, index) =>(
+												<Record key={index} 
+												skillName={skillArr[0]}  
+												stdArray={skillArr[1]} 
+												progress={skillArr[2]} />
+											))
+										}
+									</div>					
+							}
 						</div>
 					</div>
 				</div>

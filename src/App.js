@@ -13,6 +13,7 @@ import HomePage from './components/HomePage.js' ;
 import TreeMenu from './components/TreeMenu.js' ;
 import HuntingPage from './components/HuntingPage.js' ;
 import Profile from './components/Profile.js' ;
+import Home from './components/Home.js'
 
 import { renderRoutes } from 'react-router-config';
 import routes from './routes';
@@ -23,6 +24,10 @@ import routes from './routes';
 import firebase from 'firebase';
 import FirebaseMg from './Utils/FirebaseMg.js'
 import UserContext from './Contexts/UserContext'
+
+//initial user data
+import basicUserData from './Database/basicUserData.json'
+
 
 const fbMg = new FirebaseMg()
 var root = fbMg.myRef
@@ -36,6 +41,8 @@ class App extends Component {
     this.state = {
       user: null
     }
+    console.log("APP Construt")
+
   }
 
   initUserData = (userID) => {
@@ -52,18 +59,14 @@ class App extends Component {
           console.log('myRef: cannot find the user.')
           var insertNode = root.child('Users')
           var initData = new Object()
-          initData[userID] = {
-            history: 666,
-            userState: 777
-          }
+          initData[userID] = basicUserData
           insertNode.update(initData)
         }
         
     })
   }
 
-  componentDidMount = () =>{
-    console.log("context:", this.context.user)
+  initAuth(){
     firebase.auth().onAuthStateChanged(userAuth => {
       if(userAuth){
         console.log('App user:', userAuth, userAuth.uid)
@@ -73,6 +76,10 @@ class App extends Component {
       }
       this.setState({ user: userAuth});
     })
+  }
+
+  componentDidMount = () =>{
+    this.initAuth()
   }
 
   render() {
@@ -87,7 +94,8 @@ class App extends Component {
                 <SideBar />
               : null 
             }
-            <Route exact path="/" component={MyTree} />
+            <Route exact path="/" component={Home} />
+            <Route exact path="/tree" component={MyTree} />
             <Route exact path="/forum" component={PostsPage} />
             <Route exact path="/forum/post" component={PostingPage} />
             <Route exact path="/hunt" component={HuntingPage} />

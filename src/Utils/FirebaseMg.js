@@ -19,7 +19,6 @@ class FirebaseMg extends Component{
 		this.myRef = this.database.ref();
 		this.auth = this.app.auth();
 	}
-	// *** Auth API ***
 
 }
 

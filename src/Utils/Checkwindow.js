@@ -9,11 +9,13 @@ class Checkwindow extends Component{
     }
   }
 
+
+
   render(){
     return(
       <div>
 
-        <Modal show={this.props.isShow} onHide={this.props.handleCancel} animation={false} centered>
+        <Modal show={this.props.isShow} onHide={this.props.handleHide} animation={false} centered>
           <Modal.Header closeButton>
             <Modal.Title>
               <p className='Checkwindow title'>確定學習技能？</p>
