@@ -1,4 +1,5 @@
 import React, {Component} from 'react';
+import { Link } from 'react-router-dom';
 import './HomePage.css'
 import $ from 'jquery'
 import {ProgressBar} from 'react-bootstrap';
@@ -37,6 +38,12 @@ function Record(props) {
 							<span className='HomePage tag'>✔ {std}</span>
 						))
 					}
+					<span>
+						<Link to={{
+							pathname:"/forum",
+		          			state:{"path":props.skillName}
+						}} className="HomePage right">前往課程</Link>				
+					</span>
 				</div>
 			</div>
 		</div>

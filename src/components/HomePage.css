@@ -45,3 +45,12 @@
     margin-top: 10px;
     padding: 3px 15px;
 }
+
+.HomePage.right{
+    float:right;
+    font-family: 'Noto Sans TC', sans-serif;
+    font-size: 12pt;
+    font-weight: 600;
+    margin-top: 15px;
+    margin-left:10px;
+}

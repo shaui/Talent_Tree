@@ -13,7 +13,7 @@ import HomePage from './components/HomePage.js' ;
 import TreeMenu from './components/TreeMenu.js' ;
 import HuntingPage from './components/HuntingPage.js' ;
 import Profile from './components/Profile.js' ;
-// import Home from './components/Home.js'
+import Home from './components/Home.js'
 
 import { renderRoutes } from 'react-router-config';
 import routes from './routes';
@@ -94,7 +94,7 @@ class App extends Component {
                 <SideBar />
               : null 
             }
-            <Route exact path="/" component={null} />
+            <Route exact path="/" component={Home} />
             <Route exact path="/tree" component={MyTree} />
             <Route exact path="/forum" component={PostsPage} />
             <Route exact path="/forum/post" component={PostingPage} />

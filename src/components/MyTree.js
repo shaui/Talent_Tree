@@ -81,7 +81,7 @@ class MyTree extends Component{
 			isLoading: true,
 			isCheckwindowShow: false,
 			selectedNodeData:{},
-			hoverNodePath:""
+			hoverNodePath:[]
 		}
 		this.onMouseOverHandler = this.onMouseOverHandler.bind(this)
 		this.onMouseOutHnadler = this.onMouseOutHnadler.bind(this)
@@ -368,6 +368,8 @@ class MyTree extends Component{
 
 			//get the hover path
 			let path = this.getNodePath(nodeData)
+
+
 			console.log("!!!",path)
 
 			this.setState({

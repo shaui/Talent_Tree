@@ -82,6 +82,110 @@ class CoursePage extends Component{
 		}
 	}
 
+	// updateUserState(){
+	// 	let skillName = ""
+	// 	let skillStd = []
+
+	// 	let path = "Users/" + this.context.user.uid + "/treeState/" + "資管系" + "/state"
+ //    	let myRef = root.child(path)
+
+ //    	myRef.once('value', (snapshot) => {
+	// 		let data = snapshot.val()
+	// 		let path1 = 666 //儲存Skill的Index
+	// 		let path2 = [] //儲存Std的Index
+	// 		let stdName = []
+	// 		let childrenLength = 666 //計算Progress用的參數
+
+	// 		//儲存各階層的index
+	// 		data.forEach( (skill, index) =>{
+				
+	// 			if(skill["name"] === skillName){
+	// 				path1 = index
+	// 				childrenLength = skill["children"].length
+					
+	// 				skill["children"].forEach( (std, index) =>{
+	// 					if(skillStd.includes(std["name"])){
+	// 						path2.push(index)
+	// 						stdName.push(std["name"])
+	// 					}
+	// 				})
+	// 			}
+	// 		})
+			
+	// 		//遍歷每個Std，點亮未點亮的部分
+	// 		path2.forEach((pathIndex, index)=>{
+	// 			let skillStdPath = path + "/" + path1 + "/children/" + pathIndex + "/nodeSvgShape/shapeProps"
+	// 			let skillStdRef = root.child(skillStdPath)
+
+	// 			skillStdRef.once('value', (snapshot) => {
+	// 				let skillStdData = snapshot.val()
+	// 				console.log("skillStdData:", skillStdData)
+
+	// 				if(skillStdData["fill"] !== "yellow"){
+	// 					skillStdData.update({"fill": color}) //點亮節點
+	// 					console.log("skillStdData:", skillName, stdName[index], childrenLength)
+	// 					updateProgress(skillName, stdName[index], childrenLength)
+	// 				}
+	// 			})
+	// 		})
+				
+
+ //    	}).then( (result) => {
+
+ //    	}).catch( (failureCallback) =>{
+	// 		// console.log("failureCallback:",failureCallback)
+ //    	});		
+	// }
+
+	// updateProgress(skillName, skillStdName, childrenLength){
+	// 	let path = "Users/" + this.context.user.uid + "/progress/" + skillName
+ //    	let myRef = root.child(path)	
+    	
+ //    	myRef.once('value', (snapshot)=> {
+	// 		let data = snapshot.val()
+	// 		if(data){
+	// 			let progress = data['completed']
+	// 			let completedNum = data['children'].length
+	// 			//如果一開始沒有,data預設為0
+	// 			if(!completedNum){
+	// 				completedNum = 0
+	// 			}
+
+	// 			//update skill standard information
+	// 			let childrenData = new Object()
+	// 			childrenData[completedNum] = skillStdName
+	// 			myRef.child("children").update(childrenData)
+
+				
+	// 			//update progress
+	// 			progress = progress + 1/childrenLength
+
+	// 			//避免因除法導致小數點未進位
+	// 			if(0.95 <= progress && progress <= 1){
+	// 				progress = 1
+	// 			}
+	// 			myRef.update({
+	// 				"completed": progress
+	// 			})
+	// 		}else{
+	// 			let path = "Users/" + this.context.user.uid + "/progress"
+	// 			let myRef = root.child(path)
+				
+	// 			let progressData = new Object()
+	// 			progressData[skillName] = {
+	// 				"children":{
+	// 					0: skillStdName
+	// 				},
+	// 				"completed": 1/childrenLength
+	// 			}
+	// 			myRef.update(progressData)
+	// 		}
+
+ //    	}).then((result)=>{
+
+ //    	})	
+	// }
+
 	render() {
 		return (
 			<div className='container' style={{'paddingTop':'10vh'}}>
