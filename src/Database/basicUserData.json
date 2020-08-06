@@ -74,7 +74,18 @@
               "r" : 10,
               "stroke" : "orangered"
             }
-          }
+          },
+          "path" : [ {
+            "fieldIndex" : 0,
+            "levelIndex" : 0,
+            "skillIndex" : 0,
+            "stdIndex" : 0
+          }, {
+            "fieldIndex" : 2,
+            "levelIndex" : 0,
+            "skillIndex" : 1,
+            "stdIndex" : 0
+          } ]
         }, {
           "name" : "JAVA 類別與物件",
           "nodeSvgShape" : {
@@ -84,7 +95,18 @@
               "r" : 10,
               "stroke" : "orangered"
             }
-          }
+          },
+          "path" : [ {
+            "fieldIndex" : 0,
+            "levelIndex" : 0,
+            "skillIndex" : 0,
+            "stdIndex" : 1
+          }, {
+            "fieldIndex" : 2,
+            "levelIndex" : 0,
+            "skillIndex" : 1,
+            "stdIndex" : 1
+          } ]
         }, {
           "name" : "JAVA 變數與運算",
           "nodeSvgShape" : {
@@ -94,7 +116,18 @@
               "r" : 10,
               "stroke" : "orangered"
             }
-          }
+          },
+          "path" : [ {
+            "fieldIndex" : 0,
+            "levelIndex" : 0,
+            "skillIndex" : 0,
+            "stdIndex" : 2
+          }, {
+            "fieldIndex" : 2,
+            "levelIndex" : 0,
+            "skillIndex" : 1,
+            "stdIndex" : 2
+          } ]
         }, {
           "name" : "JAVA 繼承與多型",
           "nodeSvgShape" : {
@@ -104,7 +137,18 @@
               "r" : 10,
               "stroke" : "orangered"
             }
-          }
+          },
+          "path" : [ {
+            "fieldIndex" : 0,
+            "levelIndex" : 0,
+            "skillIndex" : 0,
+            "stdIndex" : 3
+          }, {
+            "fieldIndex" : 2,
+            "levelIndex" : 0,
+            "skillIndex" : 1,
+            "stdIndex" : 3
+          } ]
         }, {
           "name" : "JAVA 物件導向",
           "nodeSvgShape" : {
@@ -114,7 +158,18 @@
               "r" : 10,
               "stroke" : "orangered"
             }
-          }
+          },
+          "path" : [ {
+            "fieldIndex" : 0,
+            "levelIndex" : 0,
+            "skillIndex" : 0,
+            "stdIndex" : 4
+          }, {
+            "fieldIndex" : 2,
+            "levelIndex" : 0,
+            "skillIndex" : 1,
+            "stdIndex" : 4
+          } ]
         } ],
         "completed" : 0,
         "name" : "JAVA 1級",
@@ -129,7 +184,18 @@
               "r" : 10,
               "stroke" : "orangered"
             }
-          }
+          },
+          "path" : [ {
+            "fieldIndex" : 0,
+            "levelIndex" : 1,
+            "skillIndex" : 0,
+            "stdIndex" : 0
+          }, {
+            "fieldIndex" : 2,
+            "levelIndex" : 1,
+            "skillIndex" : 1,
+            "stdIndex" : 0
+          } ]
         }, {
           "name" : "JAVA 例外處理",
           "nodeSvgShape" : {
@@ -139,7 +205,18 @@
               "r" : 10,
               "stroke" : "orangered"
             }
-          }
+          },
+          "path" : [ {
+            "fieldIndex" : 0,
+            "levelIndex" : 1,
+            "skillIndex" : 0,
+            "stdIndex" : 1
+          }, {
+            "fieldIndex" : 2,
+            "levelIndex" : 1,
+            "skillIndex" : 1,
+            "stdIndex" : 1
+          } ]
         }, {
           "name" : "JAVA 執行緒",
           "nodeSvgShape" : {
@@ -149,7 +226,18 @@
               "r" : 10,
               "stroke" : "orangered"
             }
-          }
+          },
+          "path" : [ {
+            "fieldIndex" : 0,
+            "levelIndex" : 1,
+            "skillIndex" : 0,
+            "stdIndex" : 2
+          }, {
+            "fieldIndex" : 2,
+            "levelIndex" : 1,
+            "skillIndex" : 1,
+            "stdIndex" : 2
+          } ]
         }, {
           "name" : "JDBC",
           "nodeSvgShape" : {
@@ -159,7 +247,18 @@
               "r" : 10,
               "stroke" : "orangered"
             }
-          }
+          },
+          "path" : [ {
+            "fieldIndex" : 0,
+            "levelIndex" : 1,
+            "skillIndex" : 0,
+            "stdIndex" : 3
+          }, {
+            "fieldIndex" : 2,
+            "levelIndex" : 1,
+            "skillIndex" : 1,
+            "stdIndex" : 3
+          } ]
         }, {
           "name" : "JAVA 泛型",
           "nodeSvgShape" : {
@@ -169,7 +268,18 @@
               "r" : 10,
               "stroke" : "orangered"
             }
-          }
+          },
+          "path" : [ {
+            "fieldIndex" : 0,
+            "levelIndex" : 1,
+            "skillIndex" : 0,
+            "stdIndex" : 4
+          }, {
+            "fieldIndex" : 2,
+            "levelIndex" : 1,
+            "skillIndex" : 1,
+            "stdIndex" : 4
+          } ]
         }, {
           "name" : "JAVA 序列化處理",
           "nodeSvgShape" : {
@@ -179,7 +289,18 @@
               "r" : 10,
               "stroke" : "orangered"
             }
-          }
+          },
+          "path" : [ {
+            "fieldIndex" : 0,
+            "levelIndex" : 1,
+            "skillIndex" : 0,
+            "stdIndex" : 5
+          }, {
+            "fieldIndex" : 2,
+            "levelIndex" : 1,
+            "skillIndex" : 1,
+            "stdIndex" : 5
+          } ]
         }, {
           "name" : "JAVA 物件導向實作",
           "nodeSvgShape" : {
@@ -189,7 +310,18 @@
               "r" : 10,
               "stroke" : "orangered"
             }
-          }
+          },
+          "path" : [ {
+            "fieldIndex" : 0,
+            "levelIndex" : 1,
+            "skillIndex" : 0,
+            "stdIndex" : 6
+          }, {
+            "fieldIndex" : 2,
+            "levelIndex" : 1,
+            "skillIndex" : 1,
+            "stdIndex" : 6
+          } ]
         } ],
         "completed" : 0,
         "name" : "JAVA 2級",
@@ -204,7 +336,18 @@
               "r" : 10,
               "stroke" : "orangered"
             }
-          }
+          },
+          "path" : [ {
+            "fieldIndex" : 0,
+            "levelIndex" : 0,
+            "skillIndex" : 1,
+            "stdIndex" : 0
+          }, {
+            "fieldIndex" : 2,
+            "levelIndex" : 0,
+            "skillIndex" : 2,
+            "stdIndex" : 0
+          } ]
         }, {
           "name" : "CSS 基本語法",
           "nodeSvgShape" : {
@@ -214,7 +357,18 @@
               "r" : 10,
               "stroke" : "orangered"
             }
-          }
+          },
+          "path" : [ {
+            "fieldIndex" : 0,
+            "levelIndex" : 0,
+            "skillIndex" : 1,
+            "stdIndex" : 1
+          }, {
+            "fieldIndex" : 2,
+            "levelIndex" : 0,
+            "skillIndex" : 2,
+            "stdIndex" : 1
+          } ]
         }, {
           "name" : "CSS RWD",
           "nodeSvgShape" : {
@@ -224,7 +378,18 @@
               "r" : 10,
               "stroke" : "orangered"
             }
-          }
+          },
+          "path" : [ {
+            "filedIndex" : 0,
+            "levelIndex" : 0,
+            "skillIndex" : 1,
+            "stdIndex" : 2
+          }, {
+            "filedIndex" : 2,
+            "levelIndex" : 0,
+            "skillIndex" : 2,
+            "stdIndex" : 2
+          } ]
         }, {
           "name" : "HTML 表格",
           "nodeSvgShape" : {
@@ -234,7 +399,18 @@
               "r" : 10,
               "stroke" : "orangered"
             }
-          }
+          },
+          "path" : [ {
+            "fieldIndex" : 0,
+            "levelIndex" : 0,
+            "skillIndex" : 1,
+            "stdIndex" : 3
+          }, {
+            "fieldIndex" : 2,
+            "levelIndex" : 0,
+            "skillIndex" : 2,
+            "stdIndex" : 3
+          } ]
         }, {
           "name" : "HTML 圖像影音",
           "nodeSvgShape" : {
@@ -244,7 +420,18 @@
               "r" : 10,
               "stroke" : "orangered"
             }
-          }
+          },
+          "path" : [ {
+            "fieldIndex" : 0,
+            "levelIndex" : 0,
+            "skillIndex" : 1,
+            "stdIndex" : 4
+          }, {
+            "fieldIndex" : 2,
+            "levelIndex" : 0,
+            "skillIndex" : 2,
+            "stdIndex" : 4
+          } ]
         } ],
         "completed" : 0,
         "name" : "HTML基本知識",
@@ -259,6 +446,12 @@
               "r" : 10,
               "stroke" : "orangered"
             }
+          },
+          "path" : {
+            "fieldIndex" : 0,
+            "levelIndex" : 0,
+            "skillIndex" : 2,
+            "stdIndex" : 0
           }
         }, {
           "name" : "Database 關聯性代數",
@@ -269,6 +462,12 @@
               "r" : 10,
               "stroke" : "orangered"
             }
+          },
+          "path" : {
+            "fieldIndex" : 0,
+            "levelIndex" : 0,
+            "skillIndex" : 2,
+            "stdIndex" : 1
           }
         }, {
           "name" : "Database 實體與關係",
@@ -279,6 +478,12 @@
               "r" : 10,
               "stroke" : "orangered"
             }
+          },
+          "path" : {
+            "fieldIndex" : 0,
+            "levelIndex" : 0,
+            "skillIndex" : 2,
+            "stdIndex" : 2
           }
         }, {
           "name" : "Database 架構",
@@ -289,6 +494,12 @@
               "r" : 10,
               "stroke" : "orangered"
             }
+          },
+          "path" : {
+            "fieldIndex" : 0,
+            "levelIndex" : 0,
+            "skillIndex" : 2,
+            "stdIndex" : 3
           }
         }, {
           "name" : "Database SQL語法",
@@ -299,6 +510,12 @@
               "r" : 10,
               "stroke" : "orangered"
             }
+          },
+          "path" : {
+            "fieldIndex" : 0,
+            "levelIndex" : 0,
+            "skillIndex" : 2,
+            "stdIndex" : 4
           }
         } ],
         "completed" : 0,
@@ -314,6 +531,12 @@
               "r" : 10,
               "stroke" : "orangered"
             }
+          },
+          "path" : {
+            "fieldIndex" : 0,
+            "levelIndex" : 1,
+            "skillIndex" : 2,
+            "stdIndex" : 0
           }
         }, {
           "name" : "Database 需求擷取",
@@ -324,6 +547,12 @@
               "r" : 10,
               "stroke" : "orangered"
             }
+          },
+          "path" : {
+            "fieldIndex" : 0,
+            "levelIndex" : 1,
+            "skillIndex" : 2,
+            "stdIndex" : 1
           }
         }, {
           "name" : "Database 預存程序",
@@ -334,6 +563,12 @@
               "r" : 10,
               "stroke" : "orangered"
             }
+          },
+          "path" : {
+            "fieldIndex" : 0,
+            "levelIndex" : 1,
+            "skillIndex" : 2,
+            "stdIndex" : 2
           }
         }, {
           "name" : "Database 檢視表",
@@ -344,6 +579,12 @@
               "r" : 10,
               "stroke" : "orangered"
             }
+          },
+          "path" : {
+            "fieldIndex" : 0,
+            "levelIndex" : 1,
+            "skillIndex" : 2,
+            "stdIndex" : 3
           }
         } ],
         "completed" : 0,
@@ -359,6 +600,12 @@
               "r" : 10,
               "stroke" : "orangered"
             }
+          },
+          "path" : {
+            "fieldIndex" : 0,
+            "levelIndex" : 0,
+            "skillIndex" : 3,
+            "stdIndex" : 0
           }
         }, {
           "name" : "系統分析 UML",
@@ -369,6 +616,12 @@
               "r" : 10,
               "stroke" : "orangered"
             }
+          },
+          "path" : {
+            "filedIndex" : 0,
+            "levelIndex" : 0,
+            "skillIndex" : 3,
+            "stdIndex" : 1
           }
         }, {
           "name" : "系統分析 需求擷取",
@@ -379,6 +632,12 @@
               "r" : 10,
               "stroke" : "orangered"
             }
+          },
+          "path" : {
+            "fieldIndex" : 0,
+            "levelIndex" : 0,
+            "skillIndex" : 3,
+            "stdIndex" : 2
           }
         }, {
           "name" : "系統分析 撰寫文件",
@@ -389,6 +648,12 @@
               "r" : 10,
               "stroke" : "orangered"
             }
+          },
+          "path" : {
+            "fieldIndex" : 0,
+            "levelIndex" : 0,
+            "skillIndex" : 3,
+            "stdIndex" : 3
           }
         }, {
           "name" : "系統分析 實作",
@@ -399,6 +664,12 @@
               "r" : 10,
               "stroke" : "orangered"
             }
+          },
+          "path" : {
+            "feildIndex" : 0,
+            "levelIndex" : 0,
+            "skillIndex" : 3,
+            "stdIndex" : 4
           }
         } ],
         "completed" : 0,
@@ -414,6 +685,12 @@
               "r" : 10,
               "stroke" : "orangered"
             }
+          },
+          "path" : {
+            "fieldIndex" : 1,
+            "levelIndex" : 0,
+            "skillIndex" : 0,
+            "stdIndex" : 0
           }
         }, {
           "name" : "主從式架構初解",
@@ -424,6 +701,12 @@
               "r" : 10,
               "stroke" : "orangered"
             }
+          },
+          "path" : {
+            "fieldIndex" : 1,
+            "levelIndex" : 0,
+            "skillIndex" : 0,
+            "stdIndex" : 1
           }
         } ],
         "completed" : 0,
@@ -439,6 +722,12 @@
               "r" : 10,
               "stroke" : "orangered"
             }
+          },
+          "path" : {
+            "fieldIndex" : 1,
+            "levelIndex" : 1,
+            "skillIndex" : 0,
+            "stdIndex" : 0
           }
         }, {
           "name" : "網路位址轉譯(NAT)",
@@ -449,6 +738,12 @@
               "r" : 10,
               "stroke" : "orangered"
             }
+          },
+          "path" : {
+            "fieldIndex" : 1,
+            "levelIndex" : 1,
+            "skillIndex" : 0,
+            "stdIndex" : 1
           }
         } ],
         "completed" : 0,
@@ -464,6 +759,12 @@
               "r" : 10,
               "stroke" : "orangered"
             }
+          },
+          "path" : {
+            "fieldIndex" : 1,
+            "levelIndex" : 2,
+            "skillIndex" : 0,
+            "stdIndex" : 0
           }
         }, {
           "name" : "微軟Hyper-V虛擬機器建置",
@@ -474,6 +775,12 @@
               "r" : 10,
               "stroke" : "orangered"
             }
+          },
+          "path" : {
+            "fieldIndex" : 1,
+            "levelIndex" : 2,
+            "skillIndex" : 0,
+            "stdIndex" : 1
           }
         } ],
         "completed" : 0,
@@ -489,6 +796,12 @@
               "r" : 10,
               "stroke" : "orangered"
             }
+          },
+          "path" : {
+            "fieldIndex" : 1,
+            "levelIndex" : 0,
+            "skillIndex" : 1,
+            "stdIndex" : 0
           }
         } ],
         "completed" : 0,
@@ -504,6 +817,12 @@
               "r" : 10,
               "stroke" : "orangered"
             }
+          },
+          "path" : {
+            "fieldIndex" : 1,
+            "levelIndex" : 1,
+            "skillIndex" : 1,
+            "stdIndex" : 0
           }
         }, {
           "name" : "IP位址與子網段切割",
@@ -529,6 +848,12 @@
               "r" : 10,
               "stroke" : "orangered"
             }
+          },
+          "path" : {
+            "fieldIndex" : 1,
+            "levelIndex" : 2,
+            "skillIndex" : 1,
+            "stdIndex" : 0
           }
         } ],
         "completed" : 0,
@@ -544,6 +869,12 @@
               "r" : 10,
               "stroke" : "orangered"
             }
+          },
+          "path" : {
+            "fieldIndex" : 1,
+            "levelIndex" : 0,
+            "skillIndex" : 2,
+            "stdIndex" : 0
           }
         } ],
         "completed" : 0,
@@ -559,6 +890,12 @@
               "r" : 10,
               "stroke" : "orangered"
             }
+          },
+          "path" : {
+            "fieldIndex" : 1,
+            "levelIndex" : 1,
+            "skillIndex" : 2,
+            "stdIndex" : 0
           }
         } ],
         "completed" : 0,
@@ -574,6 +911,12 @@
               "r" : 10,
               "stroke" : "orangered"
             }
+          },
+          "path" : {
+            "fieldIndex" : 1,
+            "levelIndex" : 2,
+            "skillIndex" : 2,
+            "stdIndex" : 0
           }
         } ],
         "completed" : 0,
@@ -589,6 +932,12 @@
               "r" : 10,
               "stroke" : "orangered"
             }
+          },
+          "path" : {
+            "fieldIndex" : 2,
+            "levelIndex" : 0,
+            "skillIndex" : 0,
+            "stdIndex" : 0
           }
         }, {
           "name" : "Python基本語法",
@@ -599,6 +948,12 @@
               "r" : 10,
               "stroke" : "orangered"
             }
+          },
+          "path" : {
+            "fieldIndex" : 2,
+            "levelIndex" : 0,
+            "skillINdex" : 0,
+            "stdIndex" : 1
           }
         }, {
           "name" : "Python迴圈與函式",
@@ -609,6 +964,12 @@
               "r" : 10,
               "stroke" : "orangered"
             }
+          },
+          "path" : {
+            "fieldIndex" : 2,
+            "levelIndex" : 0,
+            "skillIndex" : 0,
+            "stdIndex" : 2
           }
         }, {
           "name" : "Python模組/封包用法",
@@ -619,6 +980,12 @@
               "r" : 10,
               "stroke" : "orangered"
             }
+          },
+          "path" : {
+            "fieldIndex" : 2,
+            "levelIndex" : 0,
+            "skillIndex" : 0,
+            "stdIndex" : 3
           }
         } ],
         "completed" : 0,
@@ -634,6 +1001,12 @@
               "r" : 10,
               "stroke" : "orangered"
             }
+          },
+          "path" : {
+            "fieldIndex" : 2,
+            "levelIndex" : 1,
+            "skillIndex" : 0,
+            "stdIndex" : 0
           }
         }, {
           "name" : "Python網站應用",
@@ -644,6 +1017,12 @@
               "r" : 10,
               "stroke" : "orangered"
             }
+          },
+          "path" : {
+            "fieldIndex" : 2,
+            "levelIndex" : 1,
+            "skillIndex" : 0,
+            "stdIndex" : 1
           }
         }, {
           "name" : "Python資料分析",
@@ -654,6 +1033,12 @@
               "r" : 10,
               "stroke" : "orangered"
             }
+          },
+          "path" : {
+            "fieldIndex" : 2,
+            "levelIndex" : 1,
+            "skillIndex" : 0,
+            "stdIndex" : 2
           }
         } ],
         "completed" : 0,
@@ -669,6 +1054,12 @@
               "r" : 10,
               "stroke" : "orangered"
             }
+          },
+          "path" : {
+            "fieldIndex" : 2,
+            "levelIndex" : 0,
+            "skillIndex" : 3,
+            "stdIndex" : 0
           }
         } ],
         "completed" : 0,
@@ -684,6 +1075,12 @@
               "r" : 10,
               "stroke" : "orangered"
             }
+          },
+          "path" : {
+            "fieldIndex" : 2,
+            "levelIndex" : 1,
+            "skillIndex" : 3,
+            "stdIndex" : 0
           }
         }, {
           "name" : "後端開發",
@@ -694,6 +1091,12 @@
               "r" : 10,
               "stroke" : "orangered"
             }
+          },
+          "path" : {
+            "fieldIndex" : 2,
+            "levelIndex" : 3,
+            "skillIndex" : 1,
+            "stdIndex" : 1
           }
         } ],
         "completed" : 0,
@@ -709,6 +1112,12 @@
               "r" : 10,
               "stroke" : "orangered"
             }
+          },
+          "path" : {
+            "fieldIndex" : 2,
+            "levelIndex" : 0,
+            "skillIndex" : 4,
+            "stdIndex" : 0
           }
         }, {
           "name" : "深度學習入門",
@@ -719,6 +1128,12 @@
               "r" : 10,
               "stroke" : "orangered"
             }
+          },
+          "path" : {
+            "fieldIndex" : 2,
+            "levelIndex" : 0,
+            "skillIndex" : 4,
+            "stdIndex" : 1
           }
         } ],
         "completed" : 0,
@@ -734,6 +1149,12 @@
               "r" : 10,
               "stroke" : "orangered"
             }
+          },
+          "path" : {
+            "fieldIndex" : 2,
+            "levelIndex" : 1,
+            "skillIndex" : 4,
+            "stdIndex" : 0
           }
         } ],
         "completed" : 0,
@@ -749,6 +1170,12 @@
               "r" : 10,
               "stroke" : "orangered"
             }
+          },
+          "path" : {
+            "fieldIndex" : 2,
+            "levelIndex" : 2,
+            "skillIndex" : 4,
+            "stdIndex" : 0
           }
         } ],
         "completed" : 0,

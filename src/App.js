@@ -13,6 +13,7 @@ import HomePage from './components/HomePage.js' ;
 import TreeMenu from './components/TreeMenu.js' ;
 import HuntingPage from './components/HuntingPage.js' ;
 import Profile from './components/Profile.js' ;
+// import Home from './components/Home.js'
 
 import { renderRoutes } from 'react-router-config';
 import routes from './routes';

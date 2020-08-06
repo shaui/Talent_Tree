@@ -1,4 +1,5 @@
 import React, {Component} from 'react';
+import { Button } from 'react-bootstrap';
 import './MyTree.css';
 
 //Component
@@ -88,14 +89,13 @@ class MyTree extends Component{
 
 		//Firebase getData
 		var origin_this = this
+
 	    
 	}
 
 	componentDidMount(){
 		console.log("componentDidMount:")
 		this.initTreeData()
-
-
 
 		// myRef.once('value', function (snapshot) {
 	 //        //取得tree data
@@ -167,7 +167,7 @@ class MyTree extends Component{
 					        shapeProps: {
 					          	r: 12,
 				    			strokeWidth: 3,
-					          	fill: "white",
+					          	fill: "lightGreen",
 			            		stroke: "LimeGreen"
 					        }
 						}
@@ -189,8 +189,42 @@ class MyTree extends Component{
 	        let data = snapshot.val()
 	        console.log("data data:",data)
 
-			//改變tree樣式
-			let treeData = this.changeNodeColor(data)
+			this.initTreeState(data)
+
+	    }) 
+	}
+
+	initTreeState(treeData){
+		console.log("USERS:", this.context.user.uid)
+
+		let path = 'Users/' + this.context.user.uid + '/treeState/資管系/state'
+    	let myRef = root.child(path)
+
+    	myRef.once('value', (snapshot) =>{
+    		//取得user treeState
+	    	let userTreeState = snapshot.val()
+
+	    	userTreeState.forEach((skillLevel)=>{
+	    		skillLevel["children"].forEach((skillStd)=>{
+	    			if(skillStd["nodeSvgShape"]["shapeProps"]["fill"] === "yellow"){
+	    				let pathRef = skillStd["path"]
+	    				if(Array.isArray(pathRef)){
+	    					pathRef.forEach((path)=>{
+			    				let stdNode = treeData["children"][path["fieldIndex"]]["children"][path["skillIndex"]]["children"][path["levelIndex"]]["children"][path["stdIndex"]]
+			    				stdNode["nodeSvgShape"]["shapeProps"]["fill"] = "yellow"
+			    				console.log("SSS:", stdNode)	    						
+	    					})
+	    				}else{
+		    				let stdNode = treeData["children"][pathRef["fieldIndex"]]["children"][pathRef["skillIndex"]]["children"][pathRef["levelIndex"]]["children"][pathRef["stdIndex"]]
+		    				stdNode["nodeSvgShape"]["shapeProps"]["fill"] = "yellow"
+		    				console.log("SSS:", stdNode)	    					
+	    				}
+	    			}  			
+	    		})
+	    	})
+
+	    	//改變tree樣式
+			treeData = this.changeNodeColor(treeData)
 			
 			//初始化tree basic data
 	        this.setState({
@@ -204,10 +238,19 @@ class MyTree extends Component{
 			this.setState({
 				tree_first_g: first_g_class
 			})
+    	})
 
-	    }) 
-	    
-
+		// if(treeData["children"]){
+		// 	treeData["children"].forEach((field)=>{
+		// 		field["children"].forEach((skillName)=>{
+		// 			skillName["children"].forEach((skillLevel)=>{
+		// 				skillLevel["children"].forEach((skillStd)=>{
+		// 					console.log("STD:",skillStd)
+		// 				})
+		// 			})
+		// 		})
+		// 	})	
+		// }
 	}
 
 	initUserTreeState(nodeData){
@@ -252,9 +295,6 @@ class MyTree extends Component{
 			})
     	})
 		
-
-		
-
 	}
 
 	getPosition(css_attr){
@@ -303,9 +343,9 @@ class MyTree extends Component{
 	onMouseOverHandler(nodeData, evt){
 		console.log("mouseOVER")
 
-		if(Object.keys(this.state.treeRoot).length === 0){
-			this.initUserTreeState(nodeData)
-		}
+		// if(Object.keys(this.state.treeRoot).length === 0){
+		// 	this.initUserTreeState(nodeData)
+		// }
 
 		//取得tree第一個g的座標
 		let tree_g = $('.' + this.state.tree_first_g)
@@ -595,7 +635,8 @@ class MyTree extends Component{
 					shape: "circle",
 			        shapeProps: {
 			          r: 10,
-			          fill: "white"
+			          fill: "white",
+			          stroke:"orangered"
 			        }
 				}
 			}
@@ -607,14 +648,21 @@ class MyTree extends Component{
 			this.setState({
 				isCheckwindowShow: false
 			})			
-		}
-
-		
+		}		
 	}
+
+	handleHide = () =>{
+		this.setState({
+			isCheckwindowShow: false
+		})	
+  	}
+
+
 
 	render() {
 		let treeData = this.state.data
-		console.log("Render:", treeData, this.state.isLoading)
+		console.log("Render:", treeData)
+
 		if(this.state.isLoading){
 			return <CustomerSpinner />
 		}else {
@@ -657,7 +705,9 @@ class MyTree extends Component{
 			      	isShow={this.state.isCheckwindowShow}
 					handleConfirm={this.handleConfirm}
 					handleCancel={this.handleCancel}
+					handleHide = {this.handleHide}
 			      	/>
+
 			    </div>
 			);			
 		}
