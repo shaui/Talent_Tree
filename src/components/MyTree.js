@@ -95,6 +95,7 @@ class MyTree extends Component{
 
 	componentDidMount(){
 		console.log("componentDidMount:")
+		console.log("###",this.props.location.state) //可以觀看傳遞的參數
 		this.initTreeData()
 
 		// myRef.once('value', function (snapshot) {
@@ -180,7 +181,7 @@ class MyTree extends Component{
 
 	initTreeData(nodeData){
 
-		let path = 'Trees/資管系'
+		let path = 'Trees/' + this.props.location.state.path
 		let myRef = root.child(path)
 
 		//Construct the tree
@@ -197,7 +198,7 @@ class MyTree extends Component{
 	initTreeState(treeData){
 		console.log("USERS:", this.context.user.uid)
 
-		let path = 'Users/' + this.context.user.uid + '/treeState/資管系/state'
+		let path = 'Users/' + this.context.user.uid + '/treeState/' + this.props.location.state.path + '/state'
     	let myRef = root.child(path)
 
     	myRef.once('value', (snapshot) =>{
@@ -261,7 +262,7 @@ class MyTree extends Component{
 			treeRoot = treeRoot.parent //往上找真的root，
 		}
 		
-		let path = 'Users/' + this.context.user.uid + '/treeState/資管系/state'
+		let path = 'Users/' + this.context.user.uid + '/treeState/' + this.props.location.state.path + '/state'
     	let myRef = root.child(path)
 
     	myRef.once('value', (snapshot) => {
@@ -438,7 +439,7 @@ class MyTree extends Component{
 		let skillName = nodePath[1]
 		let skillStd = nodePath[0]
 
-		let path = "Users/" + this.context.user.uid + "/treeState/" + "資管系" + "/state"
+		let path = "Users/" + this.context.user.uid + "/treeState/" + this.props.location.state.path + "/state"
     	let myRef = root.child(path)
 
     	myRef.once('value', (snapshot) => {
