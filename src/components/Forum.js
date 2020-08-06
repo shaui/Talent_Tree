@@ -115,9 +115,9 @@ class PostsPage extends React.Component {
 							     	subskill: "test",
 							     	standards: ["test XXX", "test AAA", "test BBB", "test CCC"] }
 							}}> 
-								<Button id="post-btn" className="primary">
+								<button className="post-btn">
 									發布文章
-								</Button>
+								</button>
 							</Link>
 						</div>
 						<div className="col-6">

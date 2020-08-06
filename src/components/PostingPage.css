@@ -23,3 +23,28 @@ transition: all 0.3s ease 0s;
 .post.help {
 	color: red;
 }
+
+.post.beforeInput {
+	text-align: center;
+}
+
+.post.icon-btn {
+	background-color: transparent; /* Blue background */
+    border: none; /* Remove borders */
+    padding: 4px 12px; /* Some padding */
+    margin: 8px 4px;
+    font-size: 16px; /* Set a font size */
+    cursor: pointer; /* Mouse pointer on hover */
+}
+
+.post.icon-btn:hover {
+}
+
+.post.icon-btn:active {
+	border: none;
+}
+
+.post.alignToURL {
+	margin-top: 16px;
+}
+

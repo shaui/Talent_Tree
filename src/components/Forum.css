@@ -16,7 +16,7 @@ tbody td:nth-child(2) {
 }
 
 /*button*/
-#post-btn {
+.post-btn {
   color: #494949 !important;
   text-transform: uppercase;
   background: #ffffff;
@@ -26,7 +26,7 @@ tbody td:nth-child(2) {
   display: inline-block;
   transition: all 0.3s ease 0s;
 }
-#post-btn:hover {
+.post-btn:hover {
   color: #494949 !important;
   border-radius: 50px;
   border-color: #494949 !important;

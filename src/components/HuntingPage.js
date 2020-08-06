@@ -1,7 +1,8 @@
 import React from 'react';
-import { Card, Form, Button, Row, Col } from 'react-bootstrap';
+import { Card, Form, Button, Row, Col, Alert } from 'react-bootstrap';
 import FirebaseMg from '../Utils/FirebaseMg.js';
 import './HuntingPage.css';
+import { CSSTransition } from 'react-transition-group';
 
 import HuntResult from './HuntResult.js' ;
 
@@ -12,6 +13,7 @@ class HuntingForm extends React.Component {
 			data: [],
 			subjects: [], 
 			fields: [],
+			chosenSubject: "",
 			fieldObjs: [
 				{ 
 					skills: [],
@@ -29,17 +31,23 @@ class HuntingForm extends React.Component {
 					name: "",
 				}
 			],
+			profiles: [],
 			showFields: false,
 			showSkills: false,
 			showSubskills: false,
 			showResult: false,
-			option: []
+			showProfile: false,
+			showWarn: false,
+			option: [],
+			sentData: [],
 		} ;
 		this.chooseSubject = this.chooseSubject.bind(this) ;
 		this.chooseField = this.chooseField.bind(this) ;
 		this.chooseSkill = this.chooseSkill.bind(this) ;
 		this.chooseSubskill = this.chooseSubskill.bind(this) ;
 		this.handleSubmit = this.handleSubmit.bind(this) ;
+		this.toggleProfile = this.toggleProfile.bind(this) ;
+		this.chooseProfile = this.chooseProfile.bind(this) ;
 	}
 	
 	componentDidMount() {
@@ -92,6 +100,20 @@ class HuntingForm extends React.Component {
 		.catch( (error) => {
 			console.log(error) ;
 		} ) ;
+
+		path = 'Company/companyID/profiles/' ;
+		myRef = root.child(path) ;
+		myRef.once('value').then( (snapshot) => {
+			let profileObj = snapshot.val() ;
+			
+			this.setState( { 
+				profiles: profileObj,
+			} )
+
+		} )
+		.catch( (error) => {
+			console.log(error) ;
+		} ) ;
 	}
 
 	chooseSubject(e) {
@@ -101,6 +123,7 @@ class HuntingForm extends React.Component {
 		let fields = data[e.target.value]["children"]
 		// 初始化資料，只留下指定科目下的領域
 		this.setState( {
+			chosenSubject: e.target.value,
 			fields: fields,
 			fieldObjs: [
 				{ 
@@ -430,35 +453,232 @@ class HuntingForm extends React.Component {
 	}
 
 	handleSubmit(e) {
-
 		e.preventDefault() ;
-
 		const elems = e.target.elements
 		
-		// console.log( "subject:", elems.subject );
-		// console.log( "field:", elems.field );
-		// console.log( "skill:", elems.skill );
-		// console.log( "subskill:", elems.subskill );
-		const subskillInputs = Array.from(elems.subskill).filter( (input) => {
-				return input.checked 
+		if ( this.state.subskillObjs[0].name === "" ) {
+			this.setState( {
+				showWarn: true
+			} )
+			if ( this.timer ) {
+				clearTimeout(this.timer)
 			}
-		)
-		const subskills = subskillInputs.map( (input) =>
-			input.value
-		)
-		this.setState( {
-			option: subskills,
-			showResult: true
+			this.timer = setTimeout( () => {
+				this.setState( {
+					showWarn: false
+				} )
+			}, 3000 )
+		} else {
+			// deep clone深度不為一的物件
+			let data = JSON.parse(JSON.stringify(this.state.data))
+			const chosenFields = this.state.fieldObjs
+			const chosenSkills = this.state.skillObjs
+			const chosenSubskills = this.state.subskillObjs
+			data = data["資管系"]
+			// data = data.find( (subject) => 
+			// 	subject.name === elems.subject.value
+			// )
+			data.children = data.children.filter( (field) => {
+				let checked = chosenFields.map( (fieldObj) => 
+					field.name === fieldObj.name
+				)
+				return checked.some( bool => Boolean(bool) )
+			} )
+			for ( var i in data.children ) {
+				data.children[i].children = data.children[i].children.filter( (skill) => {
+					let checked = chosenSkills.map( (skillObj) => 
+					skill.name === skillObj.name
+				)
+				return checked.some( bool => Boolean(bool) )
+				} )
+			}
+			for ( var x in data.children ) {
+				for ( var y in data.children[x].children ) {
+					data.children[i].children[y].children = data.children[i].children[y].children.filter( (subskill) => {
+						let checked = chosenSubskills.map( (subskillObj) => 
+						subskill.name === subskillObj.name
+					)
+					return checked.some( bool => Boolean(bool) )
+					} )
+				}
+			}
+			
+			// console.log( "subject:", elems.subject );
+			// console.log( "field:", elems.field );
+			// console.log( "skill:", elems.skill );
+			// console.log( "subskill:", elems.subskill );
+			const subskillInputs = Array.from(elems.subskill).filter( (input) => {
+					return input.checked 
+				}
+			)
+			const subskills = subskillInputs.map( (input) =>
+				input.value
+			)
+			this.setState( {
+				option: subskills,
+				sentData: data,
+				showResult: true
+			} )
+		}
+
+		
+	}
+
+	toggleProfile() {
+		const showProfile = this.state.showProfile
+		
+		// 取消自定義
+		if ( showProfile ) {
+			this.setState( { 
+				fields: [],
+				chosenSubject: "",
+				fieldObjs: [
+					{ 
+						skills: [],
+						name: "",
+					}
+				],
+				skillObjs: [
+					{ 
+						subskills: [],
+						name: "",
+					}
+				],
+				subskillObjs: [
+					{
+						name: "",
+					}
+				],
+				showFields: false,
+				showSkills: false,
+				showSubskills: false,
+				showResult: false
+			} )
+		}
+
+		this.setState( { 
+			showProfile: !showProfile
 		} )
+	}
+	chooseProfile(e) {
+		let subject ;
+		let fieldObjs ;
+		let skillObjs ;
+		let subskillObjs ;
+		const data = this.state.data
+		const profileName = e.target.value
+		const profileObj = this.state.profiles
+		let profileID = "" ;
+		for ( var i in profileObj ) {
+			if ( profileObj[i].name === profileName )
+				profileID = i
+		}
+
+		subject = profileObj[profileID].tree.name
+
+		let fieldsAll = data[subject]["children"]
+		
+		let fields = fieldsAll.filter( (field) => {
+			let checked = profileObj[profileID].tree.children.map( (chosenField) => 
+				field.name === chosenField.name
+			)
+			return checked.some( bool => Boolean(bool) )
+		} )
+
+		fieldObjs = fields.map( (field) => {
+				return {
+					skills: field.children,
+					name: field.name
+				}
+		} )
+
+		let chosenSkills = profileObj[profileID].tree.children.map( (chosenField) => 
+			chosenField.children
+		)
+		chosenSkills = chosenSkills.flat()
+		let skillsAll = fields.map( (field) =>
+			field.children
+		)
+		skillsAll = skillsAll.flat()
+		let skills = []
+		chosenSkills.forEach( (chosenSkill) =>
+			skills = skillsAll.filter( (skill) =>
+				chosenSkill.name === skill.name
+			)	
+		)
+		skillObjs = skills.map( (skill) => {
+				return {
+					subskills: skill.children,
+					name: skill.name
+				}
+		} )
+
+		let chosenSubskills = chosenSkills.map( (chosenSkill) => 
+			chosenSkill.children
+		)
+		chosenSubskills = chosenSubskills.flat()
+		let subskillsAll = skills.map( (skill) =>
+			skill.children
+		)
+		subskillsAll = subskillsAll.flat()
+		let subskills = []
+		chosenSubskills.forEach( (chosenSubskill) =>
+			subskills = subskillsAll.filter( (subskill) =>
+				chosenSubskill.name === subskill.name
+			)	
+		)
+		subskillObjs = subskills.map( (subskill) => {
+				return {
+					name: subskill.name
+				}
+		} )
+		
+		this.setState( {
+			chosenSubject: subject,
+			fields: fieldsAll,
+			fieldObjs: fieldObjs,
+			skillObjs: skillObjs,
+			subskillObjs: subskillObjs,
+			showFields: true,
+			showSkills: true,
+			showSubskills: true
+		} )
+
 	}
 
 	render( ) {
+		
+		let fieldObjs = this.state.fieldObjs
+		const chooseField = this.chooseField
+		let fieldButtons = this.state.fields.map( (field) => {
+
+			let checked = fieldObjs.map( (fieldObj) => 
+				field.name === fieldObj.name
+			)
+			return checked.some( bool => Boolean(bool) ) ?
+    		<Form.Check 
+    		inline 
+    		label={ field.name } 
+    		type={'checkbox'} 
+    		onClick={ chooseField }
+    		value={ field.name }
+    		name="field"
+    		checked /> :
+    		<Form.Check 
+    		inline 
+    		label={ field.name } 
+    		type={'checkbox'} 
+    		onClick={ chooseField }
+    		value={ field.name }
+    		name="field"
+    		checked={false} />
+    	} )
 
 		// 因為有多選，所以當某個上層節點被取消勾選時，
 		// 要保持其他勾選的上層節點的children的render（條件render）
 		let skillObjs = this.state.skillObjs
 		const chooseSkill = this.chooseSkill
-		let skillBoxes = this.state.fieldObjs.map( (fieldObj, index) => {
+		let skillBoxes = this.state.fieldObjs.map( (fieldObj) => {
 
 			let form = fieldObj.skills.map( function(skill) {
 				// 所有Skills都要對照Skill Object來找出已打勾的節點（因此checked為陣列）
@@ -541,11 +761,58 @@ class HuntingForm extends React.Component {
 				</Col>
 			) 
 		} )
+		
+		let profileObj = this.state.profiles
+		let profiles = [] ;
+		for ( var i in profileObj ) {
+			profiles.push( profileObj[i] )
+		}
+		const profileButtons = profiles.map( (profile) =>
+    		<Form.Check 
+    		label={ profile.name } 
+    		type={'radio'} 
+    		onChange={ this.chooseProfile }
+    		value={ profile.name }
+    		name="profile" />
+    	)
+
 		return (
 			<div className="content" style={{ 'marginTop': '12vh' }}>
-				<div className="container ">
+				<div className="container">
 					<Card>
-					  <Card.Header>人才徵選</Card.Header>
+					  <Card.Header className="hunt">
+					    <text>
+					  	  人才徵選
+					    </text>
+					  	<button style={{float: "right"}} onClick={this.toggleProfile} className="post-btn right" type="button" data-toggle="collapse" data-target="#collapseCustomCard" aria-expanded="false" aria-controls="collapseCustomCard">
+					      {
+					      	this.state.showProfile ? "取消自定義搜尋" : "自定義搜尋"
+					      }
+					    </button>
+					  </Card.Header>
+					  {
+					    this.state.showProfile ?
+					    <div id="collapseCustomCard">
+						  <div className="card card-body">
+						    <Form>
+						    	<Form.Group controlId="profile" style={{ marginBottom: "0px" }}>
+						        { profileButtons }
+						      </Form.Group>
+						    </Form>
+						  </div>
+					    </div>
+					    : ""
+					  }
+					  <CSSTransition in={this.state.showWarn} timeout={500} classNames="alert" unmountOnExit appear>
+					    <Alert variant="danger" className="hunt">
+				          <Alert.Heading>提示</Alert.Heading>
+				          <p>
+				            請選擇到有至少一個子技能後再提送表單！
+				          </p>
+				        </Alert>
+			          </CSSTransition>
+					  
+					  
 					  <Card.Body>
 					    <Card.Title>條件選擇</Card.Title>
 					    <Form onSubmit={this.handleSubmit} >
@@ -564,6 +831,15 @@ class HuntingForm extends React.Component {
 								   //  		onClick={this.chooseSubject}
 								   //  		value={ this.state.subjects.name } />
 							    //       	)
+							    		this.state.chosenSubject === this.state.subjects.name ?
+							    		<Form.Check 
+							    		inline 
+							    		label={ this.state.subjects.name } 
+							    		type={'radio'} 
+							    		onChange={ this.chooseSubject }
+							    		value={ this.state.subjects.name }
+							    		name="subject"
+							    		checked /> :
 							    		<Form.Check 
 							    		inline 
 							    		label={ this.state.subjects.name } 
@@ -583,17 +859,7 @@ class HuntingForm extends React.Component {
 						  	  <Form.Group controlId="field">
 						        <Form.Label>選擇領域</Form.Label>
 						        <div>
-						        	{	
-							        	this.state.fields.map( (field) =>
-							        		<Form.Check 
-								    		inline 
-								    		label={ field.name } 
-								    		type={'checkbox'} 
-								    		onClick={ this.chooseField }
-								    		value={ field.name }
-								    		name="field" />
-							        	)
-							        }
+						        	{ fieldButtons }
 						        </div>
 						      </Form.Group>
 						  	</Col>
@@ -623,10 +889,10 @@ class HuntingForm extends React.Component {
 
 						  <div className="container">
 						  	<div className="row justify-content-end">
-						  	  <div className="col-md-4 button-col">
-						  		<Button variant="primary" type="submit" id="post-btn">
+						  	  <div className="col-md-4 button-col hunt">
+						  		<button type="submit" className="post-btn">
 						        	送出表單
-						  	  	</Button>
+						  	  	</button>
 						  	  </div>
 						  	  <div className="col-md-1">
 						  	  </div>
@@ -637,7 +903,12 @@ class HuntingForm extends React.Component {
 					  </Card.Body>
 					</Card>
 					{
-						this.state.showResult ? <HuntResult option={this.state.option} /> : ""
+						this.state.showResult ? 
+						<HuntResult 
+						option={this.state.option} 
+						treeData={this.state.sentData} 
+						profiles={this.state.profiles}
+						useProfile={this.state.showProfile} /> : ""
 					}
 				</div>
 			</div>

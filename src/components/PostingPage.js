@@ -1,5 +1,5 @@
 import React from 'react';
-import { Form, Button, Col } from 'react-bootstrap';
+import { Form, Button, Row, Col } from 'react-bootstrap';
 import { withRouter } from "react-router-dom"
 import FirebaseMg from '../Utils/FirebaseMg.js'
 import './PostingPage.css';
@@ -53,7 +53,8 @@ class PostingPage extends React.Component {
 			],
 			showStandards: false,
 			showHelp: false,
-			defaultData: this.props.location.state
+			defaultData: this.props.location.state,
+			courseNum: 1
 		} ;
 		this.chooseSubject = this.chooseSubject.bind(this) ;
 		this.chooseField = this.chooseField.bind(this) ;
@@ -61,6 +62,8 @@ class PostingPage extends React.Component {
 		this.chooseSubskill = this.chooseSubskill.bind(this) ;
 		this.handleSubmit = this.handleSubmit.bind(this) ;
 		this.chooseStandard = this.chooseStandard.bind(this) ;
+		this.clickUrlIncrease = this.clickUrlIncrease.bind(this) ;
+		this.clickUrlDecrease = this.clickUrlDecrease.bind(this) ;
 	}
 	
 	componentDidMount() {
@@ -109,7 +112,7 @@ class PostingPage extends React.Component {
 				let subjects = [
 					{
 						children: [],
-						name: "--請選擇--"
+						name: ""
 					}
 				] ;
 				for ( var i in data ) {
@@ -141,7 +144,7 @@ class PostingPage extends React.Component {
 			fields = [
 				{
 					children: [],
-					name: "--請選擇--"
+					name: ""
 				}
 			]
 
@@ -153,9 +156,9 @@ class PostingPage extends React.Component {
 		} )
 
 		const subjects = this.state.subjects
-		if ( subjects[0].name === "--請選擇--" ) {
+		if ( subjects[0].name === "" ) {
 			let newSubjects = subjects.filter( (subject) =>
-				  subject.name !== "--請選擇--"
+				  subject.name !== ""
 			)
 			this.setState( {
 				subjects: newSubjects
@@ -180,7 +183,7 @@ class PostingPage extends React.Component {
 			initialSkills = [
 				{
 					children: [],
-					name: "--請選擇--"
+					name: ""
 				}
 			]
 
@@ -190,9 +193,9 @@ class PostingPage extends React.Component {
 			} )
 		}
 		
-		if ( fields[0].name === "--請選擇--" ) {
+		if ( fields[0].name === "" ) {
 			let newFields = fields.filter( (field) =>
-				  field.name !== "--請選擇--"
+				  field.name !== ""
 			)
 			this.setState( {
 				fields: newFields
@@ -218,20 +221,19 @@ class PostingPage extends React.Component {
 			initialSubskills = [
 				{
 					children: [],
-					name: "--請選擇--"
+					name: ""
 				}
 			]
 
 			initialSubskills = initialSubskills.concat( subskills )
-			console.log(initialSubskills);
 			this.setState( {
 				subskills: initialSubskills
 			} )
 		}
 
-		if ( skills[0].name === "--請選擇--" ) {
+		if ( skills[0].name === "" ) {
 			let newSkills = skills.filter( (skill) =>
-				  skill.name !== "--請選擇--"
+				  skill.name !== ""
 			)
 			this.setState( {
 				skills: newSkills
@@ -251,9 +253,9 @@ class PostingPage extends React.Component {
 			showStandards: true
 		} )
 
-		if ( subskills[0].name === "--請選擇--" ) {
+		if ( subskills[0].name === "" ) {
 			let newSubskills = subskills.filter( (subskill) =>
-				  subskill.name !== "--請選擇--"
+				  subskill.name !== ""
 			)
 			this.setState( {
 				subskills: newSubskills
@@ -266,11 +268,14 @@ class PostingPage extends React.Component {
 		const elems = e.target.elements
 		const standards = Array.from(elems.standard)
 		if ( standards.some( (standardInput) => standardInput.checked ) ) {
-			const standardsChecked = standards.filter( (standard) => 
-				standard.checked
+			const standardsChecked = standards.filter( (standardInput) => 
+				standardInput.checked
 			)
-			const standardVals = standardsChecked.map( (standard) => 
-				standard.value
+			const standardVals = standardsChecked.map( (standardInput) => 
+				standardInput.value
+			)
+			const courseUrls = Array.from(elems.courseURL).map( (urlInput) => 
+				urlInput.value
 			)
 			const fbMg = new FirebaseMg() ;
 			var root = fbMg.myRef ;
@@ -282,11 +287,7 @@ class PostingPage extends React.Component {
 				type: elems.courseType.value,
 				course: {
 					intro: elems.courseIntro.value,
-					links: [
-						{
-							url: elems.courseURL.value
-						}
-					]
+					links: courseUrls
 				},
 				standards: standardVals,
 				like: 0,
@@ -313,6 +314,24 @@ class PostingPage extends React.Component {
 				showHelp: false
 			} )
 		}
+	}
+	clickUrlIncrease() {
+		const courseNum = this.state.courseNum
+		courseNum === 20 ? 
+		alert("已到達課程數量上限。") :
+		this.setState((state) => ({
+		  courseNum: state.courseNum + 1
+		}));
+	}
+	clickUrlDecrease() {
+		const courseNum = this.state.courseNum
+		courseNum === 1 ?
+		this.setState((state) => ({
+		  courseNum: 1
+		})) :
+		this.setState((state) => ({
+		  courseNum: state.courseNum - 1
+		}));
 	}
 
 	render( ) {
@@ -503,6 +522,22 @@ class PostingPage extends React.Component {
 			  	</Col>
 			}
 		}
+		
+		let urlInputs = []
+		for ( var i = 2 ; i <= this.state.courseNum ; i++ ) {
+			urlInputs.push( 
+				<Form.Group as={Row} controlId="courseURL">
+				  <Form.Label column sm="3" lg="2" className="post beforeInput">
+				    <text>Course {i}</text>
+				  </Form.Label>
+				  <Col sm="9" lg="10">
+				    <Form.Control
+		         	  name="courseURL" placeholder="請輸入網址" required />
+				  </Col>
+				</Form.Group>
+			 )
+		}
+			
 
 		return (
 			<div className="content" style={{ 'marginTop': '12vh' }}>
@@ -536,12 +571,26 @@ class PostingPage extends React.Component {
 					  	<Col md={{ span: 8, offset: 1 }}>
 					  	  <Form.Group controlId="courseURL">
 					        <Form.Label>課程網址</Form.Label>
-					        <Form.Control
-					          name="courseURL" placeholder="請輸入網址" required />
+					        <button className="post icon-btn" type="button" onClick={this.clickUrlIncrease}>
+					        	<i class="fa fa-plus-square" aria-hidden="true"></i>
+					        </button>
+					        <button className="post icon-btn" type="button" onClick={this.clickUrlDecrease}>
+					        	<i class="fa fa-minus-square" aria-hidden="true"></i>
+					        </button>
+					        <Form.Group as={Row} controlId="courseURL">
+							  <Form.Label column sm="3" lg="2" className="post beforeInput">
+							    <text>Course 1</text>
+							  </Form.Label>
+							  <Col sm="9" lg="10">
+							    <Form.Control
+					         	  name="courseURL" placeholder="請輸入網址" required />
+							  </Col>
+							</Form.Group>
 					      </Form.Group>
+					      { urlInputs }
 					  	</Col>
 					  	<Col md={2}>
-					  	  <Form.Group controlId="courseType">
+					  	  <Form.Group controlId="courseType" className="post alignToURL">
 					        <Form.Label>課程分類</Form.Label>
 					        <Form.Control
 					          name="courseType" as="select" required>
@@ -566,9 +615,9 @@ class PostingPage extends React.Component {
 					  <div className="container">
 					  	<div className="row justify-content-end">
 					  	  <div className="col-md-4 button-col post">
-					  	  	<Button id="post-btn" className="primary" type="submit">
+					  	  	<button className="post-btn" type="submit">
 						  	  	發布文章
-							</Button>
+							</button>
 					  		
 					  	  </div>
 					  	  <div className="col-md-1">
