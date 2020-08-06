@@ -1,4 +1,5 @@
 import React, {Component} from 'react';
+import { Link } from 'react-router-dom';
 import {Container,Row,Col,Card,Button} from 'react-bootstrap';
 import './TreeMenu.css'
 import PropTypes from 'prop-types';
@@ -30,7 +31,12 @@ class TreeData extends Component{
                         ))
                         
                     }
-                    <span><Card.Link className='TreeMenu right' href={data.link}>前往技能樹</Card.Link></span>
+                    <span>
+                        <Link to={{
+                            pathname:"/tree",
+                            state:{"path":data.link}
+                        }} className="TreeMenu right">前往課程</Link>
+                    </span>
                     </div>
                 </Card.Body>
                 
