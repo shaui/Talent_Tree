@@ -781,9 +781,7 @@ class HuntingForm extends React.Component {
 				<div className="container">
 					<Card>
 					  <Card.Header className="hunt">
-					    <text>
 					  	  人才徵選
-					    </text>
 					  	<button style={{float: "right"}} onClick={this.toggleProfile} className="post-btn right" type="button" data-toggle="collapse" data-target="#collapseCustomCard" aria-expanded="false" aria-controls="collapseCustomCard">
 					      {
 					      	this.state.showProfile ? "取消自定義搜尋" : "自定義搜尋"

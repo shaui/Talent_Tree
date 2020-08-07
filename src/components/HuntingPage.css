@@ -24,7 +24,6 @@ hr.hunt {
     justify-content: space-between;
 }
 
-.hunt.card-header text,
 .hunt.card-header button {
 	vertical-align: middle;
 }

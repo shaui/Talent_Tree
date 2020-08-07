@@ -48,3 +48,7 @@ hr {
 .container {
 	margin-bottom: 1em;
 }
+
+.forum ul {
+  float: right;
+}
