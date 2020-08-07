@@ -188,8 +188,13 @@ class CoursePage extends Component{
 				}
 			})
 
+			//更新progress中的進度
 			this.updateProgress(skillName, stdName, childrenLength)
 
+			//更新treeState中的進度
+			let treeStatePath = path + "/" + path1
+			this.updateTreeStateProgress(treeStatePath, stdName.length, childrenLength)
+			
 			//遍歷每個Std，點亮未點亮的部分
 			path2.forEach((pathIndex, index)=>{
 				let skillStdPath = path + "/" + path1 + "/children/" + pathIndex + "/nodeSvgShape/shapeProps"
@@ -262,6 +267,24 @@ class CoursePage extends Component{
     	}).then((result)=>{
 
     	})
+	}
+
+	updateTreeStateProgress(path, stdLength, childrenLength){
+
+    	//創建進度
+		let progress = 1 / childrenLength * stdLength
+		if(0.95 <= progress && progress <= 1){
+			progress = 1
+		}
+		if(progress <= 0.05){
+			progress = 0
+		}
+
+		let myRef = root.child(path)
+		myRef.update({
+			"completed": progress
+		})	
+
 	}
 
 	render() {

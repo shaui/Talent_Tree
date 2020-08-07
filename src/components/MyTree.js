@@ -498,7 +498,6 @@ class MyTree extends Component{
 				"completed": progress
 			})		
 		})
-
 	}
 
 	updateProgress(){
