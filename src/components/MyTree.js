@@ -461,16 +461,44 @@ class MyTree extends Component{
 				}
 			})
 
+			let treeStatePath = path + "/" + path1
+			this.updateTreeStateProgress(treeStatePath, color) //更新treeState的completed
+
 			path = path + "/" + path1 + "/children/" + path2 + "/nodeSvgShape/shapeProps"
 			myRef = root.child(path)
 			myRef.update({"fill": color})
-				
 
     	}).then( (result) => {
     		return myRef
     	}).catch( (failureCallback) =>{
 			// console.log("failureCallback:",failureCallback)
     	});
+	}
+
+	updateTreeStateProgress(path, color){
+		let myRef = root.child(path)
+		myRef.once('value', (snapshot)=>{
+			let data = snapshot.val()
+			let progress = data['completed']
+			let childrenLength = data["children"].length
+			if(color === "yellow"){
+				//update progress
+				progress = progress + 1/childrenLength
+				if(0.95 <= progress && progress <= 1){
+					progress = 1
+				}
+			}else{
+				//update progress
+				progress = progress - 1/childrenLength
+				if(progress <= 0.05){
+	    			progress = 0
+	    		}
+			}
+			myRef.update({
+				"completed": progress
+			})		
+		})
+
 	}
 
 	updateProgress(){
@@ -497,7 +525,6 @@ class MyTree extends Component{
 				childrenData[completedNum] = skillStd
 				myRef.child("children").update(childrenData)
 
-				
 				//update progress
 				progress = progress + 1/childrenLength
 

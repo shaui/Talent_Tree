@@ -35,7 +35,7 @@ class TreeData extends Component{
                         <Link to={{
                             pathname:"/tree",
                             state:{"path":data.link}
-                        }} className="TreeMenu right">前往課程</Link>
+                        }} className="TreeMenu right">前往技能樹</Link>
                     </span>
                     </div>
                 </Card.Body>
