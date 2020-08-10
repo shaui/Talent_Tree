@@ -4,9 +4,30 @@
 	width: 100vw;
 }
 
-.Home.col1{
-	background-image: linear-gradient(rgba(255,255,255,0.3), rgba(255,255,255,0.3)),url("../Database/tree_summer.jpg");
- 	background-position: center;
+.Home.col1.spring{
+	background-image: linear-gradient(rgba(255,255,255,0.5), rgba(255,255,255,0.5)),url("https://i.imgur.com/jvA7DJf.jpg");
+ 	background-position: left;
+    background-repeat: no-repeat;
+    background-size: cover;
+}
+
+.Home.col1.summer{
+	background-image: linear-gradient(rgba(255,255,255,0.5), rgba(255,255,255,0.5)),url("https://imgur.com/77vo4iS.jpg");
+ 	background-position: left;
+    background-repeat: no-repeat;
+    background-size: cover;
+}
+
+.Home.col1.fall{
+	background-image: linear-gradient(rgba(255,255,255,0.5), rgba(255,255,255,0.5)),url("https://imgur.com/Yi7Bgpl.jpg");
+ 	background-position: left;
+    background-repeat: no-repeat;
+    background-size: cover;
+}
+
+.Home.col1.winter{
+	background-image: linear-gradient(rgba(255,255,255,0.5), rgba(255,255,255,0.5)),url("https://imgur.com/bQFqBRU.jpg");
+ 	background-position: left;
     background-repeat: no-repeat;
     background-size: cover;
 }

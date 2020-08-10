@@ -109,9 +109,9 @@ function Comment(props) {
 				</div>
 				<div className="CoursePage content">
 					<span class="CoursePage user-name">Louis</span>
-					<span style={{'marginLeft':'10px'}}> 2020/9/9</span>
+					<span style={{'marginLeft':'10px'}}> 2020/8/7</span>
 					<p className="CoursePage card-text">
-						關注了Tensorflow For CNN Cifar-10
+						明明說好了3個罐罐，最後卻只有1個，像極了愛情♀♂
 					</p>
 				</div>
 				<div className="CoursePage actions">
@@ -217,7 +217,7 @@ class CoursePage extends Component{
 			})
 
     	}).then( (result) => {
-			
+			alert("恭喜習得新技能!")
     	}).catch( (failureCallback) =>{
 			// console.log("failureCallback:",failureCallback)
     	});
@@ -231,6 +231,10 @@ class CoursePage extends Component{
 		let progress = 1 / childrenLength * skillStdName.length
 		if(0.95 <= progress && progress <= 1){
 			progress = 1
+			//刪除progress資料，更新學習歷程
+
+		}else{
+			//更新progress
 		}
 		if(progress <= 0.05){
 			progress = 0

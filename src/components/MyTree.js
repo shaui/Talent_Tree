@@ -529,11 +529,18 @@ class MyTree extends Component{
 
 				//避免因除法導致小數點未進位
 				if(0.95 <= progress && progress <= 1){
-					progress = 1
+					progress = 1 
+					//刪除progress資料，更新學習歷程
+					this.updateHistory(skillName)
+					myRef.remove()
+
+				}else{
+					//更新progress
+					myRef.update({
+						"completed": progress
+					})
 				}
-				myRef.update({
-					"completed": progress
-				})
+				
 			}else{
 				let path = "Users/" + this.context.user.uid + "/progress"
 				let myRef = root.child(path)
@@ -552,6 +559,38 @@ class MyTree extends Component{
 
     	})
 
+	}
+
+	updateHistory(skillName){
+		let date = new Date();
+		let today = date.getFullYear() + "-" + (date.getMonth()+1) + "-" + date.getDate()
+		let path = "Users/" + this.context.user.uid + "/history/" + date.getFullYear()
+    	let myRef = root.child(path)		
+
+    	myRef.once('value', (snapshot) => {
+    		let data = snapshot.val()
+    		if(data){
+				let arrayLength = data.length
+				let historyObj = new Object()
+				historyObj[arrayLength] = {
+					"name": skillName,
+					"time": today
+				}
+				myRef.update(historyObj)
+    		}else{
+				let historyObj = new Object()
+
+				historyObj[date.getFullYear()] = {
+					0 : {
+						"name": skillName,
+						"time": today
+					}
+				}
+				let path = "Users/" + this.context.user.uid + "/history"
+    			let myRef = root.child(path)	
+    			myRef.update(historyObj)
+    		}
+    	})
 	}
 
 	handleConfirm = () =>{
