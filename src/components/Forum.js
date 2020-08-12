@@ -85,7 +85,7 @@ class PostsPage extends React.Component {
 	constructor(props) {
 		super(props);
 		this.state = {
-			data: [],
+			data: null,
 			pathObj: new Object(),
 			isLoading: true
 		} ;
@@ -96,6 +96,7 @@ class PostsPage extends React.Component {
 		var root = fbMg.myRef ;
 		var path = 'Posts/' + pathObj.subskill ;
 		var myRef = root.child(path) ;
+		console.log("Path Obj:", pathObj)
 		myRef.once('value').then( (snapshot) => {
 			let data = snapshot.val() ;
 			this.setState( {
@@ -112,8 +113,8 @@ class PostsPage extends React.Component {
 	componentDidMount() {
 		const pathName = this.props.location.pathname
 		console.log( pathName.split("/") );
-		console.log("###",this.props.location.state) //可以觀看傳遞的參數
-		const sentPath = this.props.location.state
+		console.log("###",this.props.location.state, this.props.location.state["path"]) //可以觀看傳遞的參數
+		const sentPath = this.props.location.state["path"]
 		let pathObj = new Object()
 		if ( Array.isArray(sentPath) ) {
 			if ( sentPath.length === 4 ) {
@@ -169,6 +170,7 @@ class PostsPage extends React.Component {
 	}
 
 	render() {
+		console.log("CustomPagination:", this.state.data)
 		return (
 			<div className="content" style={{ 'marginTop': '10vh' }}>
 				<div className="container banner-container">
@@ -194,7 +196,12 @@ class PostsPage extends React.Component {
 							</Link>
 						</div>
 						<div className="col-6 forum">
-							<CustomPagination posts={this.state.data} />
+							{   
+								this.state.data ?
+									<CustomPagination posts={this.state.data} />
+								:
+									""
+							}
 						</div>
 					</div>
 				</div>
@@ -213,7 +220,12 @@ class PostsPage extends React.Component {
 					<div className="container forum">
 						<div className="row justify-content-end">
 							<div className="col-6 forum">
-								<CustomPagination posts={this.state.data} />
+							{   
+								this.state.data ?
+									<CustomPagination posts={this.state.data} />
+								:
+									""
+							}
 							</div>
 						</div>
 					</div>

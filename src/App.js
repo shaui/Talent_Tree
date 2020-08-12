@@ -94,24 +94,34 @@ class App extends Component {
                 <SideBar />
               : null 
             }
-            <div id="breadcrumb-div" style={{ 'position': 'fixed', 'top': '12vh', 'left': '8vh', 'zIndex':'98' }}>
+            <div id="breadcrumb-div" style={{ 'position': 'absolute', 'top': '12vh', 'left': '8vh', 'zIndex':'98' }}>
               <div className="container breadcrumb-container">
                 <div className="row">
                   <div className="col">
-                    <CustomBreadcrumb path={this.props.location.pathname} params={this.props.location.state} />
+                   {
+                      this.props.location.pathname === "/" ? 
+                        ""
+                      :
+                        <CustomBreadcrumb path={this.props.location.pathname} params={this.props.location.state} />
+                   }
                   </div>
                 </div>
               </div>
             </div>
+            { /**強者總是孤獨的**/ }
             <Route exact path="/" component={Home} />
             <Route exact path="/treeMenu/tree" component={MyTree} />
-            <Route exact path="/forum" component={PostsPage} />
-            <Route exact path="/forum/post" component={PostingPage} />
-            <Route exact path="/hunt" component={HuntingPage} />
-            <Route exact path="/forum/course" component={CoursePage} />
-            <Route exact path="/home" component={HomePage} />
-            <Route exact path="/treeMenu" component={TreeMenu} />
-            <Route exact path="/profile" component={Profile} />
+            <div style={{'paddingTop':'9vh'}}>
+
+              <Route exact path="/forum" component={PostsPage} />
+              <Route exact path="/forum/post" component={PostingPage} />
+              <Route exact path="/hunt" component={HuntingPage} />
+              <Route exact path="/forum/course" component={CoursePage} />
+              <Route exact path="/home" component={HomePage} />
+              <Route exact path="/treeMenu" component={TreeMenu} />
+              <Route exact path="/profile" component={Profile} />
+            </div>
+
   	    	</div>
       	</div>
       </UserContext.Provider>

@@ -87,7 +87,12 @@ function segmentsToItems(segments, params) {
   for ( let i = 0 ; i < (isRoot ? segments.length-1 : segments.length) ; i ++ ) {
     let href = ""
     for ( let depth = 0 ; depth <= i ; depth ++ ) {
-      href = href + segments[depth] + "/"
+      if(depth === i && i !== 0){ //硬要
+        href = href + segments[depth]
+      }else{
+        href = href + segments[depth] + "/"
+      }
+
     }
     let item = ( i === segments.length-1 ) ? 
       <Breadcrumb.Item active>{routesObj.breadcrumbName}</Breadcrumb.Item> :
@@ -109,10 +114,8 @@ function CustomBreadcrumb(props) {
     const params = props.params
     const segments = path.split('/')
     let items ;
-    if ( segments.length === 1 )
-      items = <Breadcrumb.Item href="/">首頁</Breadcrumb.Item>
-    else
-      items = segmentsToItems( segments, params ) ;
+
+    items = segmentsToItems( segments, params ) ;
     
 
     return (

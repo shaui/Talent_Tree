@@ -33,7 +33,7 @@ class TreeData extends Component{
                     }
                     <span>
                         <Link to={{
-                            pathname:"/tree",
+                            pathname:"/treeMenu/tree",
                             state:{"path":data.link}
                         }} className="TreeMenu right">前往技能樹</Link>
                     </span>
@@ -71,7 +71,7 @@ class TreeMenu extends Component{
         
         
         return(
-            <div className="TreeMenu content" style={{'margin-top':'100px'}}>
+            <div className="TreeMenu content" style={{'marginTop':'10vh'}}>
                 <Container>
                     <Row>{treemenu}</Row>
                 </Container>
