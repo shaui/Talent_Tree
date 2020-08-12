@@ -27,6 +27,24 @@
 
 }
 
+.CoursePage.tag{
+  display:inline-block;
+    width:200px;
+    border-radius: 20px;
+    background-color:grey;
+    color:white;
+    font-family: 'Noto Sans TC', sans-serif;
+    text-align: center;
+    margin-right: 5px;
+    margin-bottom: 3px;
+    margin-top: 10px;
+}
+
+.CoursePage.user-name{
+  font-size:1.25rem;
+  font-weight: bold;
+}
+
 /*.card-avatar {
   width: 80px;
   height: 80px;

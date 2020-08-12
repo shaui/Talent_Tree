@@ -51,8 +51,9 @@ class SignInDialog extends Component{
 		let password = document.getElementsByName('pwd')[0].value
 
 		console.log("信箱:", email, "，密碼:", password)
-		firebase.auth().signInWithEmailAndPassword(email, password).then(function(){
+		firebase.auth().signInWithEmailAndPassword(email, password).then( ()=>{
 			this.props.handleClose()
+			window.location.replace("/hunt")
 		}).catch(function(error) {
 	        // Handle Errors here.
 	        var errorCode = error.code;
@@ -91,7 +92,7 @@ class SignInDialog extends Component{
 		let password = document.getElementsByName('pwd')[0].value
 
 		console.log("信箱:", email, "，密碼:", password)
-		firebase.auth().createUserWithEmailAndPassword(email, password).then(function(){
+		firebase.auth().createUserWithEmailAndPassword(email, password).then( ()=>{
 			this.props.handleClose()
 		}).catch(function(error) {
 	        // Handle Errors here.

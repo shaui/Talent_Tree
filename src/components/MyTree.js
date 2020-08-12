@@ -461,16 +461,43 @@ class MyTree extends Component{
 				}
 			})
 
+			let treeStatePath = path + "/" + path1
+			this.updateTreeStateProgress(treeStatePath, color) //更新treeState的completed
+
 			path = path + "/" + path1 + "/children/" + path2 + "/nodeSvgShape/shapeProps"
 			myRef = root.child(path)
 			myRef.update({"fill": color})
-				
 
     	}).then( (result) => {
     		return myRef
     	}).catch( (failureCallback) =>{
 			// console.log("failureCallback:",failureCallback)
     	});
+	}
+
+	updateTreeStateProgress(path, color){
+		let myRef = root.child(path)
+		myRef.once('value', (snapshot)=>{
+			let data = snapshot.val()
+			let progress = data['completed']
+			let childrenLength = data["children"].length
+			if(color === "yellow"){
+				//update progress
+				progress = progress + 1/childrenLength
+				if(0.95 <= progress && progress <= 1){
+					progress = 1
+				}
+			}else{
+				//update progress
+				progress = progress - 1/childrenLength
+				if(progress <= 0.05){
+	    			progress = 0
+	    		}
+			}
+			myRef.update({
+				"completed": progress
+			})		
+		})
 	}
 
 	updateProgress(){
@@ -497,17 +524,23 @@ class MyTree extends Component{
 				childrenData[completedNum] = skillStd
 				myRef.child("children").update(childrenData)
 
-				
 				//update progress
 				progress = progress + 1/childrenLength
 
 				//避免因除法導致小數點未進位
 				if(0.95 <= progress && progress <= 1){
-					progress = 1
+					progress = 1 
+					//刪除progress資料，更新學習歷程
+					this.updateHistory(skillName)
+					myRef.remove()
+
+				}else{
+					//更新progress
+					myRef.update({
+						"completed": progress
+					})
 				}
-				myRef.update({
-					"completed": progress
-				})
+				
 			}else{
 				let path = "Users/" + this.context.user.uid + "/progress"
 				let myRef = root.child(path)
@@ -526,6 +559,38 @@ class MyTree extends Component{
 
     	})
 
+	}
+
+	updateHistory(skillName){
+		let date = new Date();
+		let today = date.getFullYear() + "-" + (date.getMonth()+1) + "-" + date.getDate()
+		let path = "Users/" + this.context.user.uid + "/history/" + date.getFullYear()
+    	let myRef = root.child(path)		
+
+    	myRef.once('value', (snapshot) => {
+    		let data = snapshot.val()
+    		if(data){
+				let arrayLength = data.length
+				let historyObj = new Object()
+				historyObj[arrayLength] = {
+					"name": skillName,
+					"time": today
+				}
+				myRef.update(historyObj)
+    		}else{
+				let historyObj = new Object()
+
+				historyObj[date.getFullYear()] = {
+					0 : {
+						"name": skillName,
+						"time": today
+					}
+				}
+				let path = "Users/" + this.context.user.uid + "/history"
+    			let myRef = root.child(path)	
+    			myRef.update(historyObj)
+    		}
+    	})
 	}
 
 	handleConfirm = () =>{

@@ -35,7 +35,6 @@ const CustomNavbar = () => {
       <Navbar.Collapse id="basic-navbar-nav" >
         <Nav className="mr-auto">
           <Nav.Link href="/">首頁</Nav.Link>
-          <Nav.Link href="/tree">技能樹</Nav.Link>
           <Nav.Link href="/hunt">企業專區</Nav.Link>
           <NavDropdown title="論壇" id="basic-nav-dropdown">
             <NavDropdown.Item href="/forum">論壇總覽</NavDropdown.Item>

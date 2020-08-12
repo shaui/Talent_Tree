@@ -31,25 +31,7 @@
   "birthday" : "1999/09/01",
   "email" : "abc123456@gmail.com",
   "github" : "https://github.com/",
-  "history" : {
-    "2019" : [ {
-      "name" : "Python 1級",
-      "time" : "2019/1/1"
-    }, {
-      "name" : "Python 2級",
-      "time" : "2019/10/2"
-    } ],
-    "2020" : [ {
-      "name" : "JAVA 1級",
-      "time" : "2020/7/7"
-    }, {
-      "name" : "JAVA 2級",
-      "time" : "2020/7/9"
-    }, {
-      "name" : "網路封包分析 1級",
-      "time" : "2020/7/15"
-    } ]
-  },
+  "isPublic" : false,
   "name" : "陳志剛",
   "phone" : "0912345678",
   "treeState" : {
