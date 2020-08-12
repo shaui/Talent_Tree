@@ -29,8 +29,7 @@
 
 .CoursePage.tag{
   display:inline-block;
-/*    width:30%;*/
-    padding: 5px;
+    width:200px;
     border-radius: 20px;
     background-color:grey;
     color:white;
