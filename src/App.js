@@ -3,6 +3,7 @@ import { Route } from 'react-router-dom';
 
 //Component
 import CustomNavbar from './Utils/CustomNavbar';
+import CustomBreadcrumb from './Utils/CustomBreadcrumb.js'
 import SideBar from './Utils/SideBar.js'
 import MyTree from './components/MyTree.js' ;
 import PostsPage from './components/Forum.js' ;
@@ -83,23 +84,31 @@ class App extends Component {
   }
 
   render() {
-
     return (
       <UserContext.Provider value={{user: this.state.user}}>
       	<div className="">
       		<div className="main">
-  	    		<CustomNavbar/>
+  	    		<CustomNavbar />
             {
               this.state.user ?
                 <SideBar />
               : null 
             }
+            <div id="breadcrumb-div" style={{ 'position': 'fixed', 'top': '12vh', 'left': '8vh', 'zIndex':'98' }}>
+              <div className="container breadcrumb-container">
+                <div className="row">
+                  <div className="col">
+                    <CustomBreadcrumb path={this.props.location.pathname} params={this.props.location.state} />
+                  </div>
+                </div>
+              </div>
+            </div>
             <Route exact path="/" component={Home} />
-            <Route exact path="/tree" component={MyTree} />
+            <Route exact path="/treeMenu/tree" component={MyTree} />
             <Route exact path="/forum" component={PostsPage} />
             <Route exact path="/forum/post" component={PostingPage} />
             <Route exact path="/hunt" component={HuntingPage} />
-            <Route exact path="/course" component={CoursePage} />
+            <Route exact path="/forum/course" component={CoursePage} />
             <Route exact path="/home" component={HomePage} />
             <Route exact path="/treeMenu" component={TreeMenu} />
             <Route exact path="/profile" component={Profile} />

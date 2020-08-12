@@ -1,0 +1,14 @@
+.hunt.alert-enter {
+  opacity: 0;
+}
+.hunt.alert-enter-active {
+  opacity: 1;
+  transition: opacity 500ms;
+}
+.hunt.alert-exit {
+  opacity: 1;
+}
+.hunt.alert-exit-active {
+  opacity: 0;
+  transition: opacity 500ms;
+}

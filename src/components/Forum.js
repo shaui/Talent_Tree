@@ -3,6 +3,7 @@ import { Button, Table } from 'react-bootstrap';
 import { Link } from 'react-router-dom';
 import './Forum.css';
 import FirebaseMg from '../Utils/FirebaseMg.js';
+import { CSSTransition } from 'react-transition-group';
 
 import CustomPagination from '../Utils/CustomPagination';
 
@@ -13,11 +14,11 @@ function PostLink(props) {
 	console.log(props);
 	return (
 		<Link to={{
-		     pathname:'/course',
+		     pathname:'/forum/course',
 		     state: {
-		     	courseID: id,
-		     	courseName: name,
-		     	subskill: subskill
+		     	id: id,
+		     	name: name,
+		     	level: subskill 
 		     }
 		}}> 
 			{ name }
@@ -85,7 +86,8 @@ class PostsPage extends React.Component {
 		super(props);
 		this.state = {
 			data: [],
-			pathObj: new Object
+			pathObj: new Object(),
+			isLoading: true
 		} ;
 	}
 
@@ -98,7 +100,8 @@ class PostsPage extends React.Component {
 			let data = snapshot.val() ;
 			this.setState( {
 				data: data,
-				pathObj: pathObj
+				pathObj: pathObj,
+				isLoading: false
 			} ) ;
 		} )
 		.catch( (error) => {
@@ -107,8 +110,10 @@ class PostsPage extends React.Component {
 	}
 	
 	componentDidMount() {
+		const pathName = this.props.location.pathname
+		console.log( pathName.split("/") );
 		console.log("###",this.props.location.state) //可以觀看傳遞的參數
-		const sentPath = "JAVA 1級"
+		const sentPath = this.props.location.state
 		let pathObj = new Object()
 		if ( Array.isArray(sentPath) ) {
 			if ( sentPath.length === 4 ) {
@@ -193,22 +198,26 @@ class PostsPage extends React.Component {
 						</div>
 					</div>
 				</div>
-				<div className="container">
-					<div className="row">
-						<div className="col">
-							<PostsTable 
-							data={this.state.data} 
-							subskill={this.state.pathObj.subskill} />
+				<CSSTransition in={!this.state.isLoading} timeout={1200} classNames="content" unmountOnExit appear>
+					<div className="container forum">
+						<div className="row">
+							<div className="col">
+								<PostsTable 
+								data={this.state.data} 
+								subskill={this.state.pathObj.subskill} />
+							</div>
 						</div>
 					</div>
-				</div>
-				<div className="container">
-					<div className="row justify-content-end">
-						<div className="col-6 forum">
-							<CustomPagination posts={this.state.data} />
+					</CSSTransition>
+				<CSSTransition in={!this.state.isLoading} timeout={1200} classNames="content" unmountOnExit appear>
+					<div className="container forum">
+						<div className="row justify-content-end">
+							<div className="col-6 forum">
+								<CustomPagination posts={this.state.data} />
+							</div>
 						</div>
 					</div>
-				</div>
+				</CSSTransition>
 			</div>
 		);
 	}

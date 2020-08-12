@@ -4,6 +4,9 @@ import { withRouter } from "react-router-dom"
 import FirebaseMg from '../Utils/FirebaseMg.js'
 import './PostingPage.css';
 
+import CKEditor from '@ckeditor/ckeditor5-react';
+import ClassicEditor from '@ckeditor/ckeditor5-build-classic';
+
 function _uuid() {
   var d = Date.now();
   if ( typeof performance !== 'undefined' && typeof performance.now === 'function' ){
@@ -16,6 +19,8 @@ function _uuid() {
       return (c === 'x' ? r : (r & 0x3 | 0x8)).toString(16) ;
   });
 }
+
+let editor ;
 
 class PostingPage extends React.Component {
 	constructor(props) {
@@ -52,7 +57,8 @@ class PostingPage extends React.Component {
 				}
 			],
 			showStandards: false,
-			showHelp: false,
+			showStdHelp: false,
+			showTextAreaHelp: false,
 			defaultData: this.props.location.state,
 			courseNum: 1
 		} ;
@@ -117,6 +123,7 @@ class PostingPage extends React.Component {
 				] ;
 				for ( var i in data ) {
 					subjects.push( data[i] )
+					console.log(data[i]);
 				}
 				
 				this.setState( { 
@@ -137,22 +144,35 @@ class PostingPage extends React.Component {
 		let data = this.state.data
 		let fields ;
 
-		if ( !(this.state.fields[0].name === "--請選擇科系--") ) {
-			fields = data[e.target.value]["children"]
-		}
-		else {
-			fields = [
-				{
-					children: [],
-					name: ""
-				}
-			]
+		fields = [
+			{
+				children: [],
+				name: ""
+			}
+		]
 
-			fields = fields.concat( data[e.target.value]["children"] )
-		}
+		fields = fields.concat( data[e.target.value]["children"] )
 		
 		this.setState( {
-			fields: fields
+			fields: fields,
+			skills: [
+				{
+					children: [],
+					name: "--請選擇領域--"
+				}
+			],
+			subskills: [
+				{
+					children: [],
+					name: "--請選擇技能--"
+				}
+			],
+			standards: [
+				{
+					name: ""
+				}
+			],
+			showStandards: false
 		} )
 
 		const subjects = this.state.subjects
@@ -174,24 +194,29 @@ class PostingPage extends React.Component {
 		} )
 		const skills = field.children
 
-		if ( !(this.state.skills[0].name === "--請選擇領域--") ) {
-			this.setState( {
-				skills: skills
-			} )
-		}
-		else {
-			initialSkills = [
+		initialSkills = [
+			{
+				children: [],
+				name: ""
+			}
+		]
+
+		initialSkills = initialSkills.concat( skills )
+		this.setState( {
+			skills: initialSkills,
+			subskills: [
 				{
 					children: [],
+					name: "--請選擇技能--"
+				}
+			],
+			standards: [
+				{
 					name: ""
 				}
-			]
-
-			initialSkills = initialSkills.concat( skills )
-			this.setState( {
-				skills: initialSkills
-			} )
-		}
+			],
+			showStandards: false
+		} )
 		
 		if ( fields[0].name === "" ) {
 			let newFields = fields.filter( (field) =>
@@ -212,24 +237,23 @@ class PostingPage extends React.Component {
 		} )
 		let subskills = skill.children
 
-		if ( !(this.state.subskills[0].name === "--請選擇技能--") ) {
-			this.setState( {
-				subskills: subskills
-			} )
-		}
-		else {
-			initialSubskills = [
+		initialSubskills = [
+			{
+				children: [],
+				name: ""
+			}
+		]
+
+		initialSubskills = initialSubskills.concat( subskills )
+		this.setState( {
+			subskills: initialSubskills,
+			standards: [
 				{
-					children: [],
 					name: ""
 				}
-			]
-
-			initialSubskills = initialSubskills.concat( subskills )
-			this.setState( {
-				subskills: initialSubskills
-			} )
-		}
+			],
+			showStandards: false
+		} )
 
 		if ( skills[0].name === "" ) {
 			let newSkills = skills.filter( (skill) =>
@@ -268,50 +292,68 @@ class PostingPage extends React.Component {
 		const elems = e.target.elements
 		const standards = Array.from(elems.standard)
 		if ( standards.some( (standardInput) => standardInput.checked ) ) {
-			const standardsChecked = standards.filter( (standardInput) => 
-				standardInput.checked
-			)
-			const standardVals = standardsChecked.map( (standardInput) => 
-				standardInput.value
-			)
-			const courseUrls = Array.from(elems.courseURL).map( (urlInput) => 
-				urlInput.value
-			)
-			const fbMg = new FirebaseMg() ;
-			var root = fbMg.myRef ;
-			var path = 'Posts/'+ elems.subskill.value +"/"+ _uuid() ;
-			var myRef = root.child(path) ;
-			myRef.set( {
-				user: "Louis",
-				name: elems.postTitle.value,
-				type: elems.courseType.value,
-				course: {
-					intro: elems.courseIntro.value,
-					links: courseUrls
-				},
-				standards: standardVals,
-				like: 0,
-				dislike: 0,
-				view: 0,
-				timePosted: new Date().toLocaleString()
-			} ).then( () => {
-				// redirect
-				this.props.history.push("/forum")
-			} )
-			.catch( (error) => {
-				console.log(error) ;
-			} ) ;
+			if ( editor.getData() ) {
+				const standardsChecked = standards.filter( (standardInput) => 
+					standardInput.checked
+				)
+				const standardVals = standardsChecked.map( (standardInput) => 
+					standardInput.value
+				)
+				const courseUrls = Array.from(elems.courseURL).map( (urlInput) => 
+					urlInput.value
+				)
+				const fbMg = new FirebaseMg() ;
+				var root = fbMg.myRef ;
+				var path = 'Posts/'+ elems.subskill.value +"/"+ _uuid() ;
+				var myRef = root.child(path) ;
+				myRef.set( {
+					user: "Louis",
+					name: elems.postTitle.value,
+					type: elems.courseType.value,
+					course: {
+						intro: editor.getData(),
+						links: courseUrls,
+						standards: standardVals,
+					},
+					like: 0,
+					dislike: 0,
+					view: 0,
+					timePosted: new Date().toLocaleString()
+				} ).then( () => {
+					alert("發布完成！")
+					// redirect
+					this.props.history.push("/forum")
+				} )
+				.catch( (error) => {
+					console.log(error) ;
+				} ) ;
+			}
+			else {
+				this.setState( {
+					showTextAreaHelp: true
+				} )
+			}
 		}
 		else {
-			this.setState( {
-				showHelp: true
-			} )
+			if ( editor.getData() ) {
+				this.setState( {
+					showStdHelp: true,
+					showTextAreaHelp: false
+				} )
+			}
+			else {
+				this.setState( {
+					showStdHelp: true,
+					showTextAreaHelp: true
+				} )
+			}
+			
 		}
 	}
 	chooseStandard(e) {
 		if ( e.target.checked ) {
 			this.setState( {
-				showHelp: false
+				showStdHelp: false
 			} )
 		}
 	}
@@ -415,7 +457,7 @@ class PostingPage extends React.Component {
 				        }
 			        </div>
 			        {
-			        	this.state.showHelp ? 
+			        	this.state.showStdHelp ? 
 			        	<Form.Text id="checkboxHelp" className="post help" >
 						  請您為這堂課程選擇至少一個學習標準。
 						</Form.Text> : ""
@@ -513,7 +555,7 @@ class PostingPage extends React.Component {
 				        }
 			        </div>
 			        {
-			        	this.state.showHelp ? 
+			        	this.state.showStdHelp ? 
 			        	<Form.Text id="checkboxHelp" className="post help" >
 						  請您為這堂課程選擇至少一個學習標準。
 						</Form.Text> : ""
@@ -572,14 +614,14 @@ class PostingPage extends React.Component {
 					  	  <Form.Group controlId="courseURL">
 					        <Form.Label>課程網址</Form.Label>
 					        <button className="post icon-btn" type="button" onClick={this.clickUrlIncrease}>
-					        	<i class="fa fa-plus-square" aria-hidden="true"></i>
+					        	<i className="fa fa-plus-square" aria-hidden="true"></i>
 					        </button>
 					        <button className="post icon-btn" type="button" onClick={this.clickUrlDecrease}>
-					        	<i class="fa fa-minus-square" aria-hidden="true"></i>
+					        	<i className="fa fa-minus-square" aria-hidden="true"></i>
 					        </button>
 					        <Form.Group as={Row} controlId="courseURL">
 							  <Form.Label column sm="3" lg="2" className="post beforeInput">
-							    <text>Course 1</text>
+							    Course 1
 							  </Form.Label>
 							  <Col sm="9" lg="10">
 							    <Form.Control
@@ -604,11 +646,33 @@ class PostingPage extends React.Component {
 
 					  <Form.Row>
 					    <Col md={{ span: 10, offset: 1 }}>
-					      <Form.Group controlId="courseIntro">
-					        <Form.Label>課程簡介</Form.Label>
-					        <Form.Control
-					          name="courseIntro" as="textarea" rows="6" placeholder="請輸入簡介，限200字內。" required />
-					      </Form.Group>
+					      <div className="post editor">
+					      	<Form.Label>課程簡介</Form.Label>
+					    	<CKEditor
+		                    editor={ ClassicEditor }
+		                    data="<p>請輸入簡介內容。</p>"
+		                    config={ {
+						        toolbar: ["heading", "|", "selectall", "bold", "italic", "blockQuote", "link", "undo", "redo", "|", "numberedList", "bulletedList", "insertTable", "tableColumn", "tableRow", "mergeTableCells"],
+						        language: "zh-tw",
+						        heading: {
+						            options: [
+						                { model: 'paragraph', title: '段落', class: 'ck-heading_paragraph' },
+						                { model: 'heading1', view: 'h1', title: 'Heading 1', class: 'ck-heading_heading1' },
+						                { model: 'heading2', view: 'h2', title: 'Heading 2', class: 'ck-heading_heading2' },
+						                { model: 'heading3', view: 'h3', title: 'Heading 3', class: 'ck-heading_heading3' },
+						                { model: 'heading4', view: 'h4', title: 'Heading 4', class: 'ck-heading_heading4' }
+						            ]
+        						}
+						    } }
+		                    onInit={ (newEditor) => editor = newEditor }
+		                    />
+					      </div>
+					      {
+				            this.state.showTextAreaHelp ? 
+				        	<Form.Text id="textAreaHelp" className="post help" >
+							  請您為這堂課輸入一些簡介。
+							</Form.Text> : ""
+				          }
 					    </Col>
 					  </Form.Row>
 
