@@ -514,7 +514,8 @@ class HuntingForm extends React.Component {
 	handleSubmit(e) {
 		e.preventDefault() ;
 		const elems = e.target.elements
-		if ( this.state.showProfile && !e.target.elements.profile ) {
+		console.log(e.target);
+		if ( this.state.showProfile && !e.target.elements.profileButtons ) {
 			this.setState( {
 					showNoProfileSelectedWarn: true
 			} )
@@ -868,7 +869,7 @@ class HuntingForm extends React.Component {
 		    		type={'radio'} 
 		    		onChange={ this.chooseProfile }
 		    		value={ profile.name }
-		    		name="profile" />
+		    		name="profileButtons" />
 				</div>
 				<div className="col-1">
 					<DelConfirmModal 
@@ -883,132 +884,132 @@ class HuntingForm extends React.Component {
 				<div className="container">
 					<CSSTransition in={!this.state.isLoading} timeout={1200} classNames="content" unmountOnExit appear>
 						<Card className="hunt">
-						  <Card.Header className="hunt">
-						  	  人才徵選
-						  	<button style={{float: "right"}} onClick={this.toggleProfile} className="post-btn right" type="button" data-toggle="collapse" data-target="#collapseCustomCard" aria-expanded="false" aria-controls="collapseCustomCard">
-						      {
-						      	this.state.showProfile ? "取消自定義搜尋" : "自定義搜尋"
-						      }
-						    </button>
-						  </Card.Header>
-						  {
-						    this.state.showProfile ?
-						    <div id="collapseCustomCard">
-							  <div className="card card-body hunt">
-							    <Form>
-							    	<Form.Group controlId="profile" style={{ marginBottom: "0px" }}>
-							        { profileSection }
-							      </Form.Group>
-							    </Form>
-							  </div>
-						    </div>
-						    : ""
-						  }
-					      <TransitionAlert 
-					      className="hunt"
-					      show={this.state.showNoProfileWarn}
-					      title="提示"
-					      content="目前沒有自定義組合，請先自行查詢一次再新增組合！"/>
-					      <TransitionAlert 
-					      className="hunt"
-					      show={this.state.showSubmitWarn}
-					      title="提示"
-					      content="請選擇到有至少一個子技能後再提送表單！"/>
-					      <TransitionAlert 
-					      className="hunt"
-					      show={this.state.showNoProfileSelectedWarn}
-					      title="提示"
-					      content="如要使用自定義搜尋，請先選擇一個組合！"/>
-						  
-						  
-						  <Card.Body>
-						    <Card.Title>條件選擇</Card.Title>
-						    <Form onSubmit={this.handleSubmit} >
-							  <Form.Row>
-							  	
-							  	<Col md={{ span: 2, offset: 1 }} sm={6} xs={12}>
-							  	  <Form.Group controlId="subject">
-							        <Form.Label>選擇科系</Form.Label>
-							        <div>
-							        	{
-								    //     	this.state.subjects.map( (subject) => 
-												// <Form.Check 
-									   //  		inline 
-									   //  		label={ this.state.subjects.name } 
-									   //  		type={'radio'} 
-									   //  		onClick={this.chooseSubject}
-									   //  		value={ this.state.subjects.name } />
-								    //       	)
-								    		this.state.chosenSubject === this.state.subjects.name ?
-								    		<Form.Check 
-								    		inline 
-								    		label={ this.state.subjects.name } 
-								    		type={'radio'} 
-								    		onChange={ this.chooseSubject }
-								    		value={ this.state.subjects.name }
-								    		name="subject"
-								    		checked /> :
-								    		<Form.Check 
-								    		inline 
-								    		label={ this.state.subjects.name } 
-								    		type={'radio'} 
-								    		onChange={ this.chooseSubject }
-								    		value={ this.state.subjects.name }
-								    		name="subject" />
-								        }
-							        </div>
-							      </Form.Group>
-							  	</Col>
-							  	
-							  </Form.Row>
+							<Form onSubmit={this.handleSubmit} >
+							  <Card.Header className="hunt">
+							  	  人才徵選
+							  	<button style={{float: "right"}} onClick={this.toggleProfile} className="post-btn right" type="button" data-toggle="collapse" data-target="#collapseCustomCard" aria-expanded="false" aria-controls="collapseCustomCard">
+							      {
+							      	this.state.showProfile ? "取消自定義搜尋" : "自定義搜尋"
+							      }
+							    </button>
+							  </Card.Header>
 
-							  <Form.Row>
-							  	<Col md={{ span: 10, offset: 1 }} sm={12} xs={12} className={this.state.showFields ? '' : 'hidden hunt'}>
-							  	  <Form.Group controlId="field">
-							        <Form.Label>選擇領域</Form.Label>
-							        <div>
-							        	{ fieldButtons }
-							        </div>
-							      </Form.Group>
-							  	</Col>
-							  </Form.Row>
-
-							  <Form.Row>
-							  	<Col md={{ span: 10, offset: 1 }} sm={12} xs={12} className={this.state.showSkills ? '' : 'hidden hunt'}>
-							  	  <Form.Group controlId="skill">
-							        <Form.Label>選擇技能</Form.Label>
-							        <Row className="hunt">
-							        	{ skillBoxes }
-							        </Row>
-							      </Form.Group>
-							  	</Col>
-							  </Form.Row>
-
-							  <Form.Row>
-							  	<Col md={{ span: 10, offset: 1 }} sm={12} xs={12} className={this.state.showSubskills ? '' : 'hidden hunt'}>
-							  	  <Form.Group controlId="subskill">
-							        <Form.Label>選擇子技能</Form.Label>
-							        <Row className="hunt">
-							        	{ subskillBoxes }
-							        </Row>
-							      </Form.Group>
-							  	</Col>
-							  </Form.Row>
-
-							  <div className="container">
-							  	<div className="row justify-content-end">
-							  	  <div className="col-md-4 button-col hunt">
-							  		<button type="submit" className="post-btn">
-							        	送出表單
-							  	  	</button>
-							  	  </div>
-							  	  <div className="col-md-1">
-							  	  </div>
+							  {
+							    this.state.showProfile ?
+							    <div id="collapseCustomCard">
+								  <div className="card card-body hunt">
+								    <Form.Group controlId="profile" style={{ marginBottom: "0px" }}>
+								      { profileSection }
+								    </Form.Group>
+								  </div>
 							    </div>
-							  </div>
+							    : ""
+							  }
+						      <TransitionAlert 
+						      className="hunt"
+						      show={this.state.showNoProfileWarn}
+						      title="提示"
+						      content="目前沒有自定義組合，請先自行查詢一次再新增組合！"/>
+						      <TransitionAlert 
+						      className="hunt"
+						      show={this.state.showSubmitWarn}
+						      title="提示"
+						      content="請選擇到有至少一個子技能後再提送表單！"/>
+						      <TransitionAlert 
+						      className="hunt"
+						      show={this.state.showNoProfileSelectedWarn}
+						      title="提示"
+						      content="如要使用自定義搜尋，請先選擇一個組合！"/>
 							  
+							  
+							  <Card.Body>
+							    <Card.Title>條件選擇</Card.Title>
+								  <Form.Row>
+								  	
+								  	<Col md={{ span: 2, offset: 1 }} sm={6} xs={12}>
+								  	  <Form.Group controlId="subject">
+								        <Form.Label>選擇科系</Form.Label>
+								        <div>
+								        	{
+									    //     	this.state.subjects.map( (subject) => 
+													// <Form.Check 
+										   //  		inline 
+										   //  		label={ this.state.subjects.name } 
+										   //  		type={'radio'} 
+										   //  		onClick={this.chooseSubject}
+										   //  		value={ this.state.subjects.name } />
+									    //       	)
+									    		this.state.chosenSubject === this.state.subjects.name ?
+									    		<Form.Check 
+									    		inline 
+									    		label={ this.state.subjects.name } 
+									    		type={'radio'} 
+									    		onChange={ this.chooseSubject }
+									    		value={ this.state.subjects.name }
+									    		name="subject"
+									    		checked /> :
+									    		<Form.Check 
+									    		inline 
+									    		label={ this.state.subjects.name } 
+									    		type={'radio'} 
+									    		onChange={ this.chooseSubject }
+									    		value={ this.state.subjects.name }
+									    		name="subject" />
+									        }
+								        </div>
+								      </Form.Group>
+								  	</Col>
+								  	
+								  </Form.Row>
+
+								  <Form.Row>
+								  	<Col md={{ span: 10, offset: 1 }} sm={12} xs={12} className={this.state.showFields ? '' : 'hidden hunt'}>
+								  	  <Form.Group controlId="field">
+								        <Form.Label>選擇領域</Form.Label>
+								        <div>
+								        	{ fieldButtons }
+								        </div>
+								      </Form.Group>
+								  	</Col>
+								  </Form.Row>
+
+								  <Form.Row>
+								  	<Col md={{ span: 10, offset: 1 }} sm={12} xs={12} className={this.state.showSkills ? '' : 'hidden hunt'}>
+								  	  <Form.Group controlId="skill">
+								        <Form.Label>選擇技能</Form.Label>
+								        <Row className="hunt">
+								        	{ skillBoxes }
+								        </Row>
+								      </Form.Group>
+								  	</Col>
+								  </Form.Row>
+
+								  <Form.Row>
+								  	<Col md={{ span: 10, offset: 1 }} sm={12} xs={12} className={this.state.showSubskills ? '' : 'hidden hunt'}>
+								  	  <Form.Group controlId="subskill">
+								        <Form.Label>選擇子技能</Form.Label>
+								        <Row className="hunt">
+								        	{ subskillBoxes }
+								        </Row>
+								      </Form.Group>
+								  	</Col>
+								  </Form.Row>
+
+								  <div className="container">
+								  	<div className="row justify-content-end">
+								  	  <div className="col-md-4 button-col hunt">
+								  		<button type="submit" className="post-btn">
+								        	送出表單
+								  	  	</button>
+								  	  </div>
+								  	  <div className="col-md-1">
+								  	  </div>
+								    </div>
+								  </div>
+								  
+								
+							  </Card.Body>
 							</Form>
-						  </Card.Body>
 						</Card>
 					</CSSTransition>
 					{
