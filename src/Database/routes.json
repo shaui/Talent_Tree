@@ -1,0 +1,51 @@
+{
+	"segment": "",
+	"breadcrumbName": "首頁",
+	"hasParams": false,
+	"routes": [
+		{
+			"segment": "home",
+			"breadcrumbName": "近期活動",
+			"hasParams": false
+		},
+		{
+			"segment": "forum",
+			"breadcrumbName": "論壇",
+			"hasParams": true,
+			"routes": [
+				{
+					"segment": "post",
+					"breadcrumbName": "文章發布",
+					"hasParams": false
+				},
+				{
+					"segment": "course",
+					"breadcrumbName": "課程頁面",
+					"hasParams": true
+				}
+			]
+		},
+		{
+			"segment": "profile",
+			"breadcrumbName": "個人頁面",
+			"hasParams": false
+		},
+		{
+			"segment": "treeMenu",
+			"breadcrumbName": "技能樹總覽",
+			"hasParams": false,
+			"routes": [
+				{
+					"segment": "tree",
+					"breadcrumbName": "技能樹",
+					"hasParams": false
+				}
+			]
+		},
+		{
+			"segment": "hunt",
+			"breadcrumbName": "企業頁面",
+			"hasParams": false
+		}
+	]
+}

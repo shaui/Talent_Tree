@@ -24,22 +24,45 @@ hr.hunt {
     justify-content: space-between;
 }
 
-.hunt.card-header text,
 .hunt.card-header button {
 	vertical-align: middle;
 }
 
-.hunt.alert-enter {
+.hunt.content-enter {
   opacity: 0;
+  top: 120px;
 }
-.hunt.alert-enter-active {
+.hunt.content-enter-active {
   opacity: 1;
-  transition: opacity 200ms;
+  transform: translateY(-120px);
+  transition: all 1000ms;
 }
-.hunt.alert-exit {
+.hunt.content-exit {
   opacity: 1;
 }
-.hunt.alert-exit-active {
+.hunt.content-exit-active {
   opacity: 0;
-  transition: opacity 200ms;
+  transition: all 1000ms;
+}
+
+.hunt.icon-btn {
+	background-color: transparent; /* Blue background */
+    border: none; /* Remove borders */
+    font-size: 16px; /* Set a font size */
+    cursor: pointer; /* Mouse pointer on hover */
+}
+
+.hunt.card.card-body {
+	padding-top: 12px;
+	padding-bottom: 12px;
+}
+
+.hunt.row.profile-row {
+	margin-top: 2px;
+	margin-bottom: 2px;
+}
+
+.hunt .form-control-plaintext {
+	display: inline-block;
+	width: auto;
 }

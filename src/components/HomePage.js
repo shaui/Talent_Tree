@@ -106,7 +106,7 @@ class HomePage extends Component{
 	render(){
 
 		return(
-			<div className='container' style={{'paddingTop':'10vh'}}>
+			<div className='container' style={{'marginTop':'10vh'}}>
 				<div className='HomaPage row row-style'>
 					<div className='col' style={{'backgroundColor':'white'}}>
 						<div className="container card-container">

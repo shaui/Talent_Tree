@@ -3,17 +3,23 @@ import { Button, Table } from 'react-bootstrap';
 import { Link } from 'react-router-dom';
 import './Forum.css';
 import FirebaseMg from '../Utils/FirebaseMg.js';
+import { CSSTransition } from 'react-transition-group';
 
 import CustomPagination from '../Utils/CustomPagination';
 
 function PostLink(props) {
 	const name = props.name
 	const id = props.id
-	console.log(id);
+	const subskill = props.subskill
+	console.log(props);
 	return (
 		<Link to={{
-		     pathname:'/course',
-		     state: {courseID: id}
+		     pathname:'/forum/course',
+		     state: {
+		     	id: id,
+		     	name: name,
+		     	level: subskill 
+		     }
 		}}> 
 			{ name }
 		</Link>
@@ -28,7 +34,10 @@ function PostsTable(props) {
 			<tr>
 	          <th scope="row">{posts[i].type}</th>
 	          <td>
-	          	<PostLink name={posts[i].name} id={i} />
+	          	<PostLink 
+	          	name={posts[i].name} 
+	          	id={i}
+	          	subskill={props.subskill} />
 	          </td>
 	          <td>{posts[i].user}</td>
 	          <td>{posts[i].course.comments ? posts[i].course.comments.length : 0}/{posts[i].view}</td>
@@ -75,27 +84,93 @@ function PostsTable(props) {
 class PostsPage extends React.Component {
 	constructor(props) {
 		super(props);
-		this.state = {data: []} ;
+		this.state = {
+			data: null,
+			pathObj: new Object(),
+			isLoading: true
+		} ;
 	}
-	
-	componentDidMount() {
-		console.log("###",this.props.location.state) //可以觀看傳遞的參數
+
+	getPosts(pathObj) {
 		const fbMg = new FirebaseMg() ;
 		var root = fbMg.myRef ;
-		var path = 'Posts/JAVA 1級' ;
+		var path = 'Posts/' + pathObj.subskill ;
 		var myRef = root.child(path) ;
+		console.log("Path Obj:", pathObj)
 		myRef.once('value').then( (snapshot) => {
 			let data = snapshot.val() ;
 			this.setState( {
-				data
+				data: data,
+				pathObj: pathObj,
+				isLoading: false
 			} ) ;
 		} )
 		.catch( (error) => {
 			console.log(error) ;
 		} ) ;
 	}
+	
+	componentDidMount() {
+		const pathName = this.props.location.pathname
+		console.log( pathName.split("/") );
+		console.log("###",this.props.location.state, this.props.location.state["path"]) //可以觀看傳遞的參數
+		const sentPath = this.props.location.state["path"]
+		let pathObj = new Object()
+		if ( Array.isArray(sentPath) ) {
+			if ( sentPath.length === 4 ) {
+				pathObj.subject = sentPath[3]
+				pathObj.field = sentPath[2]
+				pathObj.skill = sentPath[1]
+				pathObj.subskill = sentPath[0]
+			}
+			else {
+				pathObj.subject = sentPath[4]
+				pathObj.field = sentPath[3]
+				pathObj.skill = sentPath[2]
+				pathObj.subskill = sentPath[1]
+				pathObj.standard = sentPath[0]
+			}
+			this.getPosts(pathObj)
+		} 
+		else {
+			if ( typeof sentPath === "string" )	{
+				pathObj.subskill = sentPath
+				const fbMg = new FirebaseMg() ;
+				var root = fbMg.myRef.child('Trees') ;
+				var path = 'Trees' ;
+				var myRef = root.child(path) ;
+				myRef.once('value').then( (snapshot) => {
+					let treeData = snapshot.val() ;
+					var traverse = require('traverse') ;
+					
+					traverse(treeData).forEach(function (x) {
+					    if (x === sentPath) {
+					    	pathObj.skill = this.parent.parent.parent.node.name
+					    	pathObj.field = this.parent.parent.parent.parent.parent.node.name
+					    	pathObj.subject = this.parent.parent.parent.parent.parent.parent.parent.node.name
+					    }
+					});
+
+					this.getPosts(pathObj)
+					
+				} )
+				.catch( (error) => {
+					console.log(error) ;
+				} ) ;
+			}
+			else {
+				pathObj.subject = "資管系"
+				pathObj.field = "系統規劃"
+				pathObj.skill = "JAVA"
+				pathObj.subskill = "JAVA 1級"
+				this.getPosts(pathObj)
+			}
+		}
+		
+	}
 
 	render() {
+		console.log("CustomPagination:", this.state.data)
 		return (
 			<div className="content" style={{ 'marginTop': '10vh' }}>
 				<div className="container banner-container">
@@ -120,25 +195,41 @@ class PostsPage extends React.Component {
 								</button>
 							</Link>
 						</div>
-						<div className="col-6">
-							<CustomPagination posts={this.state.data} />
+						<div className="col-6 forum">
+							{   
+								this.state.data ?
+									<CustomPagination posts={this.state.data} />
+								:
+									""
+							}
 						</div>
 					</div>
 				</div>
-				<div className="container">
-					<div className="row">
-						<div className="col">
-							<PostsTable data={this.state.data} />
+				<CSSTransition in={!this.state.isLoading} timeout={1200} classNames="content" unmountOnExit appear>
+					<div className="container forum">
+						<div className="row">
+							<div className="col">
+								<PostsTable 
+								data={this.state.data} 
+								subskill={this.state.pathObj.subskill} />
+							</div>
 						</div>
 					</div>
-				</div>
-				<div className="container">
-					<div className="row">
-						<div className="col-6 align-self-end">
-							<CustomPagination posts={this.state.data} />
+					</CSSTransition>
+				<CSSTransition in={!this.state.isLoading} timeout={1200} classNames="content" unmountOnExit appear>
+					<div className="container forum">
+						<div className="row justify-content-end">
+							<div className="col-6 forum">
+							{   
+								this.state.data ?
+									<CustomPagination posts={this.state.data} />
+								:
+									""
+							}
+							</div>
 						</div>
 					</div>
-				</div>
+				</CSSTransition>
 			</div>
 		);
 	}

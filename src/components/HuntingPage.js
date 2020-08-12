@@ -1,10 +1,65 @@
-import React from 'react';
-import { Card, Form, Button, Row, Col, Alert } from 'react-bootstrap';
+import React, { useState } from 'react';
+import { Card, Form, Button, Row, Col, Alert, Modal } from 'react-bootstrap';
 import FirebaseMg from '../Utils/FirebaseMg.js';
 import './HuntingPage.css';
 import { CSSTransition } from 'react-transition-group';
 
 import HuntResult from './HuntResult.js' ;
+import TransitionAlert from '../Utils/TransitionAlert.js' ;
+
+function DelConfirmModal(props) {
+
+  const [show, setShow] = useState(false);
+
+  const handleShow = () => setShow(true);
+  const handleClose = () => setShow(false);
+
+  const handleSubmit = function() {
+	setShow(false);
+	const profileObj = props.profileObj
+  	const profile = props.profile
+  	let profileKey ;
+  	for ( var i in profileObj ) {
+		if ( profileObj[i].name === profile ) 
+				profileKey = i
+  	}
+  	const fbMg = new FirebaseMg() ;
+	var root = fbMg.myRef ;
+	var path = 'Company/companyID/profiles/' + profileKey ;
+	var myRef = root.child(path) ;
+	myRef.remove().then( () => {
+		alert("刪除完成！")
+		window.location.reload()
+	} )
+  }
+
+  return (
+  	<div style={{textAlign: "right"}}>
+
+  		<button type="button" className="hunt icon-btn" onClick={handleShow}>
+  		  <i className="fa fa-times" aria-hidden="true"></i>
+  		</button>
+
+	    <Modal show={show} onHide={handleClose} size="lg" centered>
+      	  <Modal.Header closeButton>
+            <Modal.Title>刪除組合</Modal.Title>
+          </Modal.Header>
+          <Modal.Body>
+            <div className="hunt">
+          	  確定要刪除自定義組合「{ props.profile }」嗎？
+            </div>
+          </Modal.Body>
+          <Modal.Footer>
+      	    <Button type="button" variant="secondary" onClick={handleClose}>
+              取消
+            </Button>
+            <Button type="button" variant="primary" onClick={handleSubmit}>確定</Button>
+          </Modal.Footer>
+	    </Modal>
+	    
+  	</div>
+  );
+}
 
 class HuntingForm extends React.Component {
 	constructor(props) {
@@ -31,15 +86,18 @@ class HuntingForm extends React.Component {
 					name: "",
 				}
 			],
-			profiles: [],
+			profiles: new Object(),
 			showFields: false,
 			showSkills: false,
 			showSubskills: false,
 			showResult: false,
 			showProfile: false,
-			showWarn: false,
+			showSubmitWarn: false,
+			showNoProfileWarn: false,
+			showNoProfileSelectedWarn: false,
 			option: [],
 			sentData: [],
+			isLoading: true
 		} ;
 		this.chooseSubject = this.chooseSubject.bind(this) ;
 		this.chooseField = this.chooseField.bind(this) ;
@@ -93,7 +151,8 @@ class HuntingForm extends React.Component {
 
 			this.setState( { 
 				data: data,
-				subjects: data["資管系"]
+				subjects: data["資管系"],
+				isLoading: false
 			} )
 
 		} )
@@ -455,73 +514,87 @@ class HuntingForm extends React.Component {
 	handleSubmit(e) {
 		e.preventDefault() ;
 		const elems = e.target.elements
-		
-		if ( this.state.subskillObjs[0].name === "" ) {
+		if ( this.state.showProfile && !e.target.elements.profile ) {
 			this.setState( {
-				showWarn: true
+					showNoProfileSelectedWarn: true
 			} )
-			if ( this.timer ) {
-				clearTimeout(this.timer)
+			if ( this.noSelectTimer ) {
+				clearTimeout(this.submitTimer)
 			}
-			this.timer = setTimeout( () => {
+			this.noSelectTimer = setTimeout( () => {
 				this.setState( {
-					showWarn: false
+					showNoProfileSelectedWarn: false
 				} )
 			}, 3000 )
-		} else {
-			// deep clone深度不為一的物件
-			let data = JSON.parse(JSON.stringify(this.state.data))
-			const chosenFields = this.state.fieldObjs
-			const chosenSkills = this.state.skillObjs
-			const chosenSubskills = this.state.subskillObjs
-			data = data["資管系"]
-			// data = data.find( (subject) => 
-			// 	subject.name === elems.subject.value
-			// )
-			data.children = data.children.filter( (field) => {
-				let checked = chosenFields.map( (fieldObj) => 
-					field.name === fieldObj.name
-				)
-				return checked.some( bool => Boolean(bool) )
-			} )
-			for ( var i in data.children ) {
-				data.children[i].children = data.children[i].children.filter( (skill) => {
-					let checked = chosenSkills.map( (skillObj) => 
-					skill.name === skillObj.name
-				)
-				return checked.some( bool => Boolean(bool) )
+		}
+		else {
+			if ( this.state.subskillObjs[0].name === "" ) {
+				this.setState( {
+					showSubmitWarn: true
 				} )
-			}
-			for ( var x in data.children ) {
-				for ( var y in data.children[x].children ) {
-					data.children[i].children[y].children = data.children[i].children[y].children.filter( (subskill) => {
-						let checked = chosenSubskills.map( (subskillObj) => 
-						subskill.name === subskillObj.name
+				if ( this.submitTimer ) {
+					clearTimeout(this.submitTimer)
+				}
+				this.submitTimer = setTimeout( () => {
+					this.setState( {
+						showSubmitWarn: false
+					} )
+				}, 3000 )
+			} else {
+				// deep clone深度不為一的物件
+				let data = JSON.parse(JSON.stringify(this.state.data))
+				const chosenFields = this.state.fieldObjs
+				const chosenSkills = this.state.skillObjs
+				const chosenSubskills = this.state.subskillObjs
+				data = data["資管系"]
+				// data = data.find( (subject) => 
+				// 	subject.name === elems.subject.value
+				// )
+
+				// 將被選取的subject到subskill製作成tree的格式
+				data.children = data.children.filter( (field) => {
+					let checked = chosenFields.map( (fieldObj) => 
+						field.name === fieldObj.name
+					)
+					return checked.some( bool => Boolean(bool) )
+				} )
+				for ( var i in data.children ) {
+					data.children[i].children = data.children[i].children.filter( (skill) => {
+						let checked = chosenSkills.map( (skillObj) => 
+						skill.name === skillObj.name
 					)
 					return checked.some( bool => Boolean(bool) )
 					} )
 				}
-			}
-			
-			// console.log( "subject:", elems.subject );
-			// console.log( "field:", elems.field );
-			// console.log( "skill:", elems.skill );
-			// console.log( "subskill:", elems.subskill );
-			const subskillInputs = Array.from(elems.subskill).filter( (input) => {
-					return input.checked 
+				for ( var x in data.children ) {
+					for ( var y in data.children[x].children ) {
+						data.children[x].children[y].children = data.children[x].children[y].children.filter( (subskill) => {
+							let checked = chosenSubskills.map( (subskillObj) => 
+							subskill.name === subskillObj.name
+						)
+						return checked.some( bool => Boolean(bool) )
+						} )
+					}
 				}
-			)
-			const subskills = subskillInputs.map( (input) =>
-				input.value
-			)
-			this.setState( {
-				option: subskills,
-				sentData: data,
-				showResult: true
-			} )
+				
+				// console.log( "subject:", elems.subject );
+				// console.log( "field:", elems.field );
+				// console.log( "skill:", elems.skill );
+				// console.log( "subskill:", elems.subskill );
+				const subskillInputs = Array.from(elems.subskill).filter( (input) => {
+						return input.checked 
+					}
+				)
+				const subskills = subskillInputs.map( (input) =>
+					input.value
+				)
+				this.setState( {
+					option: subskills,
+					sentData: data,
+					showResult: true
+				} )
+			}
 		}
-
-		
 	}
 
 	toggleProfile() {
@@ -552,13 +625,32 @@ class HuntingForm extends React.Component {
 				showFields: false,
 				showSkills: false,
 				showSubskills: false,
-				showResult: false
+				showResult: false,
+				showProfile: !showProfile
 			} )
 		}
-
-		this.setState( { 
-			showProfile: !showProfile
-		} )
+		else {
+			if ( !showProfile ) {
+				const profileObj = this.state.profiles
+				if ( !profileObj ) {
+					this.setState( { 
+						showNoProfileWarn: true
+					} )
+					if ( this.profileTimer ) {
+						clearTimeout(this.profileTimer)
+					}
+					this.profileTimer = setTimeout( () => {
+						this.setState( {
+							showNoProfileWarn: false
+						} )
+					}, 3000 )
+				}
+				else 
+					this.setState( { 
+						showProfile: !showProfile
+					} )
+			}
+		}
 	}
 	chooseProfile(e) {
 		let subject ;
@@ -763,145 +855,162 @@ class HuntingForm extends React.Component {
 		} )
 		
 		let profileObj = this.state.profiles
+
 		let profiles = [] ;
 		for ( var i in profileObj ) {
 			profiles.push( profileObj[i] )
 		}
-		const profileButtons = profiles.map( (profile) =>
-    		<Form.Check 
-    		label={ profile.name } 
-    		type={'radio'} 
-    		onChange={ this.chooseProfile }
-    		value={ profile.name }
-    		name="profile" />
+		const profileSection = profiles.map( (profile) =>
+			<div className="row justify-content-between profile-row hunt">
+				<div className="col-auto">
+					<Form.Check 
+		    		label={ profile.name } 
+		    		type={'radio'} 
+		    		onChange={ this.chooseProfile }
+		    		value={ profile.name }
+		    		name="profile" />
+				</div>
+				<div className="col-1">
+					<DelConfirmModal 
+		    		profile={ profile.name }
+		    		profileObj={ profileObj } />
+				</div>
+			</div>
     	)
 
 		return (
 			<div className="content" style={{ 'marginTop': '12vh' }}>
 				<div className="container">
-					<Card>
-					  <Card.Header className="hunt">
-					    <text>
-					  	  人才徵選
-					    </text>
-					  	<button style={{float: "right"}} onClick={this.toggleProfile} className="post-btn right" type="button" data-toggle="collapse" data-target="#collapseCustomCard" aria-expanded="false" aria-controls="collapseCustomCard">
-					      {
-					      	this.state.showProfile ? "取消自定義搜尋" : "自定義搜尋"
-					      }
-					    </button>
-					  </Card.Header>
-					  {
-					    this.state.showProfile ?
-					    <div id="collapseCustomCard">
-						  <div className="card card-body">
-						    <Form>
-						    	<Form.Group controlId="profile" style={{ marginBottom: "0px" }}>
-						        { profileButtons }
-						      </Form.Group>
-						    </Form>
-						  </div>
-					    </div>
-					    : ""
-					  }
-					  <CSSTransition in={this.state.showWarn} timeout={500} classNames="alert" unmountOnExit appear>
-					    <Alert variant="danger" className="hunt">
-				          <Alert.Heading>提示</Alert.Heading>
-				          <p>
-				            請選擇到有至少一個子技能後再提送表單！
-				          </p>
-				        </Alert>
-			          </CSSTransition>
-					  
-					  
-					  <Card.Body>
-					    <Card.Title>條件選擇</Card.Title>
-					    <Form onSubmit={this.handleSubmit} >
-						  <Form.Row>
-						  	
-						  	<Col md={{ span: 2, offset: 1 }} sm={6} xs={12}>
-						  	  <Form.Group controlId="subject">
-						        <Form.Label>選擇科系</Form.Label>
-						        <div>
-						        	{
-							    //     	this.state.subjects.map( (subject) => 
-											// <Form.Check 
-								   //  		inline 
-								   //  		label={ this.state.subjects.name } 
-								   //  		type={'radio'} 
-								   //  		onClick={this.chooseSubject}
-								   //  		value={ this.state.subjects.name } />
-							    //       	)
-							    		this.state.chosenSubject === this.state.subjects.name ?
-							    		<Form.Check 
-							    		inline 
-							    		label={ this.state.subjects.name } 
-							    		type={'radio'} 
-							    		onChange={ this.chooseSubject }
-							    		value={ this.state.subjects.name }
-							    		name="subject"
-							    		checked /> :
-							    		<Form.Check 
-							    		inline 
-							    		label={ this.state.subjects.name } 
-							    		type={'radio'} 
-							    		onChange={ this.chooseSubject }
-							    		value={ this.state.subjects.name }
-							    		name="subject" />
-							        }
-						        </div>
-						      </Form.Group>
-						  	</Col>
-						  	
-						  </Form.Row>
-
-						  <Form.Row>
-						  	<Col md={{ span: 10, offset: 1 }} sm={12} xs={12} className={this.state.showFields ? '' : 'hidden hunt'}>
-						  	  <Form.Group controlId="field">
-						        <Form.Label>選擇領域</Form.Label>
-						        <div>
-						        	{ fieldButtons }
-						        </div>
-						      </Form.Group>
-						  	</Col>
-						  </Form.Row>
-
-						  <Form.Row>
-						  	<Col md={{ span: 10, offset: 1 }} sm={12} xs={12} className={this.state.showSkills ? '' : 'hidden hunt'}>
-						  	  <Form.Group controlId="skill">
-						        <Form.Label>選擇技能</Form.Label>
-						        <Row className="hunt">
-						        	{ skillBoxes }
-						        </Row>
-						      </Form.Group>
-						  	</Col>
-						  </Form.Row>
-
-						  <Form.Row>
-						  	<Col md={{ span: 10, offset: 1 }} sm={12} xs={12} className={this.state.showSubskills ? '' : 'hidden hunt'}>
-						  	  <Form.Group controlId="subskill">
-						        <Form.Label>選擇子技能</Form.Label>
-						        <Row className="hunt">
-						        	{ subskillBoxes }
-						        </Row>
-						      </Form.Group>
-						  	</Col>
-						  </Form.Row>
-
-						  <div className="container">
-						  	<div className="row justify-content-end">
-						  	  <div className="col-md-4 button-col hunt">
-						  		<button type="submit" className="post-btn">
-						        	送出表單
-						  	  	</button>
-						  	  </div>
-						  	  <div className="col-md-1">
-						  	  </div>
+					<CSSTransition in={!this.state.isLoading} timeout={1200} classNames="content" unmountOnExit appear>
+						<Card className="hunt">
+						  <Card.Header className="hunt">
+						  	  人才徵選
+						  	<button style={{float: "right"}} onClick={this.toggleProfile} className="post-btn right" type="button" data-toggle="collapse" data-target="#collapseCustomCard" aria-expanded="false" aria-controls="collapseCustomCard">
+						      {
+						      	this.state.showProfile ? "取消自定義搜尋" : "自定義搜尋"
+						      }
+						    </button>
+						  </Card.Header>
+						  {
+						    this.state.showProfile ?
+						    <div id="collapseCustomCard">
+							  <div className="card card-body hunt">
+							    <Form>
+							    	<Form.Group controlId="profile" style={{ marginBottom: "0px" }}>
+							        { profileSection }
+							      </Form.Group>
+							    </Form>
+							  </div>
 						    </div>
-						  </div>
+						    : ""
+						  }
+					      <TransitionAlert 
+					      className="hunt"
+					      show={this.state.showNoProfileWarn}
+					      title="提示"
+					      content="目前沒有自定義組合，請先自行查詢一次再新增組合！"/>
+					      <TransitionAlert 
+					      className="hunt"
+					      show={this.state.showSubmitWarn}
+					      title="提示"
+					      content="請選擇到有至少一個子技能後再提送表單！"/>
+					      <TransitionAlert 
+					      className="hunt"
+					      show={this.state.showNoProfileSelectedWarn}
+					      title="提示"
+					      content="如要使用自定義搜尋，請先選擇一個組合！"/>
 						  
-						</Form>
-					  </Card.Body>
-					</Card>
+						  
+						  <Card.Body>
+						    <Card.Title>條件選擇</Card.Title>
+						    <Form onSubmit={this.handleSubmit} >
+							  <Form.Row>
+							  	
+							  	<Col md={{ span: 2, offset: 1 }} sm={6} xs={12}>
+							  	  <Form.Group controlId="subject">
+							        <Form.Label>選擇科系</Form.Label>
+							        <div>
+							        	{
+								    //     	this.state.subjects.map( (subject) => 
+												// <Form.Check 
+									   //  		inline 
+									   //  		label={ this.state.subjects.name } 
+									   //  		type={'radio'} 
+									   //  		onClick={this.chooseSubject}
+									   //  		value={ this.state.subjects.name } />
+								    //       	)
+								    		this.state.chosenSubject === this.state.subjects.name ?
+								    		<Form.Check 
+								    		inline 
+								    		label={ this.state.subjects.name } 
+								    		type={'radio'} 
+								    		onChange={ this.chooseSubject }
+								    		value={ this.state.subjects.name }
+								    		name="subject"
+								    		checked /> :
+								    		<Form.Check 
+								    		inline 
+								    		label={ this.state.subjects.name } 
+								    		type={'radio'} 
+								    		onChange={ this.chooseSubject }
+								    		value={ this.state.subjects.name }
+								    		name="subject" />
+								        }
+							        </div>
+							      </Form.Group>
+							  	</Col>
+							  	
+							  </Form.Row>
+
+							  <Form.Row>
+							  	<Col md={{ span: 10, offset: 1 }} sm={12} xs={12} className={this.state.showFields ? '' : 'hidden hunt'}>
+							  	  <Form.Group controlId="field">
+							        <Form.Label>選擇領域</Form.Label>
+							        <div>
+							        	{ fieldButtons }
+							        </div>
+							      </Form.Group>
+							  	</Col>
+							  </Form.Row>
+
+							  <Form.Row>
+							  	<Col md={{ span: 10, offset: 1 }} sm={12} xs={12} className={this.state.showSkills ? '' : 'hidden hunt'}>
+							  	  <Form.Group controlId="skill">
+							        <Form.Label>選擇技能</Form.Label>
+							        <Row className="hunt">
+							        	{ skillBoxes }
+							        </Row>
+							      </Form.Group>
+							  	</Col>
+							  </Form.Row>
+
+							  <Form.Row>
+							  	<Col md={{ span: 10, offset: 1 }} sm={12} xs={12} className={this.state.showSubskills ? '' : 'hidden hunt'}>
+							  	  <Form.Group controlId="subskill">
+							        <Form.Label>選擇子技能</Form.Label>
+							        <Row className="hunt">
+							        	{ subskillBoxes }
+							        </Row>
+							      </Form.Group>
+							  	</Col>
+							  </Form.Row>
+
+							  <div className="container">
+							  	<div className="row justify-content-end">
+							  	  <div className="col-md-4 button-col hunt">
+							  		<button type="submit" className="post-btn">
+							        	送出表單
+							  	  	</button>
+							  	  </div>
+							  	  <div className="col-md-1">
+							  	  </div>
+							    </div>
+							  </div>
+							  
+							</Form>
+						  </Card.Body>
+						</Card>
+					</CSSTransition>
 					{
 						this.state.showResult ? 
 						<HuntResult 
