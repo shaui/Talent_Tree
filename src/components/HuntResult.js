@@ -43,7 +43,11 @@ function CustomModal(props) {
 	          <div>
 	        	<Form.Group controlId="profileName">
 	        		<Form.Label>自定義組合名稱</Form.Label>
-    				<Form.Control name="profileName" placeholder="請輸入名稱" required />
+    				<Form.Control 
+    				name="profileName" 
+    				placeholder="請輸入名稱" 
+    				className="hunt"
+    				required />
 	        	</Form.Group>
 	          </div>
 	        </Modal.Body>
@@ -66,7 +70,8 @@ function CustomModal(props) {
 	        	<Form.Group controlId="profile">
 		          <Form.Label>選擇組合</Form.Label>
 		          <Form.Control
-		            name="profile" 
+		            name="profile"
+		            className="hunt" 
 		            as="select"
 		            required>
 		            <option></option>
@@ -210,6 +215,7 @@ class HuntResult extends React.Component {
 
 	addProfile(e) {
 		e.preventDefault() ;
+		const searchResult = this.state.target.length ? this.state.target : "null"
 		const fbMg = new FirebaseMg() ;
 		var root = fbMg.myRef ;
 		var path = 'Company/companyID/profiles/' ;
@@ -218,11 +224,12 @@ class HuntResult extends React.Component {
 		root.child(path+newProfileKey).set( {
 			name: e.target.elements.profileName.value,
 			tree: this.props.treeData,
-			result: this.state.target,
+			result: searchResult,
 			timePosted: new Date().toLocaleString()
 		} )
 		.then( () => {
 			alert("上傳完成！")
+			window.location.reload()
 		} )
 		.catch( (error) => {
 			console.log(error) ;
@@ -248,6 +255,7 @@ class HuntResult extends React.Component {
 		} )
 		.then( () => {
 			alert("更新完成！")
+			window.location.reload()
 		} )
 		.catch( (error) => {
 			console.log(error) ;

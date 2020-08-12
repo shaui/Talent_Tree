@@ -48,3 +48,19 @@ transition: all 0.3s ease 0s;
 	margin-top: 16px;
 }
 
+.post.editor {
+	margin-bottom: 16px;
+}
+
+.ck-content {
+	min-height: 10em;
+}
+
+.ck-heading_paragraph,
+.ck-heading_heading1,
+.ck-heading_heading2,
+.ck-heading_heading3,
+.ck-heading_heading4 {
+	padding-top: 2px !important;
+	padding-bottom: 2px !important;
+}
