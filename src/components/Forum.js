@@ -11,7 +11,6 @@ function PostLink(props) {
 	const name = props.name
 	const id = props.id
 	const subskill = props.subskill
-	console.log(props);
 	return (
 		<Link to={{
 		     pathname:'/forum/course',
@@ -96,7 +95,6 @@ class PostsPage extends React.Component {
 		var root = fbMg.myRef ;
 		var path = 'Posts/' + pathObj.subskill ;
 		var myRef = root.child(path) ;
-		console.log("Path Obj:", pathObj)
 		myRef.once('value').then( (snapshot) => {
 			let data = snapshot.val() ;
 			this.setState( {
@@ -112,11 +110,16 @@ class PostsPage extends React.Component {
 	
 	componentDidMount() {
 		const pathName = this.props.location.pathname
-		console.log( pathName.split("/") );
-		console.log("###",this.props.location.state, this.props.location.state["path"]) //可以觀看傳遞的參數
-		const sentPath = this.props.location.state["path"]
+		const sentPath = this.props.location.state
 		let pathObj = new Object()
-		if ( Array.isArray(sentPath) ) {
+		if ( !sentPath ) {
+			pathObj.subject = "資管系"
+			pathObj.field = "系統規劃"
+			pathObj.skill = "JAVA"
+			pathObj.subskill = "JAVA 1級"
+			this.getPosts(pathObj)
+		}
+		else if ( Array.isArray(sentPath.path) ) {
 			if ( sentPath.length === 4 ) {
 				pathObj.subject = sentPath[3]
 				pathObj.field = sentPath[2]
@@ -133,7 +136,7 @@ class PostsPage extends React.Component {
 			this.getPosts(pathObj)
 		} 
 		else {
-			if ( typeof sentPath === "string" )	{
+			if ( typeof sentPath.path === "string" )	{
 				pathObj.subskill = sentPath
 				const fbMg = new FirebaseMg() ;
 				var root = fbMg.myRef.child('Trees') ;
@@ -158,19 +161,11 @@ class PostsPage extends React.Component {
 					console.log(error) ;
 				} ) ;
 			}
-			else {
-				pathObj.subject = "資管系"
-				pathObj.field = "系統規劃"
-				pathObj.skill = "JAVA"
-				pathObj.subskill = "JAVA 1級"
-				this.getPosts(pathObj)
-			}
 		}
 		
 	}
 
 	render() {
-		console.log("CustomPagination:", this.state.data)
 		return (
 			<div className="content" style={{ 'marginTop': '10vh' }}>
 				<div className="container banner-container">
@@ -184,11 +179,12 @@ class PostsPage extends React.Component {
 							<Link to={{
 							     pathname:'/forum/post',
 							     state: {
-							     	subject: "test",
-							     	field: "test",
-							     	skill: "test",
-							     	subskill: "test",
-							     	standards: ["test XXX", "test AAA", "test BBB", "test CCC"] }
+							     	subject: this.state.pathObj.subject,
+							     	field: this.state.pathObj.field,
+							     	skill: this.state.pathObj.skill,
+							     	subskill: this.state.pathObj.subskill,
+							     	standards: this.state.pathObj.standards 
+							     }
 							}}> 
 								<button className="post-btn">
 									發布文章
