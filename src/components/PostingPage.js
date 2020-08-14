@@ -25,6 +25,8 @@ let editor ;
 class PostingPage extends React.Component {
 	constructor(props) {
 		super(props);
+		if ( this.props.location.state ) 
+			this.props.location.state.standards = []
 		this.state = {
 			data: [],
 			subjects: [
@@ -73,7 +75,7 @@ class PostingPage extends React.Component {
 	}
 	
 	componentDidMount() {
-		const defaultData = this.state.defaultData
+		let defaultData = this.state.defaultData
 		if ( !defaultData ) {
 			const fbMg = new FirebaseMg() ;
 			var root = fbMg.myRef ;
@@ -123,12 +125,44 @@ class PostingPage extends React.Component {
 				] ;
 				for ( var i in data ) {
 					subjects.push( data[i] )
-					console.log(data[i]);
 				}
 				
 				this.setState( { 
 					data: data,
 					subjects: subjects
+				} )
+				
+			} )
+			.catch( (error) => {
+				console.log(error) ;
+			} ) ;
+		}
+		else {
+			const fbMg = new FirebaseMg() ;
+			var root = fbMg.myRef ;
+			var path = 'Trees' ;
+			var myRef = root.child(path) ;
+			myRef.once('value').then( (snapshot) => {
+				let data = snapshot.val() ;
+				
+				const field = data[defaultData.subject].children.find( (field) =>
+					field.name === defaultData.field
+				);
+
+				const skill = field.children.find( (skill) =>
+					skill.name === defaultData.skill
+				);
+
+				const subskill = skill.children.find( (subskill) =>
+					subskill.name === defaultData.subskill
+				);
+
+				const standards = subskill.children
+
+				defaultData.standards = standards
+				
+				this.setState( { 
+					defaultData: defaultData
 				} )
 				
 			} )
@@ -447,10 +481,10 @@ class PostingPage extends React.Component {
 				        	defaultData.standards.map( (standard) =>
 				        		<Form.Check 
 					    		inline 
-					    		label={ standard } 
+					    		label={ standard.name } 
 					    		type={'checkbox'} 
 					    		onClick={ this.chooseStandard }
-					    		value={ standard }
+					    		value={ standard.name }
 					    		name="standard"
 					    		aria-describedby="checkboxHelp" />
 				        	)

@@ -1,7 +1,7 @@
 import React from 'react';
 import { Button, Table } from 'react-bootstrap';
 import { Link } from 'react-router-dom';
-import './Forum.css';
+import './ForumHome.css';
 import FirebaseMg from '../Utils/FirebaseMg.js';
 import { CSSTransition } from 'react-transition-group';
 
@@ -80,7 +80,7 @@ function PostsTable(props) {
 	);
 }
 
-class PostsPage extends React.Component {
+class ForumHome extends React.Component {
 	constructor(props) {
 		super(props);
 		this.state = {
@@ -109,7 +109,6 @@ class PostsPage extends React.Component {
 	}
 	
 	componentDidMount() {
-		const pathName = this.props.location.pathname
 		const sentPath = this.props.location.state
 		let pathObj = new Object()
 		if ( !sentPath ) {
@@ -120,26 +119,24 @@ class PostsPage extends React.Component {
 			this.getPosts(pathObj)
 		}
 		else if ( Array.isArray(sentPath.path) ) {
-			const pathArray = sentPath.path
-			if ( sentPath.path.length === 4 ) {
-				pathObj.subject = pathArray[3]
-				pathObj.field = pathArray[2]
-				pathObj.skill = pathArray[1]
-				pathObj.subskill = pathArray[0]
+			if ( sentPath.length === 4 ) {
+				pathObj.subject = sentPath[3]
+				pathObj.field = sentPath[2]
+				pathObj.skill = sentPath[1]
+				pathObj.subskill = sentPath[0]
 			}
 			else {
-				pathObj.subject = pathArray[4]
-				pathObj.field = pathArray[3]
-				pathObj.skill = pathArray[2]
-				pathObj.subskill = pathArray[1]
-				pathObj.standard = pathArray[0]
+				pathObj.subject = sentPath[4]
+				pathObj.field = sentPath[3]
+				pathObj.skill = sentPath[2]
+				pathObj.subskill = sentPath[1]
+				pathObj.standard = sentPath[0]
 			}
 			this.getPosts(pathObj)
 		} 
 		else {
 			if ( typeof sentPath.path === "string" )	{
-				const pathString = sentPath.path
-				pathObj.subskill = pathString
+				pathObj.subskill = sentPath
 				const fbMg = new FirebaseMg() ;
 				var root = fbMg.myRef.child('Trees') ;
 				var path = 'Trees' ;
@@ -149,7 +146,7 @@ class PostsPage extends React.Component {
 					var traverse = require('traverse') ;
 					
 					traverse(treeData).forEach(function (x) {
-					    if (x === pathString) {
+					    if (x === sentPath) {
 					    	pathObj.skill = this.parent.parent.parent.node.name
 					    	pathObj.field = this.parent.parent.parent.parent.parent.node.name
 					    	pathObj.subject = this.parent.parent.parent.parent.parent.parent.parent.node.name
@@ -185,7 +182,7 @@ class PostsPage extends React.Component {
 							     	field: this.state.pathObj.field,
 							     	skill: this.state.pathObj.skill,
 							     	subskill: this.state.pathObj.subskill,
-							     	standard: this.state.pathObj.standard
+							     	standards: this.state.pathObj.standards 
 							     }
 							}}> 
 								<button className="post-btn">
@@ -233,4 +230,4 @@ class PostsPage extends React.Component {
 	}
 }
 
-export default PostsPage;
+export default ForumHome;
