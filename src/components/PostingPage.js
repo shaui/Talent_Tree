@@ -327,8 +327,9 @@ class PostingPage extends React.Component {
 		// standard boxes和url inputs一個和多個的情況要獨立處理
 		// 所以最外層是standards是否array的判斷，再內一層才是檢查standards有無勾選(validation)
 		// 最內一層則是檢查TextArea的值
-		if ( Array.isArray( elems.standard ) ) {
-			const standards = Array.from(elems.standard)
+		const standards = Array.from(elems.standard)
+		if ( standards.length ) {
+
 			if ( standards.some( (standardInput) => standardInput.checked ) ) {
 				if ( editor.getData() ) {
 					const standardsChecked = standards.filter( (standardInput) => 
@@ -339,8 +340,9 @@ class PostingPage extends React.Component {
 					)
 
 					let courseUrls = [];
-					if ( Array.isArray( elems.courseURL ) ) {
-						courseUrls = Array.from(elems.courseURL).map( (urlInput) => 
+					const urlArray = Array.from(elems.courseURL)
+					if ( urlArray.length ) {
+						courseUrls = urlArray.map( (urlInput) => 
 							urlInput.value
 						)
 					}
@@ -368,7 +370,7 @@ class PostingPage extends React.Component {
 					} ).then( () => {
 						alert("發布完成！")
 						// redirect
-						this.props.history.push("/forum")
+						this.props.history.goBack()
 					} )
 					.catch( (error) => {
 						console.log(error) ;
@@ -402,9 +404,10 @@ class PostingPage extends React.Component {
 				if ( editor.getData() ) {
 					let standardVals = [] ;
 					standardVals.push( standard.value )
-					let courseUrls = [] ;
-					if ( Array.isArray( elems.courseURL ) ) {
-						courseUrls = Array.from(elems.courseURL).map( (urlInput) => 
+					let courseUrls = [];
+					const urlArray = Array.from(elems.courseURL)
+					if ( urlArray.length ) {
+						courseUrls = urlArray.map( (urlInput) => 
 							urlInput.value
 						)
 					}
@@ -431,7 +434,7 @@ class PostingPage extends React.Component {
 					} ).then( () => {
 						alert("發布完成！")
 						// redirect
-						this.props.history.push("/forum")
+						this.props.history.goBack()
 					} )
 					.catch( (error) => {
 						console.log(error) ;
