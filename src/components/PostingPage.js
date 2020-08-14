@@ -324,65 +324,142 @@ class PostingPage extends React.Component {
 	handleSubmit(e) {
 		e.preventDefault() ;
 		const elems = e.target.elements
-		const standards = Array.from(elems.standard)
-		if ( standards.some( (standardInput) => standardInput.checked ) ) {
-			if ( editor.getData() ) {
-				const standardsChecked = standards.filter( (standardInput) => 
-					standardInput.checked
-				)
-				const standardVals = standardsChecked.map( (standardInput) => 
-					standardInput.value
-				)
-				const courseUrls = Array.from(elems.courseURL).map( (urlInput) => 
-					urlInput.value
-				)
-				const fbMg = new FirebaseMg() ;
-				var root = fbMg.myRef ;
-				var path = 'Posts/'+ elems.subskill.value +"/"+ _uuid() ;
-				var myRef = root.child(path) ;
-				myRef.set( {
-					user: "Louis",
-					name: elems.postTitle.value,
-					type: elems.courseType.value,
-					course: {
-						intro: editor.getData(),
-						links: courseUrls,
-						standards: standardVals,
-					},
-					like: 0,
-					dislike: 0,
-					view: 0,
-					timePosted: new Date().toLocaleString()
-				} ).then( () => {
-					alert("發布完成！")
-					// redirect
-					this.props.history.push("/forum")
-				} )
-				.catch( (error) => {
-					console.log(error) ;
-				} ) ;
+		// standard boxes和url inputs一個和多個的情況要獨立處理
+		// 所以最外層是standards是否array的判斷，再內一層才是檢查standards有無勾選(validation)
+		// 最內一層則是檢查TextArea的值
+		if ( Array.isArray( elems.standard ) ) {
+			const standards = Array.from(elems.standard)
+			if ( standards.some( (standardInput) => standardInput.checked ) ) {
+				if ( editor.getData() ) {
+					const standardsChecked = standards.filter( (standardInput) => 
+						standardInput.checked
+					)
+					const standardVals = standardsChecked.map( (standardInput) => 
+						standardInput.value
+					)
+
+					let courseUrls = [];
+					if ( Array.isArray( elems.courseURL ) ) {
+						courseUrls = Array.from(elems.courseURL).map( (urlInput) => 
+							urlInput.value
+						)
+					}
+					else {
+						courseUrls.push( elems.courseURL.value )
+					}
+						
+					const fbMg = new FirebaseMg() ;
+					var root = fbMg.myRef ;
+					var path = 'Posts/'+ elems.subskill.value +"/"+ _uuid() ;
+					var myRef = root.child(path) ;
+					myRef.set( {
+						user: "Louis",
+						name: elems.postTitle.value,
+						type: elems.courseType.value,
+						course: {
+							intro: editor.getData(),
+							links: courseUrls,
+							standards: standardVals,
+						},
+						like: 0,
+						dislike: 0,
+						view: 0,
+						timePosted: new Date().toLocaleString()
+					} ).then( () => {
+						alert("發布完成！")
+						// redirect
+						this.props.history.push("/forum")
+					} )
+					.catch( (error) => {
+						console.log(error) ;
+					} ) ;
+				}
+				else {
+					this.setState( {
+						showTextAreaHelp: true
+					} )
+				}
 			}
 			else {
-				this.setState( {
-					showTextAreaHelp: true
-				} )
+				if ( editor.getData() ) {
+					this.setState( {
+						showStdHelp: true,
+						showTextAreaHelp: false
+					} )
+				}
+				else {
+					this.setState( {
+						showStdHelp: true,
+						showTextAreaHelp: true
+					} )
+				}
+				
 			}
 		}
 		else {
-			if ( editor.getData() ) {
-				this.setState( {
-					showStdHelp: true,
-					showTextAreaHelp: false
-				} )
+			const standard = elems.standard
+			if ( standard.checked ) {
+				if ( editor.getData() ) {
+					let standardVals = [] ;
+					standardVals.push( standard.value )
+					let courseUrls = [] ;
+					if ( Array.isArray( elems.courseURL ) ) {
+						courseUrls = Array.from(elems.courseURL).map( (urlInput) => 
+							urlInput.value
+						)
+					}
+					else {
+						courseUrls.push( elems.courseURL.value )
+					}
+					const fbMg = new FirebaseMg() ;
+					var root = fbMg.myRef ;
+					var path = 'Posts/'+ elems.subskill.value +"/"+ _uuid() ;
+					var myRef = root.child(path) ;
+					myRef.set( {
+						user: "Louis",
+						name: elems.postTitle.value,
+						type: elems.courseType.value,
+						course: {
+							intro: editor.getData(),
+							links: courseUrls,
+							standards: standardVals,
+						},
+						like: 0,
+						dislike: 0,
+						view: 0,
+						timePosted: new Date().toLocaleString()
+					} ).then( () => {
+						alert("發布完成！")
+						// redirect
+						this.props.history.push("/forum")
+					} )
+					.catch( (error) => {
+						console.log(error) ;
+					} ) ;
+				}
+				else {
+					this.setState( {
+						showTextAreaHelp: true
+					} )
+				}
 			}
 			else {
-				this.setState( {
-					showStdHelp: true,
-					showTextAreaHelp: true
-				} )
+				if ( editor.getData() ) {
+					this.setState( {
+						showStdHelp: true,
+						showTextAreaHelp: false
+					} )
+				}
+				else {
+					this.setState( {
+						showStdHelp: true,
+						showTextAreaHelp: true
+					} )
+				}
+				
 			}
-			
 		}
+		
 	}
 	chooseStandard(e) {
 		if ( e.target.checked ) {
