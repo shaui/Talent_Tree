@@ -38,21 +38,28 @@ function Course(props) {
       	<div className="col">
       		<img src="https://encrypted-tbn0.gstatic.com/images?q=tbn%3AANd9GcRw728JESaDNMSj_h3zrUUD49Xwgf0WNGAQcZKn7Kk9aZm2fGMK&usqp=CAU" className="img-thumbnail float-left" alt="Cinque Terre" style={{'width':'20vw','marginBottom':'10px'}}/>
       		{/* <img src={imgURL} className="img-thumbnail float-left" alt="Cinque Terre" style={{'width':'20vw','marginBottom':'10px'}}/> */}
-		<div className="CoursePage row course-introduction" style={{'height':'35%'}}>
+		<div className="CoursePage row course-introduction" >
 			<div className="col">
 
 				<p className="CoursePage text-justify" style={{'fontSize':'16pt'}}>{parse(intro)}</p>
 			</div>
       	</div>
-	  <div className="CoursePage row" style={{'height':'45%'}}>
-	  	<GetSkills node={node} level={level} />
-	  </div>
-      <div className="CoursePage row course-link" style={{'height':'20%'}}>
-		<div className="col">
-			<GetLinks links={links} />
-			<button className='CoursePage btn btn-info' style={{'float':'right'}} onClick={updateUserState}>完成課程</button>
+
+		<div className="row">
+			<div className="col">
+			  <div className="CoursePage row" >
+			  	<GetSkills node={node} level={level} />
+			  </div>
+
+		      <div className="CoursePage row course-link" style={{"marginTop":"10px"}}>
+				<div className="col" >
+					<GetLinks links={links} />
+					<button className='CoursePage btn btn-info' style={{'float':'right'}} onClick={updateUserState}>完成課程</button>
+				</div>
+		      </div>		
+			</div>
 		</div>
-      </div>
+
       	</div>
 
       </div>
@@ -74,13 +81,16 @@ function GetSkills(props){
 
 
 	return(
-		<div>
-			<div className="col">
-				<span style={{'fontSize':'16pt'}}>完成此課程將可習得【{props.level}】相關技能：</span>
+		<div className="col">
+			<div className="row">
+				<div className="col">
+					<span style={{'fontSize':'16pt'}}>完成此課程將可習得【{props.level}】相關技能：</span>
+				</div>
 			</div>
-			<div className="col">
-				{list}
-
+			<div className="row">
+				<div className="col">
+					{list}
+				</div>
 			</div>
 		</div>
 	);

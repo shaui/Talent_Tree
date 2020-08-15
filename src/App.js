@@ -109,18 +109,24 @@ class App extends Component {
               </div>
             </div>
             { /**強者總是孤獨的**/ }
-            <Route exact path="/" component={Home} />
+            
+            <Route exact path="/" component={Home} />  
             <Route exact path="/treeMenu/tree" component={MyTree} />
-            <div style={{'paddingTop':'9vh'}}>
-
-              <Route exact path="/forum" component={PostsPage} />
-              <Route exact path="/forum/post" component={PostingPage} />
-              <Route exact path="/hunt" component={HuntingPage} />
-              <Route exact path="/forum/course" component={CoursePage} />
-              <Route exact path="/home" component={HomePage} />
-              <Route exact path="/treeMenu" component={TreeMenu} />
-              <Route exact path="/profile" component={Profile} />
-            </div>
+            {
+                this.props.location.pathname !== "/treeMenu/tree" && this.props.location.pathname !=="/" ?
+                  <div style={{'paddingTop':'9vh'}}>
+                    <Route exact path="/forum" component={PostsPage} />
+                    <Route exact path="/forum/post" component={PostingPage} />
+                    <Route exact path="/hunt" component={HuntingPage} />
+                    <Route exact path="/forum/course" component={CoursePage} />
+                    <Route exact path="/home" component={HomePage} />
+                    <Route exact path="/treeMenu" component={TreeMenu} />
+                    <Route exact path="/profile" component={Profile} />
+                  </div>
+                :
+                  ""
+            }          
+            
 
   	    	</div>
       	</div>
