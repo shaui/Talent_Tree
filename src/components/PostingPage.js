@@ -3,6 +3,7 @@ import { Form, Button, Row, Col } from 'react-bootstrap';
 import { withRouter } from "react-router-dom"
 import FirebaseMg from '../Utils/FirebaseMg.js'
 import './PostingPage.css';
+import { CSSTransition } from 'react-transition-group';
 
 import CKEditor from '@ckeditor/ckeditor5-react';
 import ClassicEditor from '@ckeditor/ckeditor5-build-classic';
@@ -32,7 +33,7 @@ class PostingPage extends React.Component {
 			subjects: [
 				{
 					children: [],
-					name: ""
+					name: "--請選擇--"
 				}
 			], 
 			fields: [
@@ -62,7 +63,8 @@ class PostingPage extends React.Component {
 			showStdHelp: false,
 			showTextAreaHelp: false,
 			defaultData: this.props.location.state,
-			courseNum: 1
+			courseNum: 1,
+			isLoading: true
 		} ;
 		this.chooseSubject = this.chooseSubject.bind(this) ;
 		this.chooseField = this.chooseField.bind(this) ;
@@ -120,7 +122,7 @@ class PostingPage extends React.Component {
 				let subjects = [
 					{
 						children: [],
-						name: ""
+						name: "--請選擇--"
 					}
 				] ;
 				for ( var i in data ) {
@@ -129,7 +131,8 @@ class PostingPage extends React.Component {
 				
 				this.setState( { 
 					data: data,
-					subjects: subjects
+					subjects: subjects,
+					isLoading: false
 				} )
 				
 			} )
@@ -162,7 +165,8 @@ class PostingPage extends React.Component {
 				defaultData.standards = standards
 				
 				this.setState( { 
-					defaultData: defaultData
+					defaultData: defaultData,
+					isLoading: false
 				} )
 				
 			} )
@@ -210,9 +214,9 @@ class PostingPage extends React.Component {
 		} )
 
 		const subjects = this.state.subjects
-		if ( subjects[0].name === "" ) {
+		if ( subjects[0].name === "--請選擇--" ) {
 			let newSubjects = subjects.filter( (subject) =>
-				  subject.name !== ""
+				  subject.name !== "--請選擇--"
 			)
 			this.setState( {
 				subjects: newSubjects
@@ -697,114 +701,116 @@ class PostingPage extends React.Component {
 
 		return (
 			<div className="content" style={{ 'marginTop': '12vh' }}>
-				<div className="container form-container">
-					<Form onSubmit={this.handleSubmit}>
-					  <Form.Row>
-					  	<Col md={{ span: 6, offset: 1 }} xs ={12}>
-					  	  <Form.Group controlId="postTitle">
-					        <Form.Label>標題</Form.Label>
-					        <Form.Control
-					          name="postTitle" 
-					          type="text" 
-					          placeholder="請輸入標題" 
-					          required />
-					      </Form.Group>
-					  	</Col>
-					  	{ subjectInput }
-					  	{ fieldInput }
-					  </Form.Row>
+				<CSSTransition in={!this.state.isLoading} timeout={1200} classNames="content" unmountOnExit appear>
+					<div className="container form-container post">
+						<Form onSubmit={this.handleSubmit}>
+						  <Form.Row>
+						  	<Col md={{ span: 6, offset: 1 }} xs ={12}>
+						  	  <Form.Group controlId="postTitle">
+						        <Form.Label>標題</Form.Label>
+						        <Form.Control
+						          name="postTitle" 
+						          type="text" 
+						          placeholder="請輸入標題" 
+						          required />
+						      </Form.Group>
+						  	</Col>
+						  	{ subjectInput }
+						  	{ fieldInput }
+						  </Form.Row>
 
-					  <Form.Row>
-					    { skillInput }
-					  	{ subskillInput }
-					  </Form.Row>
+						  <Form.Row>
+						    { skillInput }
+						  	{ subskillInput }
+						  </Form.Row>
 
-					  <Form.Row>
-					  	{ standardBoxes }
-					  </Form.Row>
-						
-					  <Form.Row>
-					  	<Col md={{ span: 8, offset: 1 }}>
-					  	  <Form.Group controlId="courseURL">
-					        <Form.Label>課程網址</Form.Label>
-					        <button className="post icon-btn" type="button" onClick={this.clickUrlIncrease}>
-					        	<i className="fa fa-plus-square" aria-hidden="true"></i>
-					        </button>
-					        <button className="post icon-btn" type="button" onClick={this.clickUrlDecrease}>
-					        	<i className="fa fa-minus-square" aria-hidden="true"></i>
-					        </button>
-					        <Form.Group as={Row} controlId="courseURL">
-							  <Form.Label column sm="3" lg="2" className="post beforeInput">
-							    Course 1
-							  </Form.Label>
-							  <Col sm="9" lg="10">
-							    <Form.Control
-					         	  name="courseURL" placeholder="請輸入網址" required />
-							  </Col>
-							</Form.Group>
-					      </Form.Group>
-					      { urlInputs }
-					  	</Col>
-					  	<Col md={2}>
-					  	  <Form.Group controlId="courseType" className="post alignToURL">
-					        <Form.Label>課程分類</Form.Label>
-					        <Form.Control
-					          name="courseType" as="select" required>
-					          <option>平台課程</option>
-					          <option>心得筆記</option>
-					          <option>音訊影片</option>
-					        </Form.Control>
-					       </Form.Group>
-					  	</Col>
-					  </Form.Row>
+						  <Form.Row>
+						  	{ standardBoxes }
+						  </Form.Row>
+							
+						  <Form.Row>
+						  	<Col md={{ span: 8, offset: 1 }}>
+						  	  <Form.Group controlId="courseURL">
+						        <Form.Label>課程網址</Form.Label>
+						        <button className="post icon-btn" type="button" onClick={this.clickUrlIncrease}>
+						        	<i className="fa fa-plus-square" aria-hidden="true"></i>
+						        </button>
+						        <button className="post icon-btn" type="button" onClick={this.clickUrlDecrease}>
+						        	<i className="fa fa-minus-square" aria-hidden="true"></i>
+						        </button>
+						        <Form.Group as={Row} controlId="courseURL">
+								  <Form.Label column sm="3" lg="2" className="post beforeInput">
+								    Course 1
+								  </Form.Label>
+								  <Col sm="9" lg="10">
+								    <Form.Control
+						         	  name="courseURL" placeholder="請輸入網址" required />
+								  </Col>
+								</Form.Group>
+						      </Form.Group>
+						      { urlInputs }
+						  	</Col>
+						  	<Col md={2}>
+						  	  <Form.Group controlId="courseType" className="post alignToURL">
+						        <Form.Label>課程分類</Form.Label>
+						        <Form.Control
+						          name="courseType" as="select" required>
+						          <option>平台課程</option>
+						          <option>心得筆記</option>
+						          <option>音訊影片</option>
+						        </Form.Control>
+						       </Form.Group>
+						  	</Col>
+						  </Form.Row>
 
-					  <Form.Row>
-					    <Col md={{ span: 10, offset: 1 }}>
-					      <div className="post editor">
-					      	<Form.Label>課程簡介</Form.Label>
-					    	<CKEditor
-		                    editor={ ClassicEditor }
-		                    data="<p>請輸入簡介內容。</p>"
-		                    config={ {
-						        toolbar: ["heading", "|", "selectall", "bold", "italic", "blockQuote", "link", "undo", "redo", "|", "numberedList", "bulletedList", "insertTable", "tableColumn", "tableRow", "mergeTableCells"],
-						        language: "zh-tw",
-						        heading: {
-						            options: [
-						                { model: 'paragraph', title: '段落', class: 'ck-heading_paragraph' },
-						                { model: 'heading1', view: 'h1', title: 'Heading 1', class: 'ck-heading_heading1' },
-						                { model: 'heading2', view: 'h2', title: 'Heading 2', class: 'ck-heading_heading2' },
-						                { model: 'heading3', view: 'h3', title: 'Heading 3', class: 'ck-heading_heading3' },
-						                { model: 'heading4', view: 'h4', title: 'Heading 4', class: 'ck-heading_heading4' }
-						            ]
-        						}
-						    } }
-		                    onInit={ (newEditor) => editor = newEditor }
-		                    />
-					      </div>
-					      {
-				            this.state.showTextAreaHelp ? 
-				        	<Form.Text id="textAreaHelp" className="post help" >
-							  請您為這堂課輸入一些簡介。
-							</Form.Text> : ""
-				          }
-					    </Col>
-					  </Form.Row>
+						  <Form.Row>
+						    <Col md={{ span: 10, offset: 1 }}>
+						      <div className="post editor">
+						      	<Form.Label>課程簡介</Form.Label>
+						    	<CKEditor
+			                    editor={ ClassicEditor }
+			                    data="<p>請輸入簡介內容。</p>"
+			                    config={ {
+							        toolbar: ["heading", "|", "selectall", "bold", "italic", "blockQuote", "link", "undo", "redo", "|", "numberedList", "bulletedList", "insertTable", "tableColumn", "tableRow", "mergeTableCells"],
+							        language: "zh-tw",
+							        heading: {
+							            options: [
+							                { model: 'paragraph', title: '段落', class: 'ck-heading_paragraph' },
+							                { model: 'heading1', view: 'h1', title: 'Heading 1', class: 'ck-heading_heading1' },
+							                { model: 'heading2', view: 'h2', title: 'Heading 2', class: 'ck-heading_heading2' },
+							                { model: 'heading3', view: 'h3', title: 'Heading 3', class: 'ck-heading_heading3' },
+							                { model: 'heading4', view: 'h4', title: 'Heading 4', class: 'ck-heading_heading4' }
+							            ]
+	        						}
+							    } }
+			                    onInit={ (newEditor) => editor = newEditor }
+			                    />
+						      </div>
+						      {
+					            this.state.showTextAreaHelp ? 
+					        	<Form.Text id="textAreaHelp" className="post help" >
+								  請您為這堂課輸入一些簡介。
+								</Form.Text> : ""
+					          }
+						    </Col>
+						  </Form.Row>
 
-					  <div className="container">
-					  	<div className="row justify-content-end">
-					  	  <div className="col-md-4 button-col post">
-					  	  	<button className="post-btn" type="submit">
-						  	  	發布文章
-							</button>
-					  		
-					  	  </div>
-					  	  <div className="col-md-1">
-					  	  </div>
-					    </div>
-					  </div>
-					  
-					</Form>
-				</div>
+						  <div className="container">
+						  	<div className="row justify-content-end">
+						  	  <div className="col-md-4 button-col post">
+						  	  	<button className="post-btn" type="submit">
+							  	  	發布文章
+								</button>
+						  		
+						  	  </div>
+						  	  <div className="col-md-1">
+						  	  </div>
+						    </div>
+						  </div>
+						  
+						</Form>
+					</div>
+				</CSSTransition>
 			</div>
 		);
 	}
