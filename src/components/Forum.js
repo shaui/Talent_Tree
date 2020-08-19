@@ -50,14 +50,7 @@ function PostLink(props) {
 	const id = props.id
 	const subskill = props.subskill
 	return (
-		<Link to={{
-		     pathname:'/forum/course',
-		     state: {
-		     	id: id,
-		     	name: name,
-		     	level: subskill 
-		     }
-		}}> 
+		<Link to={ `${props.url}/course/${ id }&${ name }&${ subskill }` }> 
 			{ name }
 		</Link>
 	)
@@ -75,6 +68,7 @@ function PostsTable(props) {
 	          <th scope="row">{posts[i].type}</th>
 	          <td>
 	          	<PostLink 
+	          	url={props.url}
 	          	name={posts[i].name} 
 	          	id={i}
 	          	subskill={props.subskill} />
@@ -241,6 +235,7 @@ class PostsPage extends React.Component {
 						<div className="row">
 							<div className="col">
 								<PostsTable 
+								url={this.props.match.url}
 								data={this.state.data} 
 								subskill={this.state.pathObj.subskill} />
 							</div>

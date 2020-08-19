@@ -118,6 +118,7 @@ class App extends Component {
               <Route exact path="/forum/course" component={CoursePage} />
               <Route exact path="/forum/:path" component={PostsPage} />
               <Route exact path="/forum/:path/post" component={PostingPage} />
+              <Route exact path="/forum/:path/course/:id&:name&:level" component={CoursePage} />
               <Route exact path="/hunt" component={HuntingPage} />
               <Route exact path="/home" component={HomePage} />
               <Route exact path="/treeMenu" component={TreeMenu} />

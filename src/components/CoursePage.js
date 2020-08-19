@@ -136,19 +136,20 @@ class CoursePage extends Component{
 			// id:"3ee4e691-18de-4060-a466-dda24cf94b22",
 			// name:"JAVA 基礎教學",
 			// level:"JAVA 1級",
-			id:props.location.state.id,
-			name:props.location.state.name,
-			level:props.location.state.level,
-			intro:"",
-			node:[],
-			links:[],
-			comments:[],
-			// imgURL:""
+			id: props.match.params.id,
+			name: props.match.params.name,
+			level: props.match.params.level,
+			intro: "",
+			node: [],
+			links: [],
+			comments: [],
+			// imgURL: ""
 
 		}
 	}
 
 	componentDidMount(){
+		console.log(this.props);
 		console.log('id=',this.state.id)
 		console.log('level=',this.state.level)
 
