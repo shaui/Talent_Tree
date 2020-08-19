@@ -1,11 +1,49 @@
-import React from 'react';
-import { Button, Table } from 'react-bootstrap';
+import React, { useState } from 'react';
+import { Button, Table, OverlayTrigger, Popover, Badge } from 'react-bootstrap';
 import { Link } from 'react-router-dom';
 import './Forum.css';
 import FirebaseMg from '../Utils/FirebaseMg.js';
 import { CSSTransition } from 'react-transition-group';
 
 import CustomPagination from '../Utils/CustomPagination';
+
+function StdPopover(props) {
+
+  const [show, setShow] = useState(false)
+
+  const showOverlay = () => setShow(true)
+  const hideOverlay = () => setShow(false)
+
+  const popover = (
+  	<Popover onMouseEnter={showOverlay} onMouseLeave={hideOverlay} id="popover-bottom-start" className="forum">
+      <Popover.Title as="h3">子技能學習標準</Popover.Title>
+      <Popover.Content>
+      	<ol className="forum">
+      	  {
+        	props.standards.map( (standard) => 
+        		<li>
+        			<h5 className="forum">
+        				<Badge variant="dark">{standard}</Badge>
+        			</h5>
+        		</li>
+        	)
+          }
+      	</ol>
+      </Popover.Content>
+    </Popover>
+  )
+
+  return (
+    <OverlayTrigger
+    placement="bottom-start"
+    overlay={popover}
+    show={show} >
+      <Button onMouseEnter={showOverlay} onMouseLeave={hideOverlay} variant="dark">
+      	<i className="fa fa-tags" aria-hidden="true"></i>
+      </Button>
+    </OverlayTrigger>
+  );
+}
 
 function PostLink(props) {
 	const name = props.name
@@ -31,6 +69,9 @@ function PostsTable(props) {
 	for ( var i in posts ) {
 		postItems.push(
 			<tr>
+			  <td>
+			  	<StdPopover standards={posts[i].course.standards} />
+			  </td>
 	          <th scope="row">{posts[i].type}</th>
 	          <td>
 	          	<PostLink 
@@ -39,8 +80,8 @@ function PostsTable(props) {
 	          	subskill={props.subskill} />
 	          </td>
 	          <td>{posts[i].user}</td>
-	          <td>{posts[i].course.comments ? posts[i].course.comments.length : 0}/{posts[i].view}</td>
-	          <td>{posts[i].like}/{posts[i].dislike}</td>
+	          <td>{posts[i].course.comments ? posts[i].course.comments.length : 0} / {posts[i].view}</td>
+	          <td>{posts[i].like} / {posts[i].dislike}</td>
 	          <td>{posts[i].timePosted}</td>
 	        </tr>
 		)
@@ -59,8 +100,9 @@ function PostsTable(props) {
 	// ) ;
 	return (
 		<Table hover responsive>
-	      <thead>
+	      <thead className="forum">
 	        <tr>
+	          <th>學習標準</th>
 	          <th>資源分類</th>
 	          <th>資源名稱</th>
 	          <th>發布者</th>
@@ -73,7 +115,7 @@ function PostsTable(props) {
 	          <th>發布時間</th>
 	        </tr>
 	      </thead>
-	      <tbody>
+	      <tbody className="forum">
 	        {postItems}
 	      </tbody>
 	    </Table>
@@ -93,7 +135,7 @@ class PostsPage extends React.Component {
 	getPosts(pathObj) {
 		const fbMg = new FirebaseMg() ;
 		var root = fbMg.myRef ;
-		var path = 'Posts/' + pathObj.subskill ;
+		var path = 'Posts/' + pathObj.subskill + "/children" ;
 		var myRef = root.child(path) ;
 		myRef.once('value').then( (snapshot) => {
 			let data = snapshot.val() ;
@@ -109,10 +151,9 @@ class PostsPage extends React.Component {
 	}
 	
 	componentDidMount() {
-		const pathName = this.props.location.pathname
-		const sentPath = this.props.location.state
+		const sentPath = this.props.match.params
 		let pathObj = new Object()
-		if ( !sentPath ) {
+		if ( !sentPath.length ) {
 			pathObj.subject = "資管系"
 			pathObj.field = "系統規劃"
 			pathObj.skill = "JAVA"
@@ -168,6 +209,7 @@ class PostsPage extends React.Component {
 	}
 
 	render() {
+		console.log(this.props);
 		return (
 			<div className="content" style={{ 'marginTop': '10vh' }}>
 				<div className="container banner-container">
@@ -178,16 +220,7 @@ class PostsPage extends React.Component {
 				<div className="container">
 					<div className="row justify-content-between">
 						<div className="col-4">
-							<Link to={{
-							     pathname:'/forum/post',
-							     state: {
-							     	subject: this.state.pathObj.subject,
-							     	field: this.state.pathObj.field,
-							     	skill: this.state.pathObj.skill,
-							     	subskill: this.state.pathObj.subskill,
-							     	standard: this.state.pathObj.standard
-							     }
-							}}> 
+							<Link to={ `${ this.props.match.url }/post` }> 
 								<button className="post-btn">
 									發布文章
 								</button>

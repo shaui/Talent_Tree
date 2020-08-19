@@ -1,11 +1,69 @@
-import React from 'react';
-import { Button, Table } from 'react-bootstrap';
+import React, { useState } from 'react';
+import { Button, Table, Card, Carousel } from 'react-bootstrap';
 import { Link } from 'react-router-dom';
 import './ForumHome.css';
 import FirebaseMg from '../Utils/FirebaseMg.js';
 import { CSSTransition } from 'react-transition-group';
 
-import CustomPagination from '../Utils/CustomPagination';
+function ControlledCarousel(props) {
+  const [index, setIndex] = useState(0);
+
+  const handleSelect = (selectedIndex, e) => {
+    setIndex(selectedIndex);
+  };
+
+  const items = props.posts.map( () => 
+  	<Carousel.Item>
+        <PostsTable />
+    </Carousel.Item>
+  )
+
+  return (
+    <Carousel activeIndex={index} onSelect={handleSelect}>
+      { items }
+    </Carousel>
+  );
+}
+
+function PostsCard(props) {
+	
+	let posts = [] ;
+	for ( var i in props.posts ) {
+		posts.push( props.posts[i] )
+	}
+
+	var filterByTime = ( posts ) => {
+		posts = posts.map( ( subskill ) =>
+			subskill.children.filter( ( post ) => {
+				const timePosted = new Date(post.timePosted)
+				let now = new Date()
+				now.setMonth( now.getMonth()-1 )
+				return timePosted.getTime() >= now.getTime()
+			} )
+		)
+		return posts
+	} 
+	posts = filterByTime( props.posts )
+	
+	// arr.reduce(callback[accumulator, currentValue, currentIndex, array], initialValue)
+	var groupBy = (originArr, key) => 
+	    originArr.reduce( (accuObj, post) => {
+	      ( accuObj[ post.path[key] ] = accuObj[ post.path[key] ] || [] ).push( post )
+	      return accuObj
+	    }, {} )  // 這個空物件為accumulator的初始值
+
+
+	const postsObj = groupBy( posts, "subject" )
+
+	return (
+		<Card>
+		  <Card.Header>Featured</Card.Header>
+		  <Card.Body>
+		    <ControlledCarousel posts={props.posts} />
+		  </Card.Body>
+		</Card>
+	)
+}
 
 function PostLink(props) {
 	const name = props.name
@@ -90,16 +148,15 @@ class ForumHome extends React.Component {
 		} ;
 	}
 
-	getPosts(pathObj) {
+	getPosts() {
 		const fbMg = new FirebaseMg() ;
 		var root = fbMg.myRef ;
-		var path = 'Posts/' + pathObj.subskill ;
+		var path = 'Posts/' ;
 		var myRef = root.child(path) ;
 		myRef.once('value').then( (snapshot) => {
 			let data = snapshot.val() ;
 			this.setState( {
 				data: data,
-				pathObj: pathObj,
 				isLoading: false
 			} ) ;
 		} )
@@ -109,59 +166,7 @@ class ForumHome extends React.Component {
 	}
 	
 	componentDidMount() {
-		const sentPath = this.props.location.state
-		let pathObj = new Object()
-		if ( !sentPath ) {
-			pathObj.subject = "資管系"
-			pathObj.field = "系統規劃"
-			pathObj.skill = "JAVA"
-			pathObj.subskill = "JAVA 1級"
-			this.getPosts(pathObj)
-		}
-		else if ( Array.isArray(sentPath.path) ) {
-			if ( sentPath.length === 4 ) {
-				pathObj.subject = sentPath[3]
-				pathObj.field = sentPath[2]
-				pathObj.skill = sentPath[1]
-				pathObj.subskill = sentPath[0]
-			}
-			else {
-				pathObj.subject = sentPath[4]
-				pathObj.field = sentPath[3]
-				pathObj.skill = sentPath[2]
-				pathObj.subskill = sentPath[1]
-				pathObj.standard = sentPath[0]
-			}
-			this.getPosts(pathObj)
-		} 
-		else {
-			if ( typeof sentPath.path === "string" )	{
-				pathObj.subskill = sentPath
-				const fbMg = new FirebaseMg() ;
-				var root = fbMg.myRef.child('Trees') ;
-				var path = 'Trees' ;
-				var myRef = root.child(path) ;
-				myRef.once('value').then( (snapshot) => {
-					let treeData = snapshot.val() ;
-					var traverse = require('traverse') ;
-					
-					traverse(treeData).forEach(function (x) {
-					    if (x === sentPath) {
-					    	pathObj.skill = this.parent.parent.parent.node.name
-					    	pathObj.field = this.parent.parent.parent.parent.parent.node.name
-					    	pathObj.subject = this.parent.parent.parent.parent.parent.parent.parent.node.name
-					    }
-					});
-
-					this.getPosts(pathObj)
-					
-				} )
-				.catch( (error) => {
-					console.log(error) ;
-				} ) ;
-			}
-		}
-		
+		this.getPosts()
 	}
 
 	render() {
@@ -173,58 +178,14 @@ class ForumHome extends React.Component {
 
 
 				<div className="container">
-					<div className="row justify-content-between">
-						<div className="col-4">
-							<Link to={{
-							     pathname:'/forum/post',
-							     state: {
-							     	subject: this.state.pathObj.subject,
-							     	field: this.state.pathObj.field,
-							     	skill: this.state.pathObj.skill,
-							     	subskill: this.state.pathObj.subskill,
-							     	standards: this.state.pathObj.standards 
-							     }
-							}}> 
-								<button className="post-btn">
-									發布文章
-								</button>
-							</Link>
-						</div>
-						<div className="col-6 forum">
-							{   
-								this.state.data ?
-									<CustomPagination posts={this.state.data} />
-								:
-									""
-							}
-						</div>
-					</div>
-				</div>
-				<CSSTransition in={!this.state.isLoading} timeout={1200} classNames="content" unmountOnExit appear>
-					<div className="container forum">
-						<div className="row">
-							<div className="col">
-								<PostsTable 
-								data={this.state.data} 
-								subskill={this.state.pathObj.subskill} />
+					<CSSTransition in={!this.state.isLoading} timeout={1200} classNames="content" unmountOnExit appear>
+						<div className="row justify-content-between">
+							<div className="col-4">
+								<PostsCard posts={this.state.data} />
 							</div>
 						</div>
-					</div>
 					</CSSTransition>
-				<CSSTransition in={!this.state.isLoading} timeout={1200} classNames="content" unmountOnExit appear>
-					<div className="container forum">
-						<div className="row justify-content-end">
-							<div className="col-6 forum">
-							{   
-								this.state.data ?
-									<CustomPagination posts={this.state.data} />
-								:
-									""
-							}
-							</div>
-						</div>
-					</div>
-				</CSSTransition>
+				</div>
 			</div>
 		);
 	}

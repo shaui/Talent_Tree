@@ -152,7 +152,7 @@ class CoursePage extends Component{
 		console.log('id=',this.state.id)
 		console.log('level=',this.state.level)
 
-		var myRef=root.child('Posts/'+this.state.level+'/'+this.state.id+'/course')
+		var myRef=root.child('Posts/'+this.state.level+'/children/'+this.state.id+'/course')
 		myRef.once('value',(snapshot)=>{
 			let data = snapshot.val()
 			this.setState({

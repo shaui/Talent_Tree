@@ -4,9 +4,18 @@
 }*/
 
 /*固定table長度*/
-thead th:nth-child(2),
-tbody td:nth-child(2) {
+thead.forum th:nth-child(3),
+tbody.forum td:nth-child(3) {
 	width: 25em;
+}
+
+thead.forum th:nth-child(1),
+tbody.forum td:nth-child(1) {
+  padding: .75rem;
+}
+
+tbody.forum td:nth-child(1) {
+  text-align: center;
 }
 
 /*垂直置中*/
@@ -51,6 +60,16 @@ hr {
 
 .forum ul {
   float: right;
+}
+
+ol.forum {
+  padding-left: 2em;
+  margin-top: 4px;
+  margin-bottom: 0px;
+}
+ol.forum li {
+  padding-left: 1em;
+  padding-right: 2em;
 }
 
 .forum.content-enter {

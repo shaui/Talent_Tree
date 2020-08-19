@@ -26,8 +26,7 @@ let editor ;
 class PostingPage extends React.Component {
 	constructor(props) {
 		super(props);
-		if ( this.props.location.state ) 
-			this.props.location.state.standards = []
+		this.props.match.params.standards = []
 		this.state = {
 			data: [],
 			subjects: [
@@ -62,7 +61,7 @@ class PostingPage extends React.Component {
 			showStandards: false,
 			showStdHelp: false,
 			showTextAreaHelp: false,
-			defaultData: this.props.location.state,
+			defaultData: this.props.match.params,
 			courseNum: 1,
 			isLoading: true
 		} ;
@@ -77,8 +76,8 @@ class PostingPage extends React.Component {
 	}
 	
 	componentDidMount() {
-		let defaultData = this.state.defaultData
-		if ( !defaultData ) {
+		let defaultData = this.props.match.params
+		if ( !defaultData.subject ) {
 			const fbMg = new FirebaseMg() ;
 			var root = fbMg.myRef ;
 			var path = 'Trees' ;
@@ -379,6 +378,15 @@ class PostingPage extends React.Component {
 					.catch( (error) => {
 						console.log(error) ;
 					} ) ;
+
+					path = 'Posts/'+ elems.subskill.value +"/path" ;
+					myRef = root.child(path) ;
+					myRef.update( {
+						subject: elems.subject.value,
+						field: elems.field.value,
+						skill: elems.skill.value,
+						standards: this.state.standards
+					} )
 				}
 				else {
 					this.setState( {
@@ -420,7 +428,7 @@ class PostingPage extends React.Component {
 					}
 					const fbMg = new FirebaseMg() ;
 					var root = fbMg.myRef ;
-					var path = 'Posts/'+ elems.subskill.value +"/"+ _uuid() ;
+					var path = 'Posts/'+ elems.subskill.value +"/children/"+ _uuid() ;
 					var myRef = root.child(path) ;
 					myRef.set( {
 						user: "Louis",
@@ -443,6 +451,16 @@ class PostingPage extends React.Component {
 					.catch( (error) => {
 						console.log(error) ;
 					} ) ;
+
+					path = 'Posts/'+ elems.subskill.value +"/path" ;
+					myRef = root.child(path) ;
+					myRef.update( {
+						subject: elems.subject.value,
+						field: elems.field.value,
+						skill: elems.skill.value,
+						standards: this.state.standards
+					} )
+
 				}
 				else {
 					this.setState( {
@@ -496,7 +514,7 @@ class PostingPage extends React.Component {
 
 	render( ) {
 		const defaultData = this.state.defaultData
-		const hasDefault = Boolean( defaultData )
+		const hasDefault = Boolean( defaultData.subject )
 		let subjectInput ;
 		let fieldInput ;
 		let skillInput ;
