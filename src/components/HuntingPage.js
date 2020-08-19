@@ -514,7 +514,6 @@ class HuntingForm extends React.Component {
 	handleSubmit(e) {
 		e.preventDefault() ;
 		const elems = e.target.elements
-		console.log(e.target);
 		if ( this.state.showProfile && !e.target.elements.profileButtons ) {
 			this.setState( {
 					showNoProfileSelectedWarn: true
@@ -1014,7 +1013,8 @@ class HuntingForm extends React.Component {
 					</CSSTransition>
 					{
 						this.state.showResult ? 
-						<HuntResult 
+						<HuntResult
+						subject = {this.state.chosenSubject} 
 						option={this.state.option} 
 						treeData={this.state.sentData} 
 						profiles={this.state.profiles}

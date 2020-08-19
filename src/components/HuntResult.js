@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { Link } from 'react-router-dom';
 import { Card, Table, Button, Modal, Form } from 'react-bootstrap';
 import './HuntResult.css';
 import FirebaseMg from '../Utils/FirebaseMg.js'
@@ -43,11 +44,7 @@ function CustomModal(props) {
 	          <div>
 	        	<Form.Group controlId="profileName">
 	        		<Form.Label>自定義組合名稱</Form.Label>
-    				<Form.Control 
-    				name="profileName" 
-    				placeholder="請輸入名稱" 
-    				className="hunt"
-    				required />
+    				<Form.Control name="profileName" placeholder="請輸入名稱" required />
 	        	</Form.Group>
 	          </div>
 	        </Modal.Body>
@@ -70,8 +67,7 @@ function CustomModal(props) {
 	        	<Form.Group controlId="profile">
 		          <Form.Label>選擇組合</Form.Label>
 		          <Form.Control
-		            name="profile"
-		            className="hunt" 
+		            name="profile" 
 		            as="select"
 		            required>
 		            <option></option>
@@ -97,12 +93,28 @@ function ResultTable(props) {
 	const users = props.data ;
 	let userItems = [] ; 
 	for ( var i in users ) {
+		console.log('User:', users[i])
 		userItems.push(
 			<tr>
 	            <td className="userName hunt">{users[i].name}</td>
-	            <td colSpan="2" className="userEmail hunt">xxxx@gmail.com</td>
-	            <td className="hunt"><Button variant="outline-danger">技能樹</Button></td>
-	            <td className="hunt"><Button variant="outline-primary">個人頁面</Button></td>
+	            <td colSpan="2" className="userEmail hunt">{users[i].email}</td>
+	            <td className="hunt">
+		            <Button variant="outline-danger">
+		            	<Link to={{pathname:"treeMenu/tree",
+		            			   state:{"userid":users[i].id,
+		            					  "subject":users[i].subject}}}
+		            		style={{'color':'red'}}>
+		            	技能樹</Link>
+		            </Button>
+	            </td>
+	            <td className="hunt">
+		            <Button variant="outline-primary">
+		            	<Link to={{pathname:"/profile",
+		            			   state:{"userid":users[i].id}}}
+		            		>
+		            	個人頁面</Link>
+		            </Button>
+	            </td>
 	        </tr>
 		)
 	}
@@ -113,8 +125,8 @@ function ResultTable(props) {
 		            <th className="hunt">用戶名稱</th>
 		            <th className="hunt">用戶信箱</th>
 		            <th className="hunt"></th>
-		            <th className="hunt"><span style={{'marginLeft':'10px'}}>技能樹</span></th>
-		            <th className="hunt"><span style={{'marginLeft':'10px'}}>個人資料</span></th>
+		            <th className="hunt"><span style={{'marginLeft':'8px'}}>技能樹</span></th>
+		            <th className="hunt"><span style={{'marginLeft':'8px'}}>個人資料</span></th>
 		        </tr>
 	        </thead>
 	        <tbody>
@@ -129,6 +141,7 @@ class HuntResult extends React.Component {
 		super(props);
 		this.state = {
 			data: [],
+			subject: '',
 			target: []
 		} ;
 		this.filterUser = this.filterUser.bind(this)
@@ -143,18 +156,22 @@ class HuntResult extends React.Component {
 		var myRef = root.child(path) ;
 		myRef.once('value').then( (snapshot) => {
 			let data = snapshot.val() ;
-
+			let subject = this.props.subject
+			
 			//把object轉成array
 			let dataArr = [];
-			for(var item in data){
-				dataArr.push(data[item])
+			for(var i in data){
+				data[i].id = i
+				data[i].subject = subject
+				dataArr.push(data[i])
 			}
 
 			//用data和option篩出目標用戶
 			let target = this.filterUser(dataArr, this.props.option)
 			this.setState({
 				data: dataArr,
-				target: target,
+				subject: this.props.subject,
+				target: target
 			}) ;
 		} )
 		.catch( (error) => {
@@ -215,7 +232,6 @@ class HuntResult extends React.Component {
 
 	addProfile(e) {
 		e.preventDefault() ;
-		const searchResult = this.state.target.length ? this.state.target : "null"
 		const fbMg = new FirebaseMg() ;
 		var root = fbMg.myRef ;
 		var path = 'Company/companyID/profiles/' ;
@@ -224,7 +240,7 @@ class HuntResult extends React.Component {
 		root.child(path+newProfileKey).set( {
 			name: e.target.elements.profileName.value,
 			tree: this.props.treeData,
-			result: searchResult,
+			result: this.state.target,
 			timePosted: new Date().toLocaleString()
 		} )
 		.then( () => {

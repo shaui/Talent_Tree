@@ -86,11 +86,7 @@ class MyTree extends Component{
 		this.onMouseOverHandler = this.onMouseOverHandler.bind(this)
 		this.onMouseOutHnadler = this.onMouseOutHnadler.bind(this)
 		this.onClickHandler = this.onClickHandler.bind(this)
-
-		//Firebase getData
-		var origin_this = this
-
-	    
+   
 	}
 
 	componentDidMount(){
@@ -181,7 +177,7 @@ class MyTree extends Component{
 
 	initTreeData(nodeData){
 
-		let path = 'Trees/' + this.props.location.state.path
+		let path = 'Trees/' + this.props.location.state['subject']
 		let myRef = root.child(path)
 
 		//Construct the tree
@@ -197,8 +193,17 @@ class MyTree extends Component{
 
 	initTreeState(treeData){
 		console.log("USERS:", this.context.user.uid)
+		let userID = ""
+		if(this.props.location.state["userid"]){
+			userID = this.props.location.state["userid"]
+			console.log("USER ID:", userID, )
+		}else{
+			userID = this.context.user.uid
+		}
+		console.log("USER ID:", userID, )
+		
 
-		let path = 'Users/' + this.context.user.uid + '/treeState/' + this.props.location.state.path + '/state'
+		let path = 'Users/' + userID + '/treeState/' + this.props.location.state['subject'] + '/state'
     	let myRef = root.child(path)
 
     	myRef.once('value', (snapshot) =>{
@@ -261,8 +266,16 @@ class MyTree extends Component{
 		for(var i = 0; i< nodeData.depth; i++){
 			treeRoot = treeRoot.parent //往上找真的root，
 		}
+
+		let userID = ""
+		if(this.props.location.state["userid"]){
+			userID = this.props.location.state["userid"]
+			console.log("USER ID:", userID, )
+		}else{
+			userID = this.context.user.uid
+		}
 		
-		let path = 'Users/' + this.context.user.uid + '/treeState/' + this.props.location.state.path + '/state'
+		let path = 'Users/' + userID + '/treeState/' + this.props.location.state['subject'] + '/state'
     	let myRef = root.child(path)
 
     	myRef.once('value', (snapshot) => {
@@ -439,7 +452,15 @@ class MyTree extends Component{
 		let skillName = nodePath[1]
 		let skillStd = nodePath[0]
 
-		let path = "Users/" + this.context.user.uid + "/treeState/" + this.props.location.state.path + "/state"
+		let userID = ""
+		if(this.props.location.state["userid"]){
+			userID = this.props.location.state["userid"]
+			console.log("USER ID:", userID, )
+		}else{
+			userID = this.context.user.uid
+		}
+		
+		let path = "Users/" + userID + "/treeState/" + this.props.location.state['subject'] + "/state"
     	let myRef = root.child(path)
 
     	myRef.once('value', (snapshot) => {
@@ -505,8 +526,16 @@ class MyTree extends Component{
 		let skillName = nodePath[1]
 		let skillStd = nodePath[0]
 		let childrenLength = this.state.selectedNodeData["parent"]["children"].length
-		
-		let path = "Users/" + this.context.user.uid + "/progress/" + skillName
+	
+		let userID = ""
+		if(this.props.location.state["userid"]){
+			userID = this.props.location.state["userid"]
+			console.log("USER ID:", userID, )
+		}else{
+			userID = this.context.user.uid
+		}
+
+		let path = "Users/" + userID + "/progress/" + skillName
     	let myRef = root.child(path)
 
     	myRef.once('value', (snapshot)=> {
@@ -542,7 +571,15 @@ class MyTree extends Component{
 				}
 				
 			}else{
-				let path = "Users/" + this.context.user.uid + "/progress"
+				let userID = ""
+				if(this.props.location.state["userid"]){
+					userID = this.props.location.state["userid"]
+					console.log("USER ID:", userID, )
+				}else{
+					userID = this.context.user.uid
+				}
+
+				let path = "Users/" + userID + "/progress"
 				let myRef = root.child(path)
 				
 				let progressData = new Object()
@@ -564,7 +601,15 @@ class MyTree extends Component{
 	updateHistory(skillName){
 		let date = new Date();
 		let today = date.getFullYear() + "-" + (date.getMonth()+1) + "-" + date.getDate()
-		let path = "Users/" + this.context.user.uid + "/history/" + date.getFullYear()
+		let userID = ""
+		if(this.props.location.state["userid"]){
+			userID = this.props.location.state["userid"]
+			console.log("USER ID:", userID, )
+		}else{
+			userID = this.context.user.uid
+		}
+
+		let path = "Users/" + userID + "/history/" + date.getFullYear()
     	let myRef = root.child(path)		
 
     	myRef.once('value', (snapshot) => {
@@ -586,7 +631,15 @@ class MyTree extends Component{
 						"time": today
 					}
 				}
-				let path = "Users/" + this.context.user.uid + "/history"
+				let userID = ""
+				if(this.props.location.state["userid"]){
+					userID = this.props.location.state["userid"]
+					console.log("USER ID:", userID, )
+				}else{
+					userID = this.context.user.uid
+				}
+
+				let path = "Users/" + userID + "/history"
     			let myRef = root.child(path)	
     			myRef.update(historyObj)
     		}
@@ -641,8 +694,14 @@ class MyTree extends Component{
 		let skillName = nodePath[1]
 		let skillStd = nodePath[0]
 		let childrenLength = this.state.selectedNodeData["parent"]["children"].length
-		
-		let path = "Users/" + this.context.user.uid + "/progress/" + skillName
+		let userID = ""
+		if(this.props.location.state["userid"]){
+			userID = this.props.location.state["userid"]
+			console.log("USER ID:", userID, )
+		}else{
+			userID = this.context.user.uid
+		}
+		let path = "Users/" + userID + "/progress/" + skillName
     	let myRef = root.child(path)
 
 

@@ -8,38 +8,59 @@ import './Profile.css'
 const fbMg = new FirebaseMg()
 
 var root = fbMg.myRef
-var uuid=''
+
 class Profile extends Component{
-    constructor(props,username){
+    constructor(props){
         super(props)
         this.state={
             data:[],
-            user:username,
             index:0,
             direction:null,
             isShowArtwork:false,
             isShowActivities:false,
             isProfileEdited:false,
-            isPublic:false
+            isPublic:false,
+            user:"",
+            isView:false
+
         }
 
     }
 
     componentDidMount(){
-        fbMg.auth.onAuthStateChanged(userAuth=>{
-            uuid=userAuth.uid
-            let myRef=root.child('Users/'+uuid)
-            myRef.on('value',(snapshot) => {
-                let data = snapshot.val()
-                console.log("data:",data)
-                console.log("data:",data.treeState)
-                // console.log("myRef:",myRef)
-                this.setState({
-                    data:data,
-                    isPublic:data.isPublic
+        if(this.props.location.state){
+            console.log("檢視模式")
+            let myRef=root.child('Users/'+this.props.location.state['userid'])
+                myRef.on('value',(snapshot) => {
+                    let data = snapshot.val()
+                    console.log("data:",data)
+                    console.log("data:",data.treeState)
+                    // console.log("myRef:",myRef)
+                    this.setState({
+                        user:this.props.location.state['userid'],
+                        data:data,
+                        isPublic:data.isPublic,
+                        isView:true
+                    })
+                })
+        }
+        else{
+            fbMg.auth.onAuthStateChanged(userAuth=>{
+                let myRef=root.child('Users/'+userAuth.uid)
+                myRef.on('value',(snapshot) => {
+                    let data = snapshot.val()
+                    console.log("data:",data)
+                    console.log("data:",data.treeState)
+                    // console.log("myRef:",myRef)
+                    this.setState({
+                        user:userAuth.uid,
+                        data:data,
+                        isPublic:data.isPublic,
+                        isView:false
+                    })
                 })
             })
-        })
+        }
 
 
     }
@@ -114,23 +135,44 @@ class Profile extends Component{
             )
         }
         else{
-            artwork.map((content,index)=>(
 
-                list.push(
-                    <Row style={{'marginBottom':'16pt'}} className="artwork" id={index}>
-                        {
-                            content.link
-                            ? <Col xs={12} md={4} lg={4} style={{'maxWidth':'25%'}}><li><a  href={content.link}>{content.name}</a></li></Col>
-                            : <Col xs={12} md={4} lg={4} style={{'maxWidth':'25%'}}><li>{content.name}</li></Col>
-                        }
+            if(this.props.location.state){
+                artwork.map((content,index)=>(
 
-                        <Col xs={11} md={8} lg={8}>{content.description}</Col>
-                        <Col xs={1} md={1} lg={1}><i className="fa fa-close Profile icon" style={{'fontSize':'24px'}} onClick={()=>this.deleteArtwork(index)} ></i></Col>
-                    </Row>
-                )
+                    list.push(
+                        <Row style={{'marginBottom':'16pt'}} className="artwork" id={index}>
+                            {
+                                content.link
+                                ? <Col xs={12} md={4} lg={4} style={{'maxWidth':'25%'}}><li><a  href={content.link}>{content.name}</a></li></Col>
+                                : <Col xs={12} md={4} lg={4} style={{'maxWidth':'25%'}}><li>{content.name}</li></Col>
+                            }
+
+                            <Col xs={11} md={8} lg={8}>{content.description}</Col>
+                        </Row>
+                    )
 
 
-            ))
+                ))               
+            }else{
+                artwork.map((content,index)=>(
+
+                    list.push(
+                        <Row style={{'marginBottom':'16pt'}} className="artwork" id={index}>
+                            {
+                                content.link
+                                ? <Col xs={12} md={4} lg={4} style={{'maxWidth':'25%'}}><li><a  href={content.link}>{content.name}</a></li></Col>
+                                : <Col xs={12} md={4} lg={4} style={{'maxWidth':'25%'}}><li>{content.name}</li></Col>
+                            }
+
+                            <Col xs={11} md={8} lg={8}>{content.description}</Col>
+                            <Col xs={1} md={1} lg={1}><i className="fa fa-close Profile icon" style={{'fontSize':'24px'}} onClick={()=>this.deleteArtwork(index)} ></i></Col>
+                        </Row>
+                    )
+
+
+                ))       
+            }
+
         }
 
         return list;
@@ -145,17 +187,31 @@ class Profile extends Component{
             )
         }
         else{
-            activities.map((content,index)=>(
+            if(this.props.location.state){
+                activities.map((content,index)=>(
 
-                list.push(
-                    <Row style={{'marginBottom':'16pt'}} className="activities" id={index}>
-                        <Col xs={3} md={3} lg={3}><li>{content.time}</li></Col>
-                        <Col xs={8} md={8} lg={8}>{content.description}</Col>
-                        <Col xs={1} md={1} lg={1}><i className="fa fa-close Profile icon" style={{'fontSize':'24px'}} onClick={()=>this.deleteActivities(index)}></i></Col>
-                    </Row>
-                )
+                    list.push(
+                        <Row style={{'marginBottom':'16pt'}} className="activities" id={index}>
+                            <Col xs={3} md={3} lg={3}><li>{content.time}</li></Col>
+                            <Col xs={8} md={8} lg={8}>{content.description}</Col>
+                        </Row>
+                    )
 
-            ))
+                ))
+            }else{
+                activities.map((content,index)=>(
+
+                    list.push(
+                        <Row style={{'marginBottom':'16pt'}} className="activities" id={index}>
+                            <Col xs={3} md={3} lg={3}><li>{content.time}</li></Col>
+                            <Col xs={8} md={8} lg={8}>{content.description}</Col>
+                            <Col xs={1} md={1} lg={1}><i className="fa fa-close Profile icon" style={{'fontSize':'24px'}} onClick={()=>this.deleteActivities(index)}></i></Col>
+                        </Row>
+                    )
+
+                ))                
+            }
+
         }
         return list;
     }
@@ -224,7 +280,7 @@ class Profile extends Component{
 
     handleChange = (event) =>{
         var initdata={isPublic:event.target.checked}
-        let myRef=root.child('Users/'+uuid)
+        let myRef=root.child('Users/'+this.state.user)
         myRef.update(initdata)
         this.setState({
             isPublic:event.target.checked
@@ -238,7 +294,7 @@ class Profile extends Component{
             description:description,
             link:link
         }
-        var insertNode = root.child('Users/'+uuid+'/artwork/'+this.state.data.artwork.length)
+        var insertNode = root.child('Users/'+this.state.user+'/artwork/'+this.state.data.artwork.length)
         insertNode.update(initdata)
 
     }
@@ -248,12 +304,12 @@ class Profile extends Component{
             time:time,
             description:description
         }
-        var insertNode = root.child('Users/'+uuid+'/activities/'+this.state.data.activities.length)
+        var insertNode = root.child('Users/'+this.state.user+'/activities/'+this.state.data.activities.length)
         insertNode.update(initdata)
 
     }
     deleteArtwork(id){
-        var deleteNode=root.child('Users/'+uuid+'/artwork/'+id)
+        var deleteNode=root.child('Users/'+this.state.user+'/artwork/'+id)
 
 
             deleteNode.remove()
@@ -262,7 +318,7 @@ class Profile extends Component{
 
     }
     deleteActivities(id){
-        var deleteNode=root.child('Users/'+uuid+'/activities/'+id)
+        var deleteNode=root.child('Users/'+this.state.user+'/activities/'+id)
 
 
             deleteNode.remove()
@@ -303,7 +359,7 @@ class Profile extends Component{
                 data[i]=document.getElementById(i).placeholder
             }
         }
-        root.child('Users/'+uuid).update(data)
+        root.child('Users/'+this.state.user).update(data)
         alert("上傳成功")
         this.setState({
             isProfileEdited:false
@@ -327,67 +383,20 @@ class Profile extends Component{
         // const history=this.getHistory();
         const artwork=this.getArtwork();
         const activities=this.getActivities();
-        if(uuid.length>0){
-            return(
-                <div className='Profile content'>
-                    <Card className='border-0'>
-
-                        <div className='Profile userInfo'>
-                            <div>
-                                <h1>
-                                    <span><i className="fa fa-user-circle-o" style={{'fontSize':'32px'}}></i></span>
-                                    <span className='Profile Card_Title'>個人資料</span>
-                                    <span><i className="fa fa-pencil Profile icon" onClick={()=>this.handleEdited("Profile")} ></i></span>
-                                </h1>
-                            </div>
-                            <div className='Profile divider'></div>
-                            {
-                                this.state.isProfileEdited
-                                ?   <div>
-                                        <Row>
-                                            <Col>姓名：<input type="input" className="Profile EditBar" id="name" placeholder={data.name} ></input> </Col>
-                                            <Col>生日：<input type="input" className="Profile EditBar" id="birthday" placeholder={data.birthday}></input></Col>
-                                        </Row>
-                                        <Row>
-                                            <Col>信箱：<input type="input" className="Profile EditBar" id="email" placeholder={data.email} ></input></Col>
-                                            <Col>電話：<input type="input" className="Profile EditBar" id="phone" placeholder={data.phone} ></input></Col>
-                                        </Row>
-                                        <Row style={{'marginBottom':'3vh'}}><Col >個人頁面：</Col></Row>
-                                        <Row>
-                                            <Col>
-                                                <Col>
-                                                    <i className="fa fa-linkedin-square" style={{'fontSize':'32px','color':'#007bff'}} ></i>
-                                                    <input type="input" className="Profile EditBar" id="LinkedIn" placeholder={data.LinkedIn} style={{'marginLeft':'1vw','width':'75%'}}></input>
-                                                    <i className="fa fa-close Profile iconBtn"  onClick={()=>this.clearPlaceholder("LinkedIn")}></i>
-                                                </Col>
-                                            </Col>
-                                        </Row>
-                                        <Row>
-                                            <Col>
-                                                <Col>
-                                                    <i className="fa fa-github" style={{'fontSize':'32px','color':'#007bff'}} ></i>
-                                                    <input type="input" className="Profile EditBar" id="github" placeholder={data.github} style={{'marginLeft':'1vw','width':'75%'}}></input>
-                                                    <i className="fa fa-close Profile iconBtn"  onClick={()=>this.clearPlaceholder("github")}></i>
-                                                </Col>
-                                            </Col>
-                                        </Row>
-                                        <Row>
-                                            <Col>
-                                                <Col>
-                                                    <i className="fa fa-facebook-official" style={{'fontSize':'32px','color':'#007bff'}} onClick={()=>this.clearPlaceholder("facebook")}></i>
-                                                    <input type="input" className="Profile EditBar" id="facebook" placeholder={data.facebook} style={{'marginLeft':'1vw','width':'75%'}}></input>
-                                                    <i className="fa fa-close Profile iconBtn"  onClick={()=>this.this.clearPlaceholder("facebook")}></i>
-                                                </Col>
-                                            </Col>
-                                        </Row>
-
-                                        <Button style={{'float':'right','marginTop':'2vh','width':'10%'}}
-                                            onClick={()=>this.updateProfile()}
-                                        >送出</Button>
-
-                                    </div>
-
-                                :   <div>
+        if(this.state.isView){
+            if(this.state.isPublic){
+                return(
+                    <div className='Profile content'>
+                        <Card className='border-0'>
+                            <div className='Profile userInfo'>
+                                <div>
+                                    <h1>
+                                        <span><i className="fa fa-user-circle-o" style={{'fontSize':'32px'}}></i></span>
+                                        <span className='Profile Card_Title'>個人資料</span>
+                                    </h1>
+                                </div>
+                                <div className='Profile divider'></div>
+                                    <div>
                                         <Row>
                                             <Col>姓名：{data.name}</Col>
                                             <Col>生日：{data.birthday}</Col>
@@ -414,155 +423,303 @@ class Profile extends Component{
                                                 : <span style={{'marginRight':'1%'}}><i className="fa fa-facebook-official" style={{'fontSize':'32px','color':'grey'}}></i></span>
                                             }
                                             </Col>
-                                            <Col>公開個人頁面：
-                                                <span><Switch color="primary"  onChange={this.handleChange} checked={this.state.isPublic} inputProps={{'aria-label':'primary checkbox'}}/></span>
-
-                                            </Col>
                                         </Row>
                                     </div>
-                            }
-
-
-                        </div>
-                    </Card>
-                    <Card className='border-0'>
-                        <div className='Profile userInfo'>
-                            <div>
-                                <h1>
-                                    <span><i className="fa fa-mortar-board" style={{'fontSize':'32px'}}></i></span>
-                                    <span className='Profile Card_Title'>學習歷程</span>
-                                    <span>
-                                        <i className="fa fa-toggle-right Profile icon" onClick={() => this.toggleCarousel('next')}></i>
-                                        <i className="fa fa-toggle-left Profile icon" onClick={() => this.toggleCarousel('prev')}></i>
-                                    </span>
-                                </h1>
                             </div>
-                            <div className='Profile divider'></div>
-                            <div>
-                            <Carousel interval={null} indicators={false} style={{'minHeight':'30vh'}} controls={false} activeIndex={this.state.index} direction={this.state.direction}>{this.getHistory()}</Carousel>
+                        </Card>
+
+                        <Card className='border-0'>
+                            <div className='Profile userInfo'>
+                                <div>
+                                    <h1>
+                                        <span><i className="fa fa-mortar-board" style={{'fontSize':'32px'}}></i></span>
+                                        <span className='Profile Card_Title'>學習歷程</span>
+                                        <span>
+                                            <i className="fa fa-toggle-right Profile icon" onClick={() => this.toggleCarousel('next')}></i>
+                                            <i className="fa fa-toggle-left Profile icon" onClick={() => this.toggleCarousel('prev')}></i>
+                                        </span>
+                                    </h1>
+                                </div>
+                                <div className='Profile divider'></div>
+                                <div>
+                                    <Carousel interval={null} indicators={false} style={{'minHeight':'30vh'}} controls={false} activeIndex={this.state.index} direction={this.state.direction}>{this.getHistory()}</Carousel>
+                                </div>
+                            </div>
+                        </Card>
+
+                        <Card className='border-0'>
+                            <div className='Profile userInfo'>
+                                <div>
+                                    <h1>
+                                        <span><i className="fa fa-folder" style={{'fontSize':'32px'}}></i></span>
+                                        <span className='Profile Card_Title'>學習成果</span>
+                                    </h1>
+                                </div>
+                                <div className='Profile divider'></div>
+                                <div style={{'minHeight':'20vh'}}>{artwork}</div>
+                            </div>
+                        </Card>
+
+                        <Card className='border-0'>
+                            <div className='Profile userInfo'>
+                                <div>
+                                    <h1>
+                                        <span><i className="fa fa-flask" style={{'fontSize':'32px'}}></i></span>
+                                        <span className='Profile Card_Title'>活動事蹟</span>
+                                    </h1>
+                                </div>
+                                <div className='Profile divider'></div>
+                                <div style={{'minHeight':'20vh'}}>{activities}</div>
+                            </div>
+                        </Card>
+                    </div>
+                )
+            }
+            else{
+                return(
+                    <div key='x' className="text-center" style={{"marginTop":"10vh"}}>此用戶尚未公開個人資料</div>
+                )
+            }
+        }
+        else{
+            if(this.state.user.length>0){
+                return(
+                    <div className='Profile content'>
+                        <Card className='border-0'>
+
+                            <div className='Profile userInfo'>
+                                <div>
+                                    <h1>
+                                        <span><i className="fa fa-user-circle-o" style={{'fontSize':'32px'}}></i></span>
+                                        <span className='Profile Card_Title'>個人資料</span>
+                                        <span><i className="fa fa-pencil Profile icon" onClick={()=>this.handleEdited("Profile")} ></i></span>
+                                    </h1>
+                                </div>
+                                <div className='Profile divider'></div>
+                                {
+                                    this.state.isProfileEdited
+                                    ?   <div>
+                                            <Row>
+                                                <Col>姓名：<input type="input" className="Profile EditBar" id="name" placeholder={data.name} ></input> </Col>
+                                                <Col>生日：<input type="input" className="Profile EditBar" id="birthday" placeholder={data.birthday}></input></Col>
+                                            </Row>
+                                            <Row>
+                                                <Col>信箱：<input type="input" className="Profile EditBar" id="email" placeholder={data.email} ></input></Col>
+                                                <Col>電話：<input type="input" className="Profile EditBar" id="phone" placeholder={data.phone} ></input></Col>
+                                            </Row>
+                                            <Row style={{'marginBottom':'3vh'}}><Col >個人頁面：</Col></Row>
+                                            <Row>
+                                                <Col>
+                                                    <Col>
+                                                        <i className="fa fa-linkedin-square" style={{'fontSize':'32px','color':'#007bff'}} ></i>
+                                                        <input type="input" className="Profile EditBar" id="LinkedIn" placeholder={data.LinkedIn} style={{'marginLeft':'1vw','width':'75%'}}></input>
+                                                        <i className="fa fa-close Profile iconBtn"  onClick={()=>this.clearPlaceholder("LinkedIn")}></i>
+                                                    </Col>
+                                                </Col>
+                                            </Row>
+                                            <Row>
+                                                <Col>
+                                                    <Col>
+                                                        <i className="fa fa-github" style={{'fontSize':'32px','color':'#007bff'}} ></i>
+                                                        <input type="input" className="Profile EditBar" id="github" placeholder={data.github} style={{'marginLeft':'1vw','width':'75%'}}></input>
+                                                        <i className="fa fa-close Profile iconBtn"  onClick={()=>this.clearPlaceholder("github")}></i>
+                                                    </Col>
+                                                </Col>
+                                            </Row>
+                                            <Row>
+                                                <Col>
+                                                    <Col>
+                                                        <i className="fa fa-facebook-official" style={{'fontSize':'32px','color':'#007bff'}} onClick={()=>this.clearPlaceholder("facebook")}></i>
+                                                        <input type="input" className="Profile EditBar" id="facebook" placeholder={data.facebook} style={{'marginLeft':'1vw','width':'75%'}}></input>
+                                                        <i className="fa fa-close Profile iconBtn"  onClick={()=>this.this.clearPlaceholder("facebook")}></i>
+                                                    </Col>
+                                                </Col>
+                                            </Row>
+
+                                            <Button style={{'float':'right','marginTop':'2vh','width':'10%'}}
+                                                onClick={()=>this.updateProfile()}
+                                            >送出</Button>
+
+                                        </div>
+
+                                    :   <div>
+                                            <Row>
+                                                <Col>姓名：{data.name}</Col>
+                                                <Col>生日：{data.birthday}</Col>
+                                            </Row>
+                                            <Row>
+                                                <Col>信箱：{data.email}</Col>
+                                                <Col>電話：{data.phone}</Col>
+                                            </Row>
+                                            <Row>
+                                                <Col>個人頁面：
+                                                {
+                                                    data.LinkedIn
+                                                    ? <span style={{'marginRight':'1%'}}><a href={data.LinkedIn}><i className="fa fa-linkedin-square" style={{'fontSize':'32px'}}></i></a></span>
+                                                    : <span style={{'marginRight':'1%'}}><i className="fa fa-linkedin-square" style={{'fontSize':'32px','color':'grey'}}></i></span>
+                                                }
+                                                {
+                                                    data.github
+                                                    ? <span style={{'marginRight':'1%'}}><a href={data.github}><i class="fa fa-github" style={{'fontSize':'32px'}}></i></a></span>
+                                                    : <span style={{'marginRight':'1%'}}><i className="fa fa-github" style={{'fontSize':'32px','color':'grey'}}></i></span>
+                                                }
+                                                {
+                                                    data.facebook
+                                                    ? <span style={{'marginRight':'1%'}}><a href={data.facebook}><i class="fa fa-facebook-official" style={{'fontSize':'32px'}}></i></a></span>
+                                                    : <span style={{'marginRight':'1%'}}><i className="fa fa-facebook-official" style={{'fontSize':'32px','color':'grey'}}></i></span>
+                                                }
+                                                </Col>
+                                                <Col>公開個人頁面：
+                                                    <span><Switch color="primary"  onChange={this.handleChange} checked={this.state.isPublic} inputProps={{'aria-label':'primary checkbox'}}/></span>
+
+                                                </Col>
+                                            </Row>
+                                        </div>
+                                }
+
 
                             </div>
-                        </div>
-                    </Card>
+                        </Card>
+                        <Card className='border-0'>
+                            <div className='Profile userInfo'>
+                                <div>
+                                    <h1>
+                                        <span><i className="fa fa-mortar-board" style={{'fontSize':'32px'}}></i></span>
+                                        <span className='Profile Card_Title'>學習歷程</span>
+                                        <span>
+                                            <i className="fa fa-toggle-right Profile icon" onClick={() => this.toggleCarousel('next')}></i>
+                                            <i className="fa fa-toggle-left Profile icon" onClick={() => this.toggleCarousel('prev')}></i>
+                                        </span>
+                                    </h1>
+                                </div>
+                                <div className='Profile divider'></div>
+                                <div>
+                                <Carousel interval={null} indicators={false} style={{'minHeight':'30vh'}} controls={false} activeIndex={this.state.index} direction={this.state.direction}>{this.getHistory()}</Carousel>
 
-                    <Card className='border-0'>
-                        <div className='Profile userInfo'>
-                            <div>
-                                <h1>
-                                    <span><i className="fa fa-folder" style={{'fontSize':'32px'}}></i></span>
-                                    <span className='Profile Card_Title'>學習成果</span>
-                                    <span>
-                                        <i className="fa fa-plus Profile icon" onClick={()=>this.handleShow("artwork")}></i>
-                                    </span>
-                                </h1>
+                                </div>
                             </div>
-                            <div className='Profile divider'></div>
-                            <div style={{'minHeight':'20vh'}}>{artwork}</div>
-                        </div>
-                    </Card>
+                        </Card>
 
-                    <Card className='border-0'>
-                        <div className='Profile userInfo'>
-                            <div>
-                                <h1>
-                                    <span><i className="fa fa-flask" style={{'fontSize':'32px'}}></i></span>
-                                    <span className='Profile Card_Title'>活動事蹟</span>
-                                    <span>
-                                        <i className="fa fa-plus Profile icon" onClick={()=>this.handleShow("activities")}></i>
-                                    </span>
-                                </h1>
+                        <Card className='border-0'>
+                            <div className='Profile userInfo'>
+                                <div>
+                                    <h1>
+                                        <span><i className="fa fa-folder" style={{'fontSize':'32px'}}></i></span>
+                                        <span className='Profile Card_Title'>學習成果</span>
+                                        <span>
+                                            <i className="fa fa-plus Profile icon" onClick={()=>this.handleShow("artwork")}></i>
+                                        </span>
+                                    </h1>
+                                </div>
+                                <div className='Profile divider'></div>
+                                <div style={{'minHeight':'20vh'}}>{artwork}</div>
                             </div>
-                            <div className='Profile divider'></div>
-                            <div style={{'minHeight':'20vh'}}>{activities}</div>
-                        </div>
-                    </Card>
-                    <Modal show={this.state.isShowArtwork} onHide={()=>this.handleClose("artwork",{})} centered backdrop="static" dialogClassName="Profile Mymodal">
-                        <Modal.Header closeButton>
-                            <h2 className="Profile MymodalTitle">新增學習成果</h2>
-                        </Modal.Header>
-                        <Modal.Body>
+                        </Card>
 
-                            <Row>
-                                <Col>
-                                <span className="Profile MymodalFont">成果名稱：</span>
-                                <span><input className="Profile Mymodal msg" type="text" id='name' name="name"/></span>
-                                </Col>
-                            </Row>
-
-
-                            <Row>
-                                <Col>
-                                <span className="Profile MymodalFont">成果連結：</span>
-                                <span><input className="Profile Mymodal msg" type="text" id='link' name="link" placeholder='(若無則免)' /></span>
-                                </Col>
-                            </Row>
-                            <Row>
-                                <Col>
-                                <span className="Profile MymodalFont">成果說明：</span>
-                                </Col>
-                            </Row>
-                            <Row>
-                                <Col><textarea rows="10" cols="70" id='description' className="Profile Mymodal msgarea" type="text" name="description"/></Col>
-                            </Row>
-
-
-                            <Row>
-                                <Col>
-
-                                </Col>
-                            </Row>
-
-
-                        </Modal.Body>
-                        <Modal.Footer>
-                            <Button variant="primary" style={{'width':'20%', 'margin':'0px'}} onClick={
-                                ()=>this.handleClose("artwork",
-                                {name:document.getElementById('name').value,
-                                description:document.getElementById('description').value,
-                                link:document.getElementById('link').value
-                                })}>送出
-                            </Button>
-                        </Modal.Footer>
-                    </Modal>
-                    <Modal show={this.state.isShowActivities} onHide={()=>this.handleClose("activities",{})} centered backdrop="static" dialogClassName="Profile Mymodal">
-                        <Modal.Header closeButton>
-                                <h2 className="Profile MymodalTitle">新增活動事蹟</h2>
+                        <Card className='border-0'>
+                            <div className='Profile userInfo'>
+                                <div>
+                                    <h1>
+                                        <span><i className="fa fa-flask" style={{'fontSize':'32px'}}></i></span>
+                                        <span className='Profile Card_Title'>活動事蹟</span>
+                                        <span>
+                                            <i className="fa fa-plus Profile icon" onClick={()=>this.handleShow("activities")}></i>
+                                        </span>
+                                    </h1>
+                                </div>
+                                <div className='Profile divider'></div>
+                                <div style={{'minHeight':'20vh'}}>{activities}</div>
+                            </div>
+                        </Card>
+                        <Modal show={this.state.isShowArtwork} onHide={()=>this.handleClose("artwork",{})} centered backdrop="static" dialogClassName="Profile Mymodal">
+                            <Modal.Header closeButton>
+                                <h2 className="Profile MymodalTitle">新增學習成果</h2>
                             </Modal.Header>
                             <Modal.Body>
 
                                 <Row>
                                     <Col>
-                                    <span className="Profile MymodalFont">活動時間：</span>
-                                    <span><input className="Profile Mymodal msg" id='time' type="date" name="time"/></span>
+                                    <span className="Profile MymodalFont">成果名稱：</span>
+                                    <span><input className="Profile Mymodal msg" type="text" id='name' name="name"/></span>
+                                    </Col>
+                                </Row>
+
+
+                                <Row>
+                                    <Col>
+                                    <span className="Profile MymodalFont">成果連結：</span>
+                                    <span><input className="Profile Mymodal msg" type="text" id='link' name="link" placeholder='(若無則免)' /></span>
                                     </Col>
                                 </Row>
                                 <Row>
                                     <Col>
-                                    <span className="Profile MymodalFont">事蹟說明：</span>
+                                    <span className="Profile MymodalFont">成果說明：</span>
                                     </Col>
                                 </Row>
                                 <Row>
                                     <Col><textarea rows="10" cols="70" id='description' className="Profile Mymodal msgarea" type="text" name="description"/></Col>
                                 </Row>
+
+
+                                <Row>
+                                    <Col>
+
+                                    </Col>
+                                </Row>
+
+
                             </Modal.Body>
                             <Modal.Footer>
                                 <Button variant="primary" style={{'width':'20%', 'margin':'0px'}} onClick={
-                                    ()=>this.handleClose("activities",
-                                    {time:document.getElementById('time').value,
-                                    description:document.getElementById('description').value
-                                    })}>
-                                            送出
+                                    ()=>this.handleClose("artwork",
+                                    {name:document.getElementById('name').value,
+                                    description:document.getElementById('description').value,
+                                    link:document.getElementById('link').value
+                                    })}>送出
                                 </Button>
                             </Modal.Footer>
-                    </Modal>
-                </div>
-            )
+                        </Modal>
+                        <Modal show={this.state.isShowActivities} onHide={()=>this.handleClose("activities",{})} centered backdrop="static" dialogClassName="Profile Mymodal">
+                            <Modal.Header closeButton>
+                                    <h2 className="Profile MymodalTitle">新增活動事蹟</h2>
+                                </Modal.Header>
+                                <Modal.Body>
+
+                                    <Row>
+                                        <Col>
+                                        <span className="Profile MymodalFont">活動時間：</span>
+                                        <span><input className="Profile Mymodal msg" id='time' type="date" name="time"/></span>
+                                        </Col>
+                                    </Row>
+                                    <Row>
+                                        <Col>
+                                        <span className="Profile MymodalFont">事蹟說明：</span>
+                                        </Col>
+                                    </Row>
+                                    <Row>
+                                        <Col><textarea rows="10" cols="70" id='description' className="Profile Mymodal msgarea" type="text" name="description"/></Col>
+                                    </Row>
+                                </Modal.Body>
+                                <Modal.Footer>
+                                    <Button variant="primary" style={{'width':'20%', 'margin':'0px'}} onClick={
+                                        ()=>this.handleClose("activities",
+                                        {time:document.getElementById('time').value,
+                                        description:document.getElementById('description').value
+                                        })}>
+                                                送出
+                                    </Button>
+                                </Modal.Footer>
+                        </Modal>
+                    </div>
+                )
+            }
+            else{
+                return(
+                    <div>請先登入</div>
+                )
+            }
         }
-        else{
-            return(
-                <div></div>
-            )
-        }
+
 
     }
 }
