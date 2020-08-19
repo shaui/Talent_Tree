@@ -51,7 +51,14 @@ function insertNameByParams(href, paramsString, isActive) {
 
   }
   else if ( segment === "course" ) {
-    
+    let params ;
+    if ( paramsString )
+      params = paramsString.split('&')
+    else
+      params = "" ;
+    item = isActive ? 
+      <Breadcrumb.Item active>{params[1]}</Breadcrumb.Item> : 
+      <Breadcrumb.Item href={href+"/"+params}>{params[1]}</Breadcrumb.Item>
   }
   
   return item
