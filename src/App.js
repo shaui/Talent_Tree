@@ -75,7 +75,7 @@ class App extends Component {
       }else{
         console.log('App user:', userAuth)
       }
-      this.setState({ user: userAuth});
+      this.setState({ user: userAuth });
     })
   }
 
@@ -102,7 +102,7 @@ class App extends Component {
                       this.props.location.pathname === "/" ? 
                         ""
                       :
-                        <CustomBreadcrumb path={this.props.location.pathname} params={this.props.location.state} />
+                        <CustomBreadcrumb path={this.props.location.pathname} params={this.props.computedMatch.params} />
                    }
                   </div>
                 </div>
@@ -115,18 +115,22 @@ class App extends Component {
             {
                 this.props.location.pathname !== "/treeMenu/tree" && this.props.location.pathname !=="/" ?
                   <div style={{'paddingTop':'9vh'}}>
+
                     <Route exact path="/forum" component={PostsPage} />
                     <Route exact path="/forum/post" component={PostingPage} />
-                    <Route exact path="/hunt" component={HuntingPage} />
                     <Route exact path="/forum/course" component={CoursePage} />
+                    <Route exact path="/forum/:path" component={PostsPage} />
+                    <Route exact path="/forum/:path/post" component={PostingPage} />
+                    <Route exact path="/forum/:path/course/:id&:name&:level" component={CoursePage} />
+                    <Route exact path="/hunt" component={HuntingPage} />
                     <Route exact path="/home" component={HomePage} />
                     <Route exact path="/treeMenu" component={TreeMenu} />
                     <Route exact path="/profile" component={Profile} />
                   </div>
                 :
                   ""
-            }          
-            
+            }
+
 
   	    	</div>
       	</div>

@@ -64,3 +64,21 @@ transition: all 0.3s ease 0s;
 	padding-top: 2px !important;
 	padding-bottom: 2px !important;
 }
+
+.post.content-enter {
+  opacity: 0;
+  top: 120px;
+  position: relative;
+}
+.post.content-enter-active {
+  opacity: 1;
+  transform: translateY(-120px);
+  transition: all 1000ms;
+}
+.post.content-exit {
+  opacity: 1;
+}
+.post.content-exit-active {
+  opacity: 0;
+  transition: all 1000ms;
+}

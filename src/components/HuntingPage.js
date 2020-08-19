@@ -208,29 +208,32 @@ class HuntingForm extends React.Component {
 	}
 	chooseField(e) {
 		let fieldObjs = this.state.fieldObjs
+		let fieldObj ;
 		
 		// 打勾選項
 		if ( e.target.checked ) {
 			let fields = this.state.fields
 
-			// 取得選取的領域原Object（只有name跟children）
-			let field = fields.find( (obj) => {
-				return obj.name === e.target.value
-			} )
+			// 取得選取的領域並包成Object
+			for ( var i in fields ) {
+				if ( fields[i].name === e.target.value )
+					fieldObj = {
+						skills: fields[i].children,
+						name: fields[i].name,
+						order: i
+					}
+			}
 
 			// 確認有無領域已被打勾（前者無，後者有）
 			// 接著把Object重新包裝，放入checked，最後放進state
 			if ( !fieldObjs[0].name ) {
-				fieldObjs[0].name = field.name
-				fieldObjs[0].skills = field.children
+				fieldObjs[0] = fieldObj
 			}
 			else {
-				const fieldObj = { 
-					skills: field.children,
-					name: field.name,
-				}
-				
 				fieldObjs.push( fieldObj )
+				fieldObjs = fieldObjs.sort( (a, b) => 
+					a.order > b.order ? 1 : -1
+				)
 			}
 
 			this.setState( {
@@ -330,13 +333,11 @@ class HuntingForm extends React.Component {
 							{ 
 								subskills: [],
 								name: "",
-		
 							}
 						],
 						subskillObjs: [
 							{ 
 								name: "",
-		
 							}
 						],
 						showSubskills: false
@@ -349,6 +350,7 @@ class HuntingForm extends React.Component {
 	}
 	chooseSkill(e) {
 		let skillObjs = this.state.skillObjs
+		let skillObj ;
 		
 		// 打勾選項
 		if ( e.target.checked ) {
@@ -357,25 +359,27 @@ class HuntingForm extends React.Component {
 			let fieldObjs = this.state.fieldObjs
 
 			// 從已打勾的領域內去找被勾選的技能
-			let choosenSkill = ""
-			fieldObjs.forEach( ( obj ) => {
-				obj.skills.forEach( ( skill ) => {
-					if ( skill.name === e.target.value )
-						choosenSkill = skill
-				} )
-			} )
+			for ( var i in fieldObjs ) {
+				for ( var j in fieldObjs[i].skills ) {
+					if ( fieldObjs[i].skills[j].name === e.target.value  )
+						skillObj = {
+							subskills: fieldObjs[i].skills[j].children,
+							name: fieldObjs[i].skills[j].name,
+							orderOne: i,
+							orderTwo: j
+						}
+				}
+			}
 
 			// 有無初始化的寫法差異
 			if ( !skillObjs[0].name ) {
-				skillObjs[0].name = choosenSkill.name
-				skillObjs[0].subskills = choosenSkill.children
+				skillObjs[0] = skillObj
 			}
 			else {
-				const skillObj = { 
-					subskills: choosenSkill.children,
-					name: choosenSkill.name,
-				}
 				skillObjs.push( skillObj )
+				skillObjs.sort( (a, b) => 
+					a.orderOne > b.orderOne || ( a.orderOne === b.orderOne && a.orderTwo > b.orderTwo ) ? 1 : -1
+				)
 			}
 
 			this.setState( {
@@ -460,28 +464,38 @@ class HuntingForm extends React.Component {
 			let skillObjs = this.state.skillObjs
 
 			// 從已打勾的技能內去找被勾選的子技能
-			let choosenSubskill = ""
+			let chosenSubskill = ""
 			skillObjs.forEach( ( obj ) => {
 				obj.subskills.forEach( ( subskill ) => {
 					if ( subskill.name === e.target.value )
-						choosenSubskill = subskill
+						chosenSubskill = subskill
 				} )
 			} )
 
 			// 有無初始化的寫法差異
 			if ( !subskillObjs[0].name ) {
-				subskillObjs[0].name = choosenSubskill.name
+				subskillObjs[0].name = chosenSubskill.name
 			}
 			else {
 				const subskillObj = { 
-					name: choosenSubskill.name,
+					name: chosenSubskill.name,
 				}
 				subskillObjs.push( subskillObj )
 			}
-
-			this.setState( {
-				subskillObjs: subskillObjs,
-			} )
+			
+			if ( this.submitTimer ) {
+				clearTimeout(this.submitTimer)
+				this.setState( {
+					showSubmitWarn: false,
+					subskillObjs: subskillObjs,
+				} )
+			}
+			else {
+				this.setState( {
+					subskillObjs: subskillObjs,
+				} )
+			}
+			
 			
 		} 
 
@@ -559,6 +573,7 @@ class HuntingForm extends React.Component {
 					return checked.some( bool => Boolean(bool) )
 				} )
 				for ( var i in data.children ) {
+					// 進每個field把skill篩出來
 					data.children[i].children = data.children[i].children.filter( (skill) => {
 						let checked = chosenSkills.map( (skillObj) => 
 						skill.name === skillObj.name
@@ -568,6 +583,7 @@ class HuntingForm extends React.Component {
 				}
 				for ( var x in data.children ) {
 					for ( var y in data.children[x].children ) {
+						// 進每個skill把subskill篩出來
 						data.children[x].children[y].children = data.children[x].children[y].children.filter( (subskill) => {
 							let checked = chosenSubskills.map( (subskillObj) => 
 							subskill.name === subskillObj.name
@@ -665,7 +681,12 @@ class HuntingForm extends React.Component {
 			if ( profileObj[i].name === profileName )
 				profileID = i
 		}
-
+		// 我為了條件render的效能（不用每次render都要從tree中迭代取得「未被勾選的條件」），
+		// 所以除了紀錄勾選的名稱，也把其下的children包進物件裡、放進state，
+		// 因此這邊要讀取profile的組合有兩種辦法，
+		// 一種是像下面這樣對照原本的tree，
+		// 一種是改變上傳到profile的條件的結構，改成原本的tree，並加上一個Boolean來判斷，
+		// 就可以不讀原始的tree，但相對地資料可讀性就會大大減低
 		subject = profileObj[profileID].tree.name
 
 		let fieldsAll = data[subject]["children"]
@@ -684,19 +705,17 @@ class HuntingForm extends React.Component {
 				}
 		} )
 
-		let chosenSkills = profileObj[profileID].tree.children.map( (chosenField) => 
+		let chosenSkills = profileObj[profileID].tree.children.flatMap( (chosenField) => 
 			chosenField.children
 		)
-		chosenSkills = chosenSkills.flat()
-		let skillsAll = fields.map( (field) =>
+		let skillsAll = fields.flatMap( (field) =>
 			field.children
 		)
-		skillsAll = skillsAll.flat()
 		let skills = []
 		chosenSkills.forEach( (chosenSkill) =>
-			skills = skillsAll.filter( (skill) =>
+			skills.push( skillsAll.find( (skill) =>
 				chosenSkill.name === skill.name
-			)	
+			) )
 		)
 		skillObjs = skills.map( (skill) => {
 				return {
@@ -705,36 +724,50 @@ class HuntingForm extends React.Component {
 				}
 		} )
 
-		let chosenSubskills = chosenSkills.map( (chosenSkill) => 
+		let chosenSubskills = chosenSkills.flatMap( (chosenSkill) => 
 			chosenSkill.children
 		)
-		chosenSubskills = chosenSubskills.flat()
-		let subskillsAll = skills.map( (skill) =>
+		let subskillsAll = skills.flatMap( (skill) =>
 			skill.children
 		)
-		subskillsAll = subskillsAll.flat()
 		let subskills = []
 		chosenSubskills.forEach( (chosenSubskill) =>
-			subskills = subskillsAll.filter( (subskill) =>
+			subskills.push( subskillsAll.find( (subskill) =>
 				chosenSubskill.name === subskill.name
-			)	
+			) )
 		)
 		subskillObjs = subskills.map( (subskill) => {
 				return {
 					name: subskill.name
 				}
 		} )
-		
-		this.setState( {
-			chosenSubject: subject,
-			fields: fieldsAll,
-			fieldObjs: fieldObjs,
-			skillObjs: skillObjs,
-			subskillObjs: subskillObjs,
-			showFields: true,
-			showSkills: true,
-			showSubskills: true
-		} )
+
+		if ( this.noSelectTimer ) {
+			clearTimeout(this.submitTimer)
+			this.setState( {
+				showNoProfileSelectedWarn: false,
+				chosenSubject: subject,
+				fields: fieldsAll,
+				fieldObjs: fieldObjs,
+				skillObjs: skillObjs,
+				subskillObjs: subskillObjs,
+				showFields: true,
+				showSkills: true,
+				showSubskills: true
+			} )
+		}
+		else {
+			this.setState( {
+				chosenSubject: subject,
+				fields: fieldsAll,
+				fieldObjs: fieldObjs,
+				skillObjs: skillObjs,
+				subskillObjs: subskillObjs,
+				showFields: true,
+				showSkills: true,
+				showSubskills: true
+			} )
+		}
 
 	}
 
