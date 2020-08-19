@@ -10,7 +10,7 @@
 		},
 		{
 			"segment": "forum",
-			"breadcrumbName": "論壇",
+			"breadcrumbName": "討論區",
 			"hasParams": true,
 			"routes": [
 				{

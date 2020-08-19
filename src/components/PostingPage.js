@@ -3,6 +3,7 @@ import { Form, Button, Row, Col } from 'react-bootstrap';
 import { withRouter } from "react-router-dom"
 import FirebaseMg from '../Utils/FirebaseMg.js'
 import './PostingPage.css';
+import { CSSTransition } from 'react-transition-group';
 
 import CKEditor from '@ckeditor/ckeditor5-react';
 import ClassicEditor from '@ckeditor/ckeditor5-build-classic';
@@ -25,12 +26,13 @@ let editor ;
 class PostingPage extends React.Component {
 	constructor(props) {
 		super(props);
+		this.props.match.params.standards = []
 		this.state = {
 			data: [],
 			subjects: [
 				{
 					children: [],
-					name: ""
+					name: "--請選擇--"
 				}
 			], 
 			fields: [
@@ -59,8 +61,9 @@ class PostingPage extends React.Component {
 			showStandards: false,
 			showStdHelp: false,
 			showTextAreaHelp: false,
-			defaultData: this.props.location.state,
-			courseNum: 1
+			defaultData: this.props.match.params,
+			courseNum: 1,
+			isLoading: true
 		} ;
 		this.chooseSubject = this.chooseSubject.bind(this) ;
 		this.chooseField = this.chooseField.bind(this) ;
@@ -73,8 +76,8 @@ class PostingPage extends React.Component {
 	}
 	
 	componentDidMount() {
-		const defaultData = this.state.defaultData
-		if ( !defaultData ) {
+		let defaultData = this.props.match.params
+		if ( !defaultData.subject ) {
 			const fbMg = new FirebaseMg() ;
 			var root = fbMg.myRef ;
 			var path = 'Trees' ;
@@ -118,17 +121,51 @@ class PostingPage extends React.Component {
 				let subjects = [
 					{
 						children: [],
-						name: ""
+						name: "--請選擇--"
 					}
 				] ;
 				for ( var i in data ) {
 					subjects.push( data[i] )
-					console.log(data[i]);
 				}
 				
 				this.setState( { 
 					data: data,
-					subjects: subjects
+					subjects: subjects,
+					isLoading: false
+				} )
+				
+			} )
+			.catch( (error) => {
+				console.log(error) ;
+			} ) ;
+		}
+		else {
+			const fbMg = new FirebaseMg() ;
+			var root = fbMg.myRef ;
+			var path = 'Trees' ;
+			var myRef = root.child(path) ;
+			myRef.once('value').then( (snapshot) => {
+				let data = snapshot.val() ;
+				
+				const field = data[defaultData.subject].children.find( (field) =>
+					field.name === defaultData.field
+				);
+
+				const skill = field.children.find( (skill) =>
+					skill.name === defaultData.skill
+				);
+
+				const subskill = skill.children.find( (subskill) =>
+					subskill.name === defaultData.subskill
+				);
+
+				const standards = subskill.children
+
+				defaultData.standards = standards
+				
+				this.setState( { 
+					defaultData: defaultData,
+					isLoading: false
 				} )
 				
 			} )
@@ -176,9 +213,9 @@ class PostingPage extends React.Component {
 		} )
 
 		const subjects = this.state.subjects
-		if ( subjects[0].name === "" ) {
+		if ( subjects[0].name === "--請選擇--" ) {
 			let newSubjects = subjects.filter( (subject) =>
-				  subject.name !== ""
+				  subject.name !== "--請選擇--"
 			)
 			this.setState( {
 				subjects: newSubjects
@@ -290,65 +327,164 @@ class PostingPage extends React.Component {
 	handleSubmit(e) {
 		e.preventDefault() ;
 		const elems = e.target.elements
+		// standard boxes和url inputs一個和多個的情況要獨立處理
+		// 所以最外層是standards是否array的判斷，再內一層才是檢查standards有無勾選(validation)
+		// 最內一層則是檢查TextArea的值
 		const standards = Array.from(elems.standard)
-		if ( standards.some( (standardInput) => standardInput.checked ) ) {
-			if ( editor.getData() ) {
-				const standardsChecked = standards.filter( (standardInput) => 
-					standardInput.checked
-				)
-				const standardVals = standardsChecked.map( (standardInput) => 
-					standardInput.value
-				)
-				const courseUrls = Array.from(elems.courseURL).map( (urlInput) => 
-					urlInput.value
-				)
-				const fbMg = new FirebaseMg() ;
-				var root = fbMg.myRef ;
-				var path = 'Posts/'+ elems.subskill.value +"/"+ _uuid() ;
-				var myRef = root.child(path) ;
-				myRef.set( {
-					user: "Louis",
-					name: elems.postTitle.value,
-					type: elems.courseType.value,
-					course: {
-						intro: editor.getData(),
-						links: courseUrls,
-						standards: standardVals,
-					},
-					like: 0,
-					dislike: 0,
-					view: 0,
-					timePosted: new Date().toLocaleString()
-				} ).then( () => {
-					alert("發布完成！")
-					// redirect
-					this.props.history.push("/forum")
-				} )
-				.catch( (error) => {
-					console.log(error) ;
-				} ) ;
+		if ( standards.length ) {
+
+			if ( standards.some( (standardInput) => standardInput.checked ) ) {
+				if ( editor.getData() ) {
+					const standardsChecked = standards.filter( (standardInput) => 
+						standardInput.checked
+					)
+					const standardVals = standardsChecked.map( (standardInput) => 
+						standardInput.value
+					)
+
+					let courseUrls = [];
+					const urlArray = Array.from(elems.courseURL)
+					if ( urlArray.length ) {
+						courseUrls = urlArray.map( (urlInput) => 
+							urlInput.value
+						)
+					}
+					else {
+						courseUrls.push( elems.courseURL.value )
+					}
+						
+					const fbMg = new FirebaseMg() ;
+					var root = fbMg.myRef ;
+					var path = 'Posts/'+ elems.subskill.value +"/"+ _uuid() ;
+					var myRef = root.child(path) ;
+					myRef.set( {
+						user: "Louis",
+						name: elems.postTitle.value,
+						type: elems.courseType.value,
+						course: {
+							intro: editor.getData(),
+							links: courseUrls,
+							standards: standardVals,
+						},
+						like: 0,
+						dislike: 0,
+						view: 0,
+						timePosted: new Date().toLocaleString()
+					} ).then( () => {
+						alert("發布完成！")
+						// redirect
+						this.props.history.goBack()
+					} )
+					.catch( (error) => {
+						console.log(error) ;
+					} ) ;
+
+					path = 'Posts/'+ elems.subskill.value +"/path" ;
+					myRef = root.child(path) ;
+					myRef.update( {
+						subject: elems.subject.value,
+						field: elems.field.value,
+						skill: elems.skill.value,
+						standards: this.state.standards
+					} )
+				}
+				else {
+					this.setState( {
+						showTextAreaHelp: true
+					} )
+				}
 			}
 			else {
-				this.setState( {
-					showTextAreaHelp: true
-				} )
+				if ( editor.getData() ) {
+					this.setState( {
+						showStdHelp: true,
+						showTextAreaHelp: false
+					} )
+				}
+				else {
+					this.setState( {
+						showStdHelp: true,
+						showTextAreaHelp: true
+					} )
+				}
+				
 			}
 		}
 		else {
-			if ( editor.getData() ) {
-				this.setState( {
-					showStdHelp: true,
-					showTextAreaHelp: false
-				} )
+			const standard = elems.standard
+			if ( standard.checked ) {
+				if ( editor.getData() ) {
+					let standardVals = [] ;
+					standardVals.push( standard.value )
+					let courseUrls = [];
+					const urlArray = Array.from(elems.courseURL)
+					if ( urlArray.length ) {
+						courseUrls = urlArray.map( (urlInput) => 
+							urlInput.value
+						)
+					}
+					else {
+						courseUrls.push( elems.courseURL.value )
+					}
+					const fbMg = new FirebaseMg() ;
+					var root = fbMg.myRef ;
+					var path = 'Posts/'+ elems.subskill.value +"/children/"+ _uuid() ;
+					var myRef = root.child(path) ;
+					myRef.set( {
+						user: "Louis",
+						name: elems.postTitle.value,
+						type: elems.courseType.value,
+						course: {
+							intro: editor.getData(),
+							links: courseUrls,
+							standards: standardVals,
+						},
+						like: 0,
+						dislike: 0,
+						view: 0,
+						timePosted: new Date().toLocaleString()
+					} ).then( () => {
+						alert("發布完成！")
+						// redirect
+						this.props.history.goBack()
+					} )
+					.catch( (error) => {
+						console.log(error) ;
+					} ) ;
+
+					path = 'Posts/'+ elems.subskill.value +"/path" ;
+					myRef = root.child(path) ;
+					myRef.update( {
+						subject: elems.subject.value,
+						field: elems.field.value,
+						skill: elems.skill.value,
+						standards: this.state.standards
+					} )
+
+				}
+				else {
+					this.setState( {
+						showTextAreaHelp: true
+					} )
+				}
 			}
 			else {
-				this.setState( {
-					showStdHelp: true,
-					showTextAreaHelp: true
-				} )
+				if ( editor.getData() ) {
+					this.setState( {
+						showStdHelp: true,
+						showTextAreaHelp: false
+					} )
+				}
+				else {
+					this.setState( {
+						showStdHelp: true,
+						showTextAreaHelp: true
+					} )
+				}
+				
 			}
-			
 		}
+		
 	}
 	chooseStandard(e) {
 		if ( e.target.checked ) {
@@ -378,7 +514,7 @@ class PostingPage extends React.Component {
 
 	render( ) {
 		const defaultData = this.state.defaultData
-		const hasDefault = Boolean( defaultData )
+		const hasDefault = Boolean( defaultData.subject )
 		let subjectInput ;
 		let fieldInput ;
 		let skillInput ;
@@ -447,10 +583,10 @@ class PostingPage extends React.Component {
 				        	defaultData.standards.map( (standard) =>
 				        		<Form.Check 
 					    		inline 
-					    		label={ standard } 
+					    		label={ standard.name } 
 					    		type={'checkbox'} 
 					    		onClick={ this.chooseStandard }
-					    		value={ standard }
+					    		value={ standard.name }
 					    		name="standard"
 					    		aria-describedby="checkboxHelp" />
 				        	)
@@ -583,114 +719,116 @@ class PostingPage extends React.Component {
 
 		return (
 			<div className="content" style={{ 'marginTop': '12vh' }}>
-				<div className="container form-container">
-					<Form onSubmit={this.handleSubmit}>
-					  <Form.Row>
-					  	<Col md={{ span: 6, offset: 1 }} xs ={12}>
-					  	  <Form.Group controlId="postTitle">
-					        <Form.Label>標題</Form.Label>
-					        <Form.Control
-					          name="postTitle" 
-					          type="text" 
-					          placeholder="請輸入標題" 
-					          required />
-					      </Form.Group>
-					  	</Col>
-					  	{ subjectInput }
-					  	{ fieldInput }
-					  </Form.Row>
+				<CSSTransition in={!this.state.isLoading} timeout={1200} classNames="content" unmountOnExit appear>
+					<div className="container form-container post">
+						<Form onSubmit={this.handleSubmit}>
+						  <Form.Row>
+						  	<Col md={{ span: 6, offset: 1 }} xs ={12}>
+						  	  <Form.Group controlId="postTitle">
+						        <Form.Label>標題</Form.Label>
+						        <Form.Control
+						          name="postTitle" 
+						          type="text" 
+						          placeholder="請輸入標題" 
+						          required />
+						      </Form.Group>
+						  	</Col>
+						  	{ subjectInput }
+						  	{ fieldInput }
+						  </Form.Row>
 
-					  <Form.Row>
-					    { skillInput }
-					  	{ subskillInput }
-					  </Form.Row>
+						  <Form.Row>
+						    { skillInput }
+						  	{ subskillInput }
+						  </Form.Row>
 
-					  <Form.Row>
-					  	{ standardBoxes }
-					  </Form.Row>
-						
-					  <Form.Row>
-					  	<Col md={{ span: 8, offset: 1 }}>
-					  	  <Form.Group controlId="courseURL">
-					        <Form.Label>課程網址</Form.Label>
-					        <button className="post icon-btn" type="button" onClick={this.clickUrlIncrease}>
-					        	<i className="fa fa-plus-square" aria-hidden="true"></i>
-					        </button>
-					        <button className="post icon-btn" type="button" onClick={this.clickUrlDecrease}>
-					        	<i className="fa fa-minus-square" aria-hidden="true"></i>
-					        </button>
-					        <Form.Group as={Row} controlId="courseURL">
-							  <Form.Label column sm="3" lg="2" className="post beforeInput">
-							    Course 1
-							  </Form.Label>
-							  <Col sm="9" lg="10">
-							    <Form.Control
-					         	  name="courseURL" placeholder="請輸入網址" required />
-							  </Col>
-							</Form.Group>
-					      </Form.Group>
-					      { urlInputs }
-					  	</Col>
-					  	<Col md={2}>
-					  	  <Form.Group controlId="courseType" className="post alignToURL">
-					        <Form.Label>課程分類</Form.Label>
-					        <Form.Control
-					          name="courseType" as="select" required>
-					          <option>平台課程</option>
-					          <option>心得筆記</option>
-					          <option>音訊影片</option>
-					        </Form.Control>
-					       </Form.Group>
-					  	</Col>
-					  </Form.Row>
+						  <Form.Row>
+						  	{ standardBoxes }
+						  </Form.Row>
+							
+						  <Form.Row>
+						  	<Col md={{ span: 8, offset: 1 }}>
+						  	  <Form.Group controlId="courseURL">
+						        <Form.Label>課程網址</Form.Label>
+						        <button className="post icon-btn" type="button" onClick={this.clickUrlIncrease}>
+						        	<i className="fa fa-plus-square" aria-hidden="true"></i>
+						        </button>
+						        <button className="post icon-btn" type="button" onClick={this.clickUrlDecrease}>
+						        	<i className="fa fa-minus-square" aria-hidden="true"></i>
+						        </button>
+						        <Form.Group as={Row} controlId="courseURL">
+								  <Form.Label column sm="3" lg="2" className="post beforeInput">
+								    Course 1
+								  </Form.Label>
+								  <Col sm="9" lg="10">
+								    <Form.Control
+						         	  name="courseURL" placeholder="請輸入網址" required />
+								  </Col>
+								</Form.Group>
+						      </Form.Group>
+						      { urlInputs }
+						  	</Col>
+						  	<Col md={2}>
+						  	  <Form.Group controlId="courseType" className="post alignToURL">
+						        <Form.Label>課程分類</Form.Label>
+						        <Form.Control
+						          name="courseType" as="select" required>
+						          <option>平台課程</option>
+						          <option>心得筆記</option>
+						          <option>音訊影片</option>
+						        </Form.Control>
+						       </Form.Group>
+						  	</Col>
+						  </Form.Row>
 
-					  <Form.Row>
-					    <Col md={{ span: 10, offset: 1 }}>
-					      <div className="post editor">
-					      	<Form.Label>課程簡介</Form.Label>
-					    	<CKEditor
-		                    editor={ ClassicEditor }
-		                    data="<p>請輸入簡介內容。</p>"
-		                    config={ {
-						        toolbar: ["heading", "|", "selectall", "bold", "italic", "blockQuote", "link", "undo", "redo", "|", "numberedList", "bulletedList", "insertTable", "tableColumn", "tableRow", "mergeTableCells"],
-						        language: "zh-tw",
-						        heading: {
-						            options: [
-						                { model: 'paragraph', title: '段落', class: 'ck-heading_paragraph' },
-						                { model: 'heading1', view: 'h1', title: 'Heading 1', class: 'ck-heading_heading1' },
-						                { model: 'heading2', view: 'h2', title: 'Heading 2', class: 'ck-heading_heading2' },
-						                { model: 'heading3', view: 'h3', title: 'Heading 3', class: 'ck-heading_heading3' },
-						                { model: 'heading4', view: 'h4', title: 'Heading 4', class: 'ck-heading_heading4' }
-						            ]
-        						}
-						    } }
-		                    onInit={ (newEditor) => editor = newEditor }
-		                    />
-					      </div>
-					      {
-				            this.state.showTextAreaHelp ? 
-				        	<Form.Text id="textAreaHelp" className="post help" >
-							  請您為這堂課輸入一些簡介。
-							</Form.Text> : ""
-				          }
-					    </Col>
-					  </Form.Row>
+						  <Form.Row>
+						    <Col md={{ span: 10, offset: 1 }}>
+						      <div className="post editor">
+						      	<Form.Label>課程簡介</Form.Label>
+						    	<CKEditor
+			                    editor={ ClassicEditor }
+			                    data="<p>請輸入簡介內容。</p>"
+			                    config={ {
+							        toolbar: ["heading", "|", "selectall", "bold", "italic", "blockQuote", "link", "undo", "redo", "|", "numberedList", "bulletedList", "insertTable", "tableColumn", "tableRow", "mergeTableCells"],
+							        language: "zh-tw",
+							        heading: {
+							            options: [
+							                { model: 'paragraph', title: '段落', class: 'ck-heading_paragraph' },
+							                { model: 'heading1', view: 'h1', title: 'Heading 1', class: 'ck-heading_heading1' },
+							                { model: 'heading2', view: 'h2', title: 'Heading 2', class: 'ck-heading_heading2' },
+							                { model: 'heading3', view: 'h3', title: 'Heading 3', class: 'ck-heading_heading3' },
+							                { model: 'heading4', view: 'h4', title: 'Heading 4', class: 'ck-heading_heading4' }
+							            ]
+	        						}
+							    } }
+			                    onInit={ (newEditor) => editor = newEditor }
+			                    />
+						      </div>
+						      {
+					            this.state.showTextAreaHelp ? 
+					        	<Form.Text id="textAreaHelp" className="post help" >
+								  請您為這堂課輸入一些簡介。
+								</Form.Text> : ""
+					          }
+						    </Col>
+						  </Form.Row>
 
-					  <div className="container">
-					  	<div className="row justify-content-end">
-					  	  <div className="col-md-4 button-col post">
-					  	  	<button className="post-btn" type="submit">
-						  	  	發布文章
-							</button>
-					  		
-					  	  </div>
-					  	  <div className="col-md-1">
-					  	  </div>
-					    </div>
-					  </div>
-					  
-					</Form>
-				</div>
+						  <div className="container">
+						  	<div className="row justify-content-end">
+						  	  <div className="col-md-4 button-col post">
+						  	  	<button className="post-btn" type="submit">
+							  	  	發布文章
+								</button>
+						  		
+						  	  </div>
+						  	  <div className="col-md-1">
+						  	  </div>
+						    </div>
+						  </div>
+						  
+						</Form>
+					</div>
+				</CSSTransition>
 			</div>
 		);
 	}

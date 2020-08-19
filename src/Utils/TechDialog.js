@@ -48,10 +48,8 @@ class TechDialog extends Component{
 				<br/>
 				{contexts}
 				<br/>
-				<Link to={{
-					pathname:"/forum",
-          			state:{"path":this.props.path}
-				}} style={{'float':'right'}}>前往課程 &rarr;</Link>
+				<Link to={ `/forum/${ this.props.path }` } 
+				style={{'float':'right'}}>前往課程 &rarr;</Link>
 			</div>
 		);
 	}
