@@ -1,0 +1,33 @@
+div.scrollIcon {
+	width: 300px;
+	height: 200px;
+	margin: auto;
+}
+
+.scrollIcon .title {
+	position: absolute;
+	top: 1.7em;
+	left: calc(50% + -1em);
+}
+
+.scrollIcon .list {
+	position: absolute;
+	transition: 1s;
+	opacity: 0;
+}
+.forum-icon:hover + .list,
+.forum-icon:focus + .list {
+	opacity: 1;
+}
+
+
+.forum-icon #unfold .st2 {
+	transition: all 1s;
+	clip-path: inset(0 0 100% 0);
+}
+.forum-icon:hover #unfold .st2,
+.forum-icon:focus #unfold .st2 {
+	display: inline;
+	clip-path: inset(0);
+	transform: scaleY(1.5);
+}

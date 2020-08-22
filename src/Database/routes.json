@@ -9,6 +9,11 @@
 			"hasParams": false
 		},
 		{
+			"segment": "forumHome",
+			"breadcrumbName": "論壇首頁",
+			"hasParams": false
+		},
+		{
 			"segment": "forum",
 			"breadcrumbName": "討論區",
 			"hasParams": true,

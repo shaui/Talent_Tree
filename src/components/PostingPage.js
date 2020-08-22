@@ -355,7 +355,7 @@ class PostingPage extends React.Component {
 						
 					const fbMg = new FirebaseMg() ;
 					var root = fbMg.myRef ;
-					var path = 'Posts/'+ elems.subskill.value +"/"+ _uuid() ;
+					var path = 'Posts/'+ elems.subskill.value +"/children/"+ _uuid() ;
 					var myRef = root.child(path) ;
 					myRef.set( {
 						user: "Louis",

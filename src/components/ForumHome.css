@@ -1,0 +1,71 @@
+/* 控制container在寬螢幕下的寬度(要在公告裡塞table) */
+/* 768px以下就沒差，用Bootstrap控制成兩行就好 */
+@media (min-width: 768px) {
+    .container.forumHome {
+        max-width: 1300px;
+    }
+}
+
+/* 公告底下留空 */
+.forumHome .row:nth-child(2) .col.announce {
+	margin-bottom: 16px;
+}
+
+/* header置中 */
+.forumHome .row:nth-child(2) .col #header {
+	text-align: center;
+}
+.forumHome .row:nth-child(2) .col .card-header {
+	text-align: center;
+}
+
+/* 取消card邊邊 */
+.forumHome .row:nth-child(2) .col .card-body {
+	padding: 0px;
+}
+
+/* 控制table高度、卷軸、字型大小 */
+.forumHome .row:nth-child(2) .col .carousel-item {
+	max-height: 40vh;
+	overflow: auto;
+	padding: 0px;
+	font-size: .9em;
+}
+
+/* 控制carousel button位置 */
+.forumHome a.carousel-control-next {
+	z-index: 2;
+	top: -50px;
+	width: 50px;
+	height: 50px;
+	color: #212529;
+}
+.forumHome a.carousel-control-prev {
+	z-index: 2;
+	top: -50px;
+	width: 50px;
+	height: 50px;
+	color: #212529;
+}
+
+.forumHome .row:nth-child(4) .col {
+	height: auto;
+}
+
+.forumHome.content-enter {
+  opacity: 0;
+  top: 120px;
+  position: relative;
+}
+.forumHome.content-enter-active {
+  opacity: 1;
+  transform: translateY(-120px);
+  transition: all 1000ms;
+}
+.forumHome.content-exit {
+  opacity: 1;
+}
+.forumHome.content-exit-active {
+  opacity: 0;
+  transition: all 1000ms;
+}

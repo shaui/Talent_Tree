@@ -1,67 +1,88 @@
 import React, { useState } from 'react';
-import { Button, Table, Card, Carousel } from 'react-bootstrap';
+import { Table, Card, Carousel } from 'react-bootstrap';
 import { Link } from 'react-router-dom';
 import './ForumHome.css';
 import FirebaseMg from '../Utils/FirebaseMg.js';
 import { CSSTransition } from 'react-transition-group';
 
+import ScrollIcon from '../Utils/ScrollIcon.js';
+
 function ControlledCarousel(props) {
   const [index, setIndex] = useState(0);
 
   const handleSelect = (selectedIndex, e) => {
-    setIndex(selectedIndex);
-  };
+    setIndex(selectedIndex) ;
+    props.handleSelect( selectedIndex, e ) ;
+  }
+	
+  const postsObj = props.postsObj
 
-  const items = props.posts.map( () => 
-  	<Carousel.Item>
-        <PostsTable />
-    </Carousel.Item>
-  )
+  let items = [] ;
+  for ( var subject in postsObj ) {
+  	
+  	items.push( 
+  		<Carousel.Item>
+        	<PostsTable type={ props.type } posts={ postsObj[subject] } />
+    	</Carousel.Item>
+    )
+  }
 
   return (
-    <Carousel activeIndex={index} onSelect={handleSelect}>
+    <Carousel 
+    className="forumHome"
+    indicators={false}
+    prevIcon={<span><i className="fa fa-caret-square-o-left fa-lg" aria-hidden="true"></i></span>}
+    nextIcon={<span><i className="fa fa-caret-square-o-right fa-lg" aria-hidden="true"></i></span>}
+    activeIndex={index} 
+    onSelect={handleSelect}>
       { items }
     </Carousel>
-  );
+  )
 }
 
 function PostsCard(props) {
-	
-	let posts = [] ;
-	for ( var i in props.posts ) {
-		posts.push( props.posts[i] )
+	const [index, setIndex] = useState(0);
+
+	const handleSelect = (selectedIndex, e) => {
+	  	setIndex(selectedIndex) ;
 	}
 
-	var filterByTime = ( posts ) => {
-		posts = posts.map( ( subskill ) =>
-			subskill.children.filter( ( post ) => {
-				const timePosted = new Date(post.timePosted)
-				let now = new Date()
-				now.setMonth( now.getMonth()-1 )
-				return timePosted.getTime() >= now.getTime()
-			} )
-		)
-		return posts
-	} 
-	posts = filterByTime( props.posts )
-	
-	// arr.reduce(callback[accumulator, currentValue, currentIndex, array], initialValue)
-	var groupBy = (originArr, key) => 
-	    originArr.reduce( (accuObj, post) => {
-	      ( accuObj[ post.path[key] ] = accuObj[ post.path[key] ] || [] ).push( post )
-	      return accuObj
-	    }, {} )  // 這個空物件為accumulator的初始值
+	let title = "" ;
+	const type = props.type
+	if ( type === "timePosted" ) {
+		title = "本月最新"
+	}
+	else if ( type === "view" ) {
+		title = "本月熱門"
+	}
+	else if ( type === "like" ) {
+		title = "本月熱門"
+	}
 
+	const postsObj = props.postsObj
 
-	const postsObj = groupBy( posts, "subject" )
+	const subjects = [] ;
+	for ( var subject in postsObj ) {
+		subjects.push( subject )	
+	}
 
 	return (
-		<Card>
-		  <Card.Header>Featured</Card.Header>
-		  <Card.Body>
-		    <ControlledCarousel posts={props.posts} />
-		  </Card.Body>
-		</Card>
+		<div>
+			<div id="header" className="forum">
+				<h5>
+					{ title }
+				</h5>
+			</div>
+			<Card>
+			  <Card.Header>{ subjects[index] }</Card.Header>
+			  <Card.Body>
+			    <ControlledCarousel 
+			    type={ type }
+			    postsObj={ postsObj }
+			    handleSelect={ handleSelect } />
+			  </Card.Body>
+			</Card>
+		</div>
 	)
 }
 
@@ -70,69 +91,71 @@ function PostLink(props) {
 	const id = props.id
 	const subskill = props.subskill
 	return (
-		<Link to={{
-		     pathname:'/forum/course',
-		     state: {
-		     	id: id,
-		     	name: name,
-		     	level: subskill 
-		     }
-		}}> 
+		<Link to={ `/forumHome/forum/${ props.path.subject }&${ props.path.field }&${ props.path.skill }&${ subskill }/course/${ id }&${ name }&${ subskill }` }> 
 			{ name }
 		</Link>
 	)
 }
 
 function PostsTable(props) {
-	const posts = props.data ;
+	let postsArr = [] ;
+	props.posts.forEach( ( postObj ) => {
+		for ( var i in postObj.children ) {
+			postObj.children[i].id = i
+			postsArr.push( postObj.children[i] )
+			postObj.children[i].path = postObj.path
+		}
+	} ) ;
+	
+	if ( props.type === "timePosted" ) {
+		postsArr = postsArr.sort( (a, b) => {
+			const timePostedA = new Date( a.timePosted )
+			const timePostedB = new Date( b.timePosted )
+			return timePostedA > timePostedB ? 1 : -1
+		} )
+	}
+	else if ( props.type === "view" ) {
+		postsArr = postsArr.sort( (a, b) => 
+			a.view > b.view ? 1 : -1
+		)
+	}
+	else {
+		postsArr = postsArr.sort( (a, b) =>
+			a.like > b.like ? 1 : -1
+		)
+	}
+
+	postsArr = postsArr.splice(0, 10)
+	
 	let postItems = [] ; 
-	for ( var i in posts ) {
+	for ( var i in postsArr ) {
 		postItems.push(
 			<tr>
-	          <th scope="row">{posts[i].type}</th>
+	          <th scope="row">{ postsArr[i].subskill }</th>
 	          <td>
 	          	<PostLink 
-	          	name={posts[i].name} 
-	          	id={i}
-	          	subskill={props.subskill} />
+	          	path={ postsArr[i].path }
+	          	name={ postsArr[i].name } 
+	          	id={ i }
+	          	subskill={ postsArr[i].subskill } />
 	          </td>
-	          <td>{posts[i].user}</td>
-	          <td>{posts[i].course.comments ? posts[i].course.comments.length : 0}/{posts[i].view}</td>
-	          <td>{posts[i].like}/{posts[i].dislike}</td>
-	          <td>{posts[i].timePosted}</td>
+	          <td>{ postsArr[i].user }</td>
+	          <td>{ postsArr[i].timePosted }</td>
 	        </tr>
 		)
 	}
-	// const postItems = posts.map( (post) =>
-	// 	<tr>
- //          <th scope="row">{post.type}</th>
- //          <td>
- //          	<PostLink name={post.name} />
- //          </td>
- //          <td>{post.user}</td>
- //          <td>{post.commentsNum}/{post.view}</td>
- //          <td>{post.PstCommentsNum}/{post.NgtCommentsNum}</td>
- //          <td>{post.timePosted}</td>
- //        </tr>
-	// ) ;
 	return (
 		<Table hover responsive>
 	      <thead>
 	        <tr>
-	          <th>資源分類</th>
+	          <th>子技能名稱</th>
 	          <th>資源名稱</th>
 	          <th>發布者</th>
-	          <th>
-	          	<i className="fa fa-commenting" aria-hidden="true"></i> / <i className="fa fa-eye" aria-hidden="true"></i>
-	          </th>
-	          <th>
-	          	<i className="fa fa-thumbs-o-up" aria-hidden="true"></i> / <i className="fa fa-thumbs-o-down" aria-hidden="true"></i>
-	          </th>
 	          <th>發布時間</th>
 	        </tr>
 	      </thead>
 	      <tbody>
-	        {postItems}
+	        { postItems }
 	      </tbody>
 	    </Table>
 	);
@@ -142,8 +165,8 @@ class ForumHome extends React.Component {
 	constructor(props) {
 		super(props);
 		this.state = {
-			data: null,
-			pathObj: new Object(),
+			posts: null,
+			pathObj: {},
 			isLoading: true
 		} ;
 	}
@@ -154,9 +177,69 @@ class ForumHome extends React.Component {
 		var path = 'Posts/' ;
 		var myRef = root.child(path) ;
 		myRef.once('value').then( (snapshot) => {
-			let data = snapshot.val() ;
+
+			// 把當作key的子技能名稱放進每則貼文中，這樣才能比較不同子技能之間的貼文後把子技能名稱標示出來
+			let postsObj = snapshot.val() ;
+			let posts = [] ;
+			for ( var subskill in postsObj ) {
+				for ( var i in postsObj[subskill].children ) {
+					postsObj[subskill].children[i].subskill = subskill
+				}
+				posts.push( postsObj[subskill] )
+			}
+			
+			// 根據時間過濾貼文
+			var filterByTime = ( posts ) => {
+				posts.forEach( ( subskill ) => {
+					for ( var i in subskill.children ) {
+						const timePosted = new Date( subskill.children[i].timePosted )
+						let now = new Date()
+						// 只抓取一個月內的貼文
+						now.setMonth( now.getMonth()-1 )
+						if ( timePosted.getTime() < now.getTime() )
+							delete subskill.children[i]
+					}
+				} )
+				return posts
+			} 
+			posts = filterByTime( posts )
+			
+			// 依照科系分類貼文
+			// arr.reduce(callback[accumulator, currentValue, currentIndex, array], initialValue)
+			var groupBy = (originArr, key) => 
+			    originArr.reduce( (accuObj, post) => {
+			      ( accuObj[ post.path[key] ] = accuObj[ post.path[key] ] || [] ).push( post )
+			      return accuObj
+			    }, {} )  // 這個空物件為accumulator的初始值
+
+			let postsObjClassified = groupBy( posts, "subject" )
+
+			// 全部科系以外增加一個全科系的選項
+		    let allPosts = []
+		    for ( var subject in postsObjClassified ) {
+		  	  allPosts.push( postsObjClassified[subject] )
+		    }
+		    postsObjClassified["全科系"] = allPosts.flat()
+
 			this.setState( {
-				data: data,
+				posts: postsObjClassified
+			} ) ;
+		} )
+		.catch( (error) => {
+			console.log(error) ;
+		} ) ;
+	}
+	getTree() {
+		const fbMg = new FirebaseMg() ;
+		var root = fbMg.myRef ;
+		var path = 'Trees/' ;
+		var myRef = root.child(path) ;
+		myRef.once('value').then( (snapshot) => {
+
+			let treeObj = snapshot.val() ;
+
+			this.setState( {
+				treeObj: treeObj,
 				isLoading: false
 			} ) ;
 		} )
@@ -167,25 +250,57 @@ class ForumHome extends React.Component {
 	
 	componentDidMount() {
 		this.getPosts()
+		this.getTree()
 	}
 
 	render() {
+
+		const treeObj = this.state.treeObj
+		let treeArr = []
+		for ( var subject in treeObj ) {
+			treeArr.push( treeObj[subject] )
+		}
+		const scrollItems = treeArr.map( ( subjectObj ) =>
+			<div className="col col-md-6 col-12">
+				<ScrollIcon subjectObj={ subjectObj } />
+			</div>
+		)
+
 		return (
 			<div className="content" style={{ 'marginTop': '10vh' }}>
 				<div className="container banner-container">
 					<div className="row"></div>
 				</div>
 
-
-				<div className="container">
-					<CSSTransition in={!this.state.isLoading} timeout={1200} classNames="content" unmountOnExit appear>
-						<div className="row justify-content-between">
-							<div className="col-4">
-								<PostsCard posts={this.state.data} />
+				<CSSTransition in={!this.state.isLoading} timeout={1200} classNames="content" unmountOnExit appear>
+					<div className="container forumHome">
+						<div className="row">
+							<div className="col">
+								<h3>近期貼文</h3>
 							</div>
 						</div>
-					</CSSTransition>
-				</div>
+						<div className="row justify-content-between">
+							<div className="col col-md-6 col-12 announce">
+								<PostsCard 
+								postsObj={this.state.posts}
+								type="timePosted" />
+							</div>
+							<div className="col col-md-6 col-12 announce">
+								<PostsCard 
+								postsObj={this.state.posts}
+								type="view" />
+							</div>
+						</div>
+						<div className="row">
+							<div className="col">
+								<h3>快速前往</h3>
+							</div>
+						</div>
+						<div className="row justify-content-between">
+							{ scrollItems }
+						</div>
+					</div>
+				</CSSTransition>
 			</div>
 		);
 	}

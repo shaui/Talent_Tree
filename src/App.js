@@ -6,6 +6,7 @@ import CustomNavbar from './Utils/CustomNavbar';
 import CustomBreadcrumb from './Utils/CustomBreadcrumb.js'
 import SideBar from './Utils/SideBar.js'
 import MyTree from './components/MyTree.js' ;
+import ForumHome from './components/ForumHome.js'
 import PostsPage from './components/Forum.js' ;
 import PostingPage from './components/PostingPage.js' ;
 import CoursePage from './components/CoursePage' ;
@@ -113,6 +114,7 @@ class App extends Component {
             <Route exact path="/treeMenu/tree" component={MyTree} />
             <div style={{'paddingTop':'9vh'}}>
 
+              <Route exact path="/forumHome" component={ForumHome} />
               <Route exact path="/forum" component={PostsPage} />
               <Route exact path="/forum/post" component={PostingPage} />
               <Route exact path="/forum/course" component={CoursePage} />

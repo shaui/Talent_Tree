@@ -49,8 +49,10 @@ function PostLink(props) {
 	const name = props.name
 	const id = props.id
 	const subskill = props.subskill
+
+	// 因為this.props.match.url才有之前頁面傳的參數，所以要傳到這裡
 	return (
-		<Link to={ `${props.url}/course/${ id }&${ name }&${ subskill }` }> 
+		<Link to={ `${ props.url }/course/${ id }&${ name }&${ subskill }` }> 
 			{ name }
 		</Link>
 	)
@@ -60,6 +62,9 @@ function PostsTable(props) {
 	const posts = props.data ;
 	let postItems = [] ; 
 	for ( var i in posts ) {
+		const timePosted = posts[i].timePosted.split(' ').map( ( timeString ) => 
+			<div> { timeString } </div>
+		)
 		postItems.push(
 			<tr>
 			  <td>
@@ -68,15 +73,19 @@ function PostsTable(props) {
 	          <th scope="row">{posts[i].type}</th>
 	          <td>
 	          	<PostLink 
-	          	url={props.url}
-	          	name={posts[i].name} 
-	          	id={i}
+	          	url={ props.url }
+	          	name={ posts[i].name } 
+	          	id={ i }
 	          	subskill={props.subskill} />
 	          </td>
-	          <td>{posts[i].user}</td>
-	          <td>{posts[i].course.comments ? posts[i].course.comments.length : 0} / {posts[i].view}</td>
-	          <td>{posts[i].like} / {posts[i].dislike}</td>
-	          <td>{posts[i].timePosted}</td>
+	          <td>{ posts[i].user }</td>
+	          <td>{ posts[i].course.comments ? posts[i].course.comments.length : 0 } / { posts[i].view }</td>
+	          <td>{ posts[i].like } / { posts[i].dislike }</td>
+	          <td>
+	          	<div className="forum">
+	          		{ timePosted }
+	          	</div>
+	          </td>
 	        </tr>
 		)
 	}
@@ -110,7 +119,7 @@ function PostsTable(props) {
 	        </tr>
 	      </thead>
 	      <tbody className="forum">
-	        {postItems}
+	        { postItems }
 	      </tbody>
 	    </Table>
 	);
@@ -121,7 +130,7 @@ class PostsPage extends React.Component {
 		super(props);
 		this.state = {
 			data: null,
-			pathObj: new Object(),
+			pathObj: {},
 			isLoading: true
 		} ;
 	}
@@ -146,7 +155,7 @@ class PostsPage extends React.Component {
 	
 	componentDidMount() {
 		const sentPath = this.props.match.params
-		let pathObj = new Object()
+		let pathObj = {}
 		if ( !sentPath.length ) {
 			pathObj.subject = "資管系"
 			pathObj.field = "系統規劃"
