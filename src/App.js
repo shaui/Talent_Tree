@@ -110,23 +110,26 @@ class App extends Component {
               </div>
             </div>
             { /**強者總是孤獨的**/ }
-            
-            <Route exact path="/" component={Home} />
+            <Route exact path="/" component={Home} />  
             <Route exact path="/treeMenu/tree" component={MyTree} />
-            <div style={{'paddingTop':'9vh'}}>
-              <Switch>
-                <Route exact path="/forum" component={ForumHome} />
-                <Route exact path="/forum/post" component={PostingPage} />
-                <Route exact path="/forum/:path" component={PostsPage} />
-                <Route exact path="/forum/:path/post" component={PostingPage} />
-                <Route exact path="/forum/:path/course/:id&:name&:level" component={CoursePage} />
-                <Route exact path="/hunt" component={HuntingPage} />
-                <Route exact path="/home" component={HomePage} />
-                <Route exact path="/treeMenu" component={TreeMenu} />
-                <Route exact path="/profile" component={Profile} />
-              </Switch>
-            </div>
-            
+            {
+                this.props.location.pathname !== "/treeMenu/tree" && this.props.location.pathname !=="/" ?
+                  <div style={{'paddingTop':'9vh'}}>
+                    <Switch>
+                      <Route exact path="/forum" component={ForumHome} />
+                      <Route exact path="/forum/post" component={PostingPage} />
+                      <Route exact path="/forum/:path" component={PostsPage} />
+                      <Route exact path="/forum/:path/post" component={PostingPage} />
+                      <Route exact path="/forum/:path/course/:id&:name&:level" component={CoursePage} />
+                      <Route exact path="/hunt" component={HuntingPage} />
+                      <Route exact path="/home" component={HomePage} />
+                      <Route exact path="/treeMenu" component={TreeMenu} />
+                      <Route exact path="/profile" component={Profile} />
+                    </Switch>
+                  </div>
+                :
+                  ""
+            }
   	    	</div>
       	</div>
       </UserContext.Provider>

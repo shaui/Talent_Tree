@@ -1046,7 +1046,8 @@ class HuntingForm extends React.Component {
 					</CSSTransition>
 					{
 						this.state.showResult ? 
-						<HuntResult 
+						<HuntResult
+						subject = {this.state.chosenSubject} 
 						option={this.state.option} 
 						treeData={this.state.sentData} 
 						profiles={this.state.profiles}

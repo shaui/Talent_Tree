@@ -54,3 +54,8 @@
     margin-top: 15px;
     margin-left:10px;
 }
+
+.HomePage.activity{
+  font-family: 'Noto Sans TC', sans-serif !important;
+  font-size: 18pt;
+}

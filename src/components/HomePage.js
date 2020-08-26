@@ -54,7 +54,7 @@ class HomePage extends Component{
 		super(props)
 		this.state = {
 			isLoading: true,
-			recordData: {}
+			recordData: null
 		}
 	}
 
@@ -103,6 +103,7 @@ class HomePage extends Component{
 
 	render(){
 
+		
 		return(
 			<div className='container' style={{'marginTop':'10vh'}}>
 				<div className='HomaPage row row-style'>
@@ -114,14 +115,17 @@ class HomePage extends Component{
 								this.state.isLoading ?
 									<CustomerSpinner />	
 								:
-									<div className="row">
-										{
-											this.state.recordData.map((skillArr, index) =>(
-												<Record key={index} 
-												skillName={skillArr[0]}  
-												stdArray={skillArr[1]} 
-												progress={skillArr[2]} />
-											))
+									<div className="row justify-content-center">
+										{	
+											this.state.recordData.length > 0 ?
+												this.state.recordData.map((skillArr, index) =>(
+													<Record key={index} 
+													skillName={skillArr[0]}  
+													stdArray={skillArr[1]} 
+													progress={skillArr[2]} />
+												))
+											:
+												<div key='x' className="text-center HomePage activity" style={{'color':'grey'}}>尚未進行任何活動!</div>
 										}
 									</div>					
 							}
