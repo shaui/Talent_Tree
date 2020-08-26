@@ -63,7 +63,8 @@ class PostingPage extends React.Component {
 			showTextAreaHelp: false,
 			defaultData: this.props.match.params,
 			courseNum: 1,
-			isLoading: true
+			isLoading: true,
+			clickCert: 0
 		} ;
 		this.chooseSubject = this.chooseSubject.bind(this) ;
 		this.chooseField = this.chooseField.bind(this) ;
@@ -73,6 +74,7 @@ class PostingPage extends React.Component {
 		this.chooseStandard = this.chooseStandard.bind(this) ;
 		this.clickUrlIncrease = this.clickUrlIncrease.bind(this) ;
 		this.clickUrlDecrease = this.clickUrlDecrease.bind(this) ;
+		this.clickCert = this.clickCert.bind(this) ;
 	}
 	
 	componentDidMount() {
@@ -364,6 +366,7 @@ class PostingPage extends React.Component {
 					var path = 'Posts/'+ elems.subskill.value +"/children/"+ _uuid() ;
 					var myRef = root.child(path) ;
 					myRef.set( {
+						isOfficial: elems.cert.checked,
 						user: "Louis",
 						name: elems.postTitle.value,
 						type: elems.courseType.value,
@@ -446,6 +449,7 @@ class PostingPage extends React.Component {
 					var path = 'Posts/'+ elems.subskill.value +"/children/"+ _uuid() ;
 					var myRef = root.child(path) ;
 					myRef.set( {
+						isOfficial: elems.cert.checked,
 						user: "Louis",
 						name: elems.postTitle.value,
 						type: elems.courseType.value,
@@ -534,6 +538,16 @@ class PostingPage extends React.Component {
 		this.setState((state) => ({
 		  courseNum: state.courseNum - 1
 		}));
+	}
+
+	clickCert() {
+
+		const count = this.state.clickCert
+
+		this.setState( {
+			clickCert: count+1
+		} )
+
 	}
 
 	render( ) {
@@ -845,7 +859,12 @@ class PostingPage extends React.Component {
 								</button>
 						  		
 						  	  </div>
-						  	  <div className="col-md-1">
+						  	  <div onClick={ this.clickCert } className={ (this.state.clickCert >= 3 ? "" : "hidden") + " col-md-1 post"}>
+					  	  		<Form.Check 
+						  	  	name="cert"
+								type="switch"
+								id="custom-switch"
+								label="官方認證" />
 						  	  </div>
 						    </div>
 						  </div>

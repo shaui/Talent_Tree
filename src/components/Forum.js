@@ -5,6 +5,7 @@ import './Forum.css';
 import FirebaseMg from '../Utils/FirebaseMg.js';
 import { CSSTransition } from 'react-transition-group';
 
+import crown from '../crown.png';
 import CustomPagination from '../Utils/CustomPagination';
 
 function StdPopover(props) {
@@ -67,11 +68,18 @@ function PostsTable(props) {
 		)
 		postItems.push(
 			<tr>
+			  { 
+			  	posts[i].isOfficial ? 
+			  	<td>
+			  		<img src={ crown } alt="official" className="crown" />
+			  	</td> :
+			  	<td></td>
+			  }
 			  <td>
 			  	<StdPopover standards={posts[i].course.standards} />
 			  </td>
 	          <th scope="row">{posts[i].type}</th>
-	          <td>
+	          <td className="name">
 	          	<PostLink 
 	          	url={ props.url }
 	          	name={ posts[i].name } 
@@ -105,9 +113,10 @@ function PostsTable(props) {
 		<Table hover responsive>
 	      <thead className="forum">
 	        <tr>
+	          <th>官方認證</th>
 	          <th>學習標準</th>
 	          <th>資源分類</th>
-	          <th>資源名稱</th>
+	          <th className="name">資源名稱</th>
 	          <th>發布者</th>
 	          <th>
 	          	<i className="fa fa-commenting" aria-hidden="true"></i> / <i className="fa fa-eye" aria-hidden="true"></i>
