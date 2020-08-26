@@ -5,7 +5,10 @@
 <style type="text/css">
 	.st0{fill:#E09B2D;}
 	.st1{fill:#E54728;}
-	.st2{display:none;}
+	.st2{
+		display: inline;
+		visibility: hidden;
+	}
 	.st3{display:inline;}
 	.st4{fill:#F3AD3A;}
 	.st5{fill:#F95428;}

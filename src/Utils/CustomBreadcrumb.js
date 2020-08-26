@@ -26,6 +26,9 @@ function insertNameByParams(href, paramsString, isActive) {
       pathObj.field = params[2]
       pathObj.skill = params[1]
       pathObj.subskill = params[0]
+      item = isActive ? 
+        <Breadcrumb.Item active>{pathObj.subskill+" －－ 討論區"}</Breadcrumb.Item> : 
+        <Breadcrumb.Item href={href+"/"+params}>{pathObj.subskill}</Breadcrumb.Item>
     }
     else if ( params.length === 5 ) {
       pathObj.subject = params[4]
@@ -33,21 +36,25 @@ function insertNameByParams(href, paramsString, isActive) {
       pathObj.skill = params[2]
       pathObj.subskill = params[1]
       pathObj.standard = params[0]
+      item = isActive ? 
+        <Breadcrumb.Item active>{pathObj.subskill+" －－ 討論區"}</Breadcrumb.Item> : 
+        <Breadcrumb.Item href={href+"/"+params}>{pathObj.subskill}</Breadcrumb.Item>
     }
     else if ( params.length === 1 ) {
-      pathObj.subskill = params[0]
+      if( params[0] !== "post" ) {
+        pathObj.subskill = params[0]
+        item = isActive ? 
+          <Breadcrumb.Item active>{pathObj.subskill+" －－ 討論區"}</Breadcrumb.Item> : 
+          <Breadcrumb.Item href={href+"/"+params}>{pathObj.subskill}</Breadcrumb.Item>
+      }
+      else {
+        item = <Breadcrumb.Item active>文章發布</Breadcrumb.Item>
+      }
+      
     }
     else {
-      pathObj.subject = "資管系"
-      pathObj.field = "系統規劃"
-      pathObj.skill = "JAVA"
-      pathObj.subskill = "JAVA 1級"
-      isActive = true
+      item = ""
     }
-    
-    item = isActive ? 
-      <Breadcrumb.Item active>{pathObj.subskill}</Breadcrumb.Item> : 
-      <Breadcrumb.Item href={href+"/"+params}>{pathObj.subskill}</Breadcrumb.Item>
 
   }
   else if ( segment === "course" ) {
@@ -57,7 +64,7 @@ function insertNameByParams(href, paramsString, isActive) {
     else
       params = "" ;
     item = isActive ? 
-      <Breadcrumb.Item active>{params[1]}</Breadcrumb.Item> : 
+      <Breadcrumb.Item active>{params[1]+" －－ 課程頁面"}</Breadcrumb.Item> : 
       <Breadcrumb.Item href={href+"/"+params}>{params[1]}</Breadcrumb.Item>
   }
   
@@ -86,11 +93,31 @@ function segmentsToItems(segments) {
       }
       
       if ( routesObj.hasParams === true ) {
-        let item = ( i+1 === segments.length-1 ) ? 
-            insertNameByParams(href, segments[i+1], true) :
-            insertNameByParams(href, segments[i+1], false)
-        items.push(item)
-        i++ ; // 跳過傳遞參數那個segment的迴圈
+        if ( routesObj.breadcrumbShow === "params" ) {
+          let item = ( i+1 === segments.length-1 ) ? 
+              insertNameByParams(href, segments[i+1], true) :
+              insertNameByParams(href, segments[i+1], false)
+          items.push(item)
+          i++ ; // 跳過傳遞參數那個segment的迴圈
+        } 
+        else if ( routesObj.breadcrumbShow === "name" ) {
+          let item = ( i === segments.length-1 ) ? 
+              <Breadcrumb.Item active>{routesObj.breadcrumbName}</Breadcrumb.Item> :
+              <Breadcrumb.Item href={href} >{routesObj.breadcrumbName}</Breadcrumb.Item>
+          items.push(item)
+        }
+        else {
+          let item = ( i === segments.length-1 ) ? 
+              <Breadcrumb.Item active>{routesObj.breadcrumbName}</Breadcrumb.Item> :
+              <Breadcrumb.Item href={href} >{routesObj.breadcrumbName}</Breadcrumb.Item>
+          items.push(item)
+          item = ( i+1 === segments.length-1 ) ? 
+              insertNameByParams(href, segments[i+1], true) :
+              insertNameByParams(href, segments[i+1], false)
+          items.push(item)
+          i++ ; // 跳過傳遞參數那個segment的迴圈
+        }
+        
       }
       else {
         let item = ( i === segments.length-1 ) ? 

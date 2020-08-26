@@ -7,7 +7,7 @@ import { CSSTransition } from 'react-transition-group';
 
 import ScrollIcon from '../Utils/ScrollIcon.js';
 
-function ControlledCarousel(props) {
+function PostsCarousel(props) {
   const [index, setIndex] = useState(0);
 
   const handleSelect = (selectedIndex, e) => {
@@ -26,6 +26,52 @@ function ControlledCarousel(props) {
     	</Carousel.Item>
     )
   }
+
+  return (
+    <Carousel 
+    className="forumHome"
+    indicators={false}
+    prevIcon={<span><i className="fa fa-caret-square-o-left fa-lg" aria-hidden="true"></i></span>}
+    nextIcon={<span><i className="fa fa-caret-square-o-right fa-lg" aria-hidden="true"></i></span>}
+    activeIndex={index} 
+    onSelect={handleSelect}>
+      { items }
+    </Carousel>
+  )
+}
+
+function ScrollCarousel(props) {
+  const [index, setIndex] = useState(0);
+
+  const handleSelect = (selectedIndex, e) => {
+    setIndex(selectedIndex) ;
+  }
+	
+  const treeObj = props.treeObj
+  let treeArr = []
+  for ( var subject in treeObj ) {
+	  treeArr.push( treeObj[subject] )
+  }
+
+  const items = treeArr.map( ( subjectObj ) => {
+  	const scrollItems = subjectObj.children.map( ( fieldObj, idx ) => 
+  		<div className="col col-md-6 col-12">
+    		<ScrollIcon fieldObj={ fieldObj } index={ idx } />
+        </div>
+    )
+  	return (
+  		<Carousel.Item className="container">
+  			<div className="title">
+  				<h4>
+  					{ subjectObj.name }
+  				</h4>
+  			</div>
+  			<div className="row justify-content-center">
+  				{ scrollItems }
+  			</div>
+	    </Carousel.Item>
+    )
+  } )
 
   return (
     <Carousel 
@@ -76,7 +122,7 @@ function PostsCard(props) {
 			<Card>
 			  <Card.Header>{ subjects[index] }</Card.Header>
 			  <Card.Body>
-			    <ControlledCarousel 
+			    <PostsCarousel 
 			    type={ type }
 			    postsObj={ postsObj }
 			    handleSelect={ handleSelect } />
@@ -90,8 +136,19 @@ function PostLink(props) {
 	const name = props.name
 	const id = props.id
 	const subskill = props.subskill
+	const pathObj = props.path
+	let pathArr = []
+	pathArr[0] = subskill
+	for ( var key in pathObj ) {
+		if ( key === "subject" )
+			pathArr[3] = pathObj[key]
+		else if ( key === "field" )
+			pathArr[2] = pathObj[key]
+		else if ( key === "skill" )
+			pathArr[1] = pathObj[key]
+	}
 	return (
-		<Link to={ `/forumHome/forum/${ props.path.subject }&${ props.path.field }&${ props.path.skill }&${ subskill }/course/${ id }&${ name }&${ subskill }` }> 
+		<Link to={ `/forum/${ pathArr }/course/${ id }&${ name }&${ subskill }` }> 
 			{ name }
 		</Link>
 	)
@@ -136,7 +193,7 @@ function PostsTable(props) {
 	          	<PostLink 
 	          	path={ postsArr[i].path }
 	          	name={ postsArr[i].name } 
-	          	id={ i }
+	          	id={ postsArr[i].id }
 	          	subskill={ postsArr[i].subskill } />
 	          </td>
 	          <td>{ postsArr[i].user }</td>
@@ -255,17 +312,6 @@ class ForumHome extends React.Component {
 
 	render() {
 
-		const treeObj = this.state.treeObj
-		let treeArr = []
-		for ( var subject in treeObj ) {
-			treeArr.push( treeObj[subject] )
-		}
-		const scrollItems = treeArr.map( ( subjectObj ) =>
-			<div className="col col-md-6 col-12">
-				<ScrollIcon subjectObj={ subjectObj } />
-			</div>
-		)
-
 		return (
 			<div className="content" style={{ 'marginTop': '10vh' }}>
 				<div className="container banner-container">
@@ -296,8 +342,11 @@ class ForumHome extends React.Component {
 								<h3>快速前往</h3>
 							</div>
 						</div>
-						<div className="row justify-content-between">
-							{ scrollItems }
+						<div className="row justify-content-center">
+							<div className="col col-10">
+								<ScrollCarousel treeObj={this.state.treeObj} />
+							</div>
+							
 						</div>
 					</div>
 				</CSSTransition>

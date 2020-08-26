@@ -1,33 +1,104 @@
 div.scrollIcon {
-	width: 300px;
-	height: 200px;
+	height: 100%;
 	margin: auto;
+}
+
+@media (max-width: 768px) {
+    .scrollIcon .title {
+		font-size: 5vw;
+		letter-spacing: 8px;
+		margin-top: .6vw;
+		margin-left: calc(5.5vw + 20%);
+	}
+	.scrollIcon .list {
+	  	font-size: 3vw;
+	  	top: 12vw;
+	  	left: 8vw;
+	}
+}
+
+@media (min-width: 768px) {
+    .scrollIcon .title {
+		font-size: 3vw;
+		letter-spacing: 12px;
+		margin-top: .3vw;
+		margin-left: calc(4vw + 20%);
+	}
+	.scrollIcon .list {
+	  	font-size: 1.5vw;
+	  	top: 7vw;
+	  	left: 5vw;
+	}
 }
 
 .scrollIcon .title {
 	position: absolute;
-	top: 1.7em;
-	left: calc(50% + -1em);
+	margin-right: calc(.5vw + 20%);
+	left: 0;
+	right: 0;
+	text-align: center;
 }
 
 .scrollIcon .list {
+	padding-right: 1em;
 	position: absolute;
-	transition: 1s;
-	opacity: 0;
+	transition: visibility .2s, opacity .1s linear;
+	visibility: hidden;
+  	opacity: 0;
 }
-.forum-icon:hover + .list,
-.forum-icon:focus + .list {
-	opacity: 1;
+.scrollIcon:hover .list,
+.scrollIcon:focus .list {
+	visibility: visible;
+  	opacity: 1;
+	position: absolute;
+	transition: visibility 1.5s, opacity 1.5s linear;
 }
 
-
+/* scroll展開部分的動畫 */
+/* clip-path是類似svg，可以指定只顯示某個路徑內的圖案 */
 .forum-icon #unfold .st2 {
-	transition: all 1s;
+	transition: 1s;
 	clip-path: inset(0 0 100% 0);
 }
 .forum-icon:hover #unfold .st2,
-.forum-icon:focus #unfold .st2 {
-	display: inline;
+.forum-icon:focus #unfold .st2,
+.scrollIcon div:hover ~ .forum-icon #unfold .st2,
+.scrollIcon div:focus ~ .forum-icon #unfold .st2 {
+	visibility: visible;
 	clip-path: inset(0);
-	transform: scaleY(1.5);
+}
+
+.scrollIcon .list ul {
+	list-style-type: none;
+	padding-left: 0px;
+}
+
+.scrollIcon .list ul li {
+	list-style-type: none;
+	padding-left: 2em;
+}
+
+.scrollIcon .list ul li ul li {
+	list-style-type: none;
+	padding-left: 2em;
+}
+
+.scrollIcon .list ul button {
+	margin-left: 1em;
+	background-color: transparent; /* Blue background */
+    border: none; /* Remove borders */
+    font-size: 20px; /* Set a font size */
+    cursor: pointer; /* Mouse pointer on hover */
+}
+
+.scrollIcon .list .fa.fa-graduation-cap,
+.scrollIcon .list .fa.fa-book {
+	padding-right: .6em;
+}
+.scrollIcon .list .fa.fa-long-arrow-right {
+	padding-left: .2em;
+}
+
+.scrollIcon .list .link {
+	color: DarkSlateBlue;
 }

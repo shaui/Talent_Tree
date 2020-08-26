@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Route } from 'react-router-dom';
+import { Route, Switch } from 'react-router-dom';
 
 //Component
 import CustomNavbar from './Utils/CustomNavbar';
@@ -110,23 +110,23 @@ class App extends Component {
               </div>
             </div>
             { /**強者總是孤獨的**/ }
+            
             <Route exact path="/" component={Home} />
             <Route exact path="/treeMenu/tree" component={MyTree} />
             <div style={{'paddingTop':'9vh'}}>
-
-              <Route exact path="/forumHome" component={ForumHome} />
-              <Route exact path="/forum" component={PostsPage} />
-              <Route exact path="/forum/post" component={PostingPage} />
-              <Route exact path="/forum/course" component={CoursePage} />
-              <Route exact path="/forum/:path" component={PostsPage} />
-              <Route exact path="/forum/:path/post" component={PostingPage} />
-              <Route exact path="/forum/:path/course/:id&:name&:level" component={CoursePage} />
-              <Route exact path="/hunt" component={HuntingPage} />
-              <Route exact path="/home" component={HomePage} />
-              <Route exact path="/treeMenu" component={TreeMenu} />
-              <Route exact path="/profile" component={Profile} />
+              <Switch>
+                <Route exact path="/forum" component={ForumHome} />
+                <Route exact path="/forum/post" component={PostingPage} />
+                <Route exact path="/forum/:path" component={PostsPage} />
+                <Route exact path="/forum/:path/post" component={PostingPage} />
+                <Route exact path="/forum/:path/course/:id&:name&:level" component={CoursePage} />
+                <Route exact path="/hunt" component={HuntingPage} />
+                <Route exact path="/home" component={HomePage} />
+                <Route exact path="/treeMenu" component={TreeMenu} />
+                <Route exact path="/profile" component={Profile} />
+              </Switch>
             </div>
-
+            
   	    	</div>
       	</div>
       </UserContext.Provider>
