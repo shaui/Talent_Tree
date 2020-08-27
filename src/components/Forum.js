@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Button, Table, OverlayTrigger, Popover, Badge } from 'react-bootstrap';
+import { Button, Table, OverlayTrigger, Popover, Badge, Tooltip } from 'react-bootstrap';
 import { Link } from 'react-router-dom';
 import './Forum.css';
 import FirebaseMg from '../Utils/FirebaseMg.js';
@@ -15,20 +15,43 @@ function StdPopover(props) {
   const showOverlay = () => setShow(true)
   const hideOverlay = () => setShow(false)
 
+  const popoverContent = props.standards.map( (standard) => {
+
+  	const stdWithContext = props.standardsAll.find( ( std ) => 
+  		std.name === standard
+  	)
+  	const contextItems = stdWithContext.context.map( (context) => 
+  		<li>
+  			{ context }
+  		</li>
+  	)
+
+  	return (
+  		<li>
+			<h5 className="forum">
+			    <OverlayTrigger
+			      placement="bottom-start"
+			      overlay={
+			        <Tooltip className="tooltip forum">
+			          <ol className="contexts forum">
+			          	{ contextItems }
+			          </ol>
+			        </Tooltip>
+			      }
+			    >
+			      <Badge variant="dark">{standard}</Badge>
+			    </OverlayTrigger>
+			</h5>
+		</li>
+	)
+  } )
+
   const popover = (
   	<Popover onMouseEnter={showOverlay} onMouseLeave={hideOverlay} id="popover-bottom-start" className="forum">
       <Popover.Title as="h3">子技能學習標準</Popover.Title>
       <Popover.Content>
       	<ol className="forum">
-      	  {
-        	props.standards.map( (standard) => 
-        		<li>
-        			<h5 className="forum">
-        				<Badge variant="dark">{standard}</Badge>
-        			</h5>
-        		</li>
-        	)
-          }
+      	  { popoverContent }
       	</ol>
       </Popover.Content>
     </Popover>
@@ -76,7 +99,7 @@ function PostsTable(props) {
 			  	<td className="isOfficial"></td>
 			  }
 			  <td className="standards">
-			  	<StdPopover standards={posts[i].course.standards} />
+			  	<StdPopover standards={posts[i].course.standards} standardsAll={ props.standards } />
 			  </td>
 	          <th className="type" scope="row">{posts[i].type}</th>
 	          <td className="name">
@@ -140,6 +163,7 @@ class PostsPage extends React.Component {
 		this.state = {
 			data: null,
 			pathObj: {},
+			standards: [],
 			isLoading: true
 		} ;
 	}
@@ -147,14 +171,15 @@ class PostsPage extends React.Component {
 	getPosts(pathObj) {
 		const fbMg = new FirebaseMg() ;
 		var root = fbMg.myRef ;
-		var path = "Posts/" + pathObj.subskill + "/children/" ;
+		var path = "Posts/" + pathObj.subskill ;
 		var myRef = root.child(path) ;
 		myRef.once('value').then( (snapshot) => {
 			let data = snapshot.val() ;
 			
 			this.setState( {
-				data: data,
+				data: data.children,
 				pathObj: pathObj,
+				standards: data.path.standards,
 				isLoading: false
 			} ) ;
 		} )
@@ -251,7 +276,8 @@ class PostsPage extends React.Component {
 								<PostsTable 
 								url={this.props.match.url}
 								data={this.state.data} 
-								subskill={this.state.pathObj.subskill} />
+								subskill={this.state.pathObj.subskill}
+								standards={this.state.standards} />
 							</div>
 						</div>
 					</div>

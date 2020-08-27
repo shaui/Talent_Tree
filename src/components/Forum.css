@@ -16,6 +16,13 @@ tbody.forum img.crown {
   width: 2.5em;
 }
 
+.forum.contexts {
+  text-align: start;
+}
+.forum.tooltip .tooltip-inner {
+  max-width: calc( 20vw + 100px );
+}
+
 thead.forum th:nth-child(2),
 tbody.forum td:nth-child(2) {
   padding: .75rem;
