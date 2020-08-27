@@ -67,18 +67,18 @@ function PostsTable(props) {
 			<div> { timeString } </div>
 		)
 		postItems.push(
-			<tr>
+			<tr className="content table forum">
 			  { 
 			  	posts[i].isOfficial ? 
-			  	<td>
+			  	<td className="isOfficial">
 			  		<img src={ crown } alt="official" className="crown" />
 			  	</td> :
-			  	<td></td>
+			  	<td className="isOfficial"></td>
 			  }
-			  <td>
+			  <td className="standards">
 			  	<StdPopover standards={posts[i].course.standards} />
 			  </td>
-	          <th scope="row">{posts[i].type}</th>
+	          <th className="type" scope="row">{posts[i].type}</th>
 	          <td className="name">
 	          	<PostLink 
 	          	url={ props.url }
@@ -86,10 +86,10 @@ function PostsTable(props) {
 	          	id={ i }
 	          	subskill={props.subskill} />
 	          </td>
-	          <td>{ posts[i].user }</td>
-	          <td>{ posts[i].course.comments ? posts[i].course.comments.length : 0 } / { posts[i].view }</td>
-	          <td>{ posts[i].like } / { posts[i].dislike }</td>
-	          <td>
+	          <td className="user">{ posts[i].user }</td>
+	          <td className="comments">{ posts[i].course.comments ? posts[i].course.comments.length : 0 } / { posts[i].view }</td>
+	          <td className="like">{ posts[i].like } / { posts[i].dislike }</td>
+	          <td className="time">
 	          	<div className="forum">
 	          		{ timePosted }
 	          	</div>

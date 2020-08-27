@@ -9,8 +9,11 @@ tbody.forum td.name {
 	width: 25em;
 }
 
+tbody.forum .content .isOfficial {
+  text-align: center;
+}
 tbody.forum img.crown {
-  width: 4em;
+  width: 2.5em;
 }
 
 thead.forum th:nth-child(2),
