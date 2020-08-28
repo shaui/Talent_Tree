@@ -211,21 +211,21 @@ class MyTree extends Component{
 	    	let userTreeState = snapshot.val()
 
 	    	userTreeState.forEach((skillLevel)=>{
-	    		skillLevel["children"].forEach((skillStd)=>{
-	    			if(skillStd["nodeSvgShape"]["shapeProps"]["fill"] === "yellow"){
-	    				let pathRef = skillStd["path"]
-	    				if(Array.isArray(pathRef)){
-	    					pathRef.forEach((path)=>{
-			    				let stdNode = treeData["children"][path["fieldIndex"]]["children"][path["skillIndex"]]["children"][path["levelIndex"]]["children"][path["stdIndex"]]
-			    				stdNode["nodeSvgShape"]["shapeProps"]["fill"] = "yellow"
-			    				console.log("SSS:", stdNode)	    						
-	    					})
-	    				}else{
-		    				let stdNode = treeData["children"][pathRef["fieldIndex"]]["children"][pathRef["skillIndex"]]["children"][pathRef["levelIndex"]]["children"][pathRef["stdIndex"]]
-		    				stdNode["nodeSvgShape"]["shapeProps"]["fill"] = "yellow"
-		    				console.log("SSS:", stdNode)	    					
-	    				}
-	    			}  			
+	    		skillLevel["children"].forEach( (skillStd) => {
+	    			let pathRef = skillStd["path"]
+    				if ( Array.isArray(pathRef) ) {
+    					pathRef.forEach((path)=>{
+		    				let stdNode = treeData["children"][path["fieldIndex"]]["children"][path["skillIndex"]]["children"][path["levelIndex"]]["children"][path["stdIndex"]]
+		    				stdNode["nodeSvgShape"]["shapeProps"]["fill"] = skillStd["nodeSvgShape"]["shapeProps"]["fill"]
+		    				stdNode["nodeSvgShape"]["shapeProps"]["stroke"] = skillStd["nodeSvgShape"]["shapeProps"]["stroke"]
+		    				console.log("SSS:", stdNode)	    						
+    					})
+    				} else {
+	    				let stdNode = treeData["children"][pathRef["fieldIndex"]]["children"][pathRef["skillIndex"]]["children"][pathRef["levelIndex"]]["children"][pathRef["stdIndex"]]
+	    				stdNode["nodeSvgShape"]["shapeProps"]["fill"] = skillStd["nodeSvgShape"]["shapeProps"]["fill"]
+	    				stdNode["nodeSvgShape"]["shapeProps"]["stroke"] = skillStd["nodeSvgShape"]["shapeProps"]["stroke"]
+	    				console.log("SSS:", stdNode)	    					
+    				}	
 	    		})
 	    	})
 
@@ -647,10 +647,11 @@ class MyTree extends Component{
 	}
 
 	handleConfirm = () =>{
-		if(this.state.selectedNodeData["nodeSvgShape"]["shapeProps"]["fill"] === "yellow"){
+		if(this.state.selectedNodeData["nodeSvgShape"]["shapeProps"]["fill"] === "yellow" ||
+			this.state.selectedNodeData["nodeSvgShape"]["shapeProps"]["fill"] === "#ffff99" ){
 			alert("此技能已點亮，不需要再次點亮喔!")
-		}else{
-			this.updateNodeColor("yellow") //for treeState
+		} else {
+			this.updateNodeColor("#ffff99") //for treeState
 			this.updateProgress() //for progress
 
 			let nodeData = this.state.selectedNodeData
@@ -675,8 +676,8 @@ class MyTree extends Component{
 					shape: "circle",
 			        shapeProps: {
 			          r: 10,
-			          fill: "yellow",
-			          stroke: "OrangeRed"
+			          fill: "#ffff99",
+			          stroke: "black"
 			        }
 				}
 			}
@@ -763,7 +764,7 @@ class MyTree extends Component{
 			        shapeProps: {
 			          r: 10,
 			          fill: "white",
-			          stroke:"orangered"
+			          stroke:"black"
 			        }
 				}
 			}

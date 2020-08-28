@@ -73,10 +73,14 @@ function PostLink(props) {
 	const name = props.name
 	const id = props.id
 	const subskill = props.subskill
+	const params = []
+	params[0] = id
+	params[1] = name
+	params[2] = subskill
 
 	// 因為this.props.match.url才有之前頁面傳的參數，所以要傳到這裡
 	return (
-		<Link to={ `${ props.url }/course/${ id }&${ name }&${ subskill }` }> 
+		<Link to={ `${ props.url }/course/${ params }` }> 
 			{ name }
 		</Link>
 	)

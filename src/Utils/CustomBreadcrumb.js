@@ -60,7 +60,7 @@ function insertNameByParams(href, paramsString, isActive) {
   else if ( segment === "course" ) {
     let params ;
     if ( paramsString )
-      params = paramsString.split('&')
+      params = paramsString.split(',')
     else
       params = "" ;
     item = isActive ? 

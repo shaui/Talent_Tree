@@ -147,8 +147,12 @@ function PostLink(props) {
 		else if ( key === "skill" )
 			pathArr[1] = pathObj[key]
 	}
+	const params = []
+	params[0] = id
+	params[1] = name
+	params[2] = subskill
 	return (
-		<Link to={ `/forum/${ pathArr }/course/${ id }&${ name }&${ subskill }` }> 
+		<Link to={ `/forum/${ pathArr }/course/${ params }` }> 
 			{ name }
 		</Link>
 	)

@@ -54,7 +54,7 @@
             "shapeProps" : {
               "fill" : "white",
               "r" : 10,
-              "stroke" : "orangered"
+              "stroke" : "black"
             }
           },
           "path" : [ {
@@ -75,7 +75,7 @@
             "shapeProps" : {
               "fill" : "white",
               "r" : 10,
-              "stroke" : "orangered"
+              "stroke" : "black"
             }
           },
           "path" : [ {
@@ -96,7 +96,7 @@
             "shapeProps" : {
               "fill" : "white",
               "r" : 10,
-              "stroke" : "orangered"
+              "stroke" : "black"
             }
           },
           "path" : [ {
@@ -117,7 +117,7 @@
             "shapeProps" : {
               "fill" : "white",
               "r" : 10,
-              "stroke" : "orangered"
+              "stroke" : "black"
             }
           },
           "path" : [ {
@@ -138,7 +138,7 @@
             "shapeProps" : {
               "fill" : "white",
               "r" : 10,
-              "stroke" : "orangered"
+              "stroke" : "black"
             }
           },
           "path" : [ {
@@ -164,7 +164,7 @@
             "shapeProps" : {
               "fill" : "white",
               "r" : 10,
-              "stroke" : "orangered"
+              "stroke" : "black"
             }
           },
           "path" : [ {
@@ -185,7 +185,7 @@
             "shapeProps" : {
               "fill" : "white",
               "r" : 10,
-              "stroke" : "orangered"
+              "stroke" : "black"
             }
           },
           "path" : [ {
@@ -206,7 +206,7 @@
             "shapeProps" : {
               "fill" : "white",
               "r" : 10,
-              "stroke" : "orangered"
+              "stroke" : "black"
             }
           },
           "path" : [ {
@@ -227,7 +227,7 @@
             "shapeProps" : {
               "fill" : "white",
               "r" : 10,
-              "stroke" : "orangered"
+              "stroke" : "black"
             }
           },
           "path" : [ {
@@ -248,7 +248,7 @@
             "shapeProps" : {
               "fill" : "white",
               "r" : 10,
-              "stroke" : "orangered"
+              "stroke" : "black"
             }
           },
           "path" : [ {
@@ -269,7 +269,7 @@
             "shapeProps" : {
               "fill" : "white",
               "r" : 10,
-              "stroke" : "orangered"
+              "stroke" : "black"
             }
           },
           "path" : [ {
@@ -290,7 +290,7 @@
             "shapeProps" : {
               "fill" : "white",
               "r" : 10,
-              "stroke" : "orangered"
+              "stroke" : "black"
             }
           },
           "path" : [ {
@@ -316,7 +316,7 @@
             "shapeProps" : {
               "fill" : "white",
               "r" : 10,
-              "stroke" : "orangered"
+              "stroke" : "black"
             }
           },
           "path" : [ {
@@ -337,7 +337,7 @@
             "shapeProps" : {
               "fill" : "white",
               "r" : 10,
-              "stroke" : "orangered"
+              "stroke" : "black"
             }
           },
           "path" : [ {
@@ -358,16 +358,16 @@
             "shapeProps" : {
               "fill" : "white",
               "r" : 10,
-              "stroke" : "orangered"
+              "stroke" : "black"
             }
           },
           "path" : [ {
-            "filedIndex" : 0,
+            "fieldIndex" : 0,
             "levelIndex" : 0,
             "skillIndex" : 1,
             "stdIndex" : 2
           }, {
-            "filedIndex" : 2,
+            "fieldIndex" : 2,
             "levelIndex" : 0,
             "skillIndex" : 2,
             "stdIndex" : 2
@@ -379,7 +379,7 @@
             "shapeProps" : {
               "fill" : "white",
               "r" : 10,
-              "stroke" : "orangered"
+              "stroke" : "black"
             }
           },
           "path" : [ {
@@ -400,7 +400,7 @@
             "shapeProps" : {
               "fill" : "white",
               "r" : 10,
-              "stroke" : "orangered"
+              "stroke" : "black"
             }
           },
           "path" : [ {
@@ -426,7 +426,7 @@
             "shapeProps" : {
               "fill" : "white",
               "r" : 10,
-              "stroke" : "orangered"
+              "stroke" : "black"
             }
           },
           "path" : {
@@ -442,7 +442,7 @@
             "shapeProps" : {
               "fill" : "white",
               "r" : 10,
-              "stroke" : "orangered"
+              "stroke" : "black"
             }
           },
           "path" : {
@@ -458,7 +458,7 @@
             "shapeProps" : {
               "fill" : "white",
               "r" : 10,
-              "stroke" : "orangered"
+              "stroke" : "black"
             }
           },
           "path" : {
@@ -474,7 +474,7 @@
             "shapeProps" : {
               "fill" : "white",
               "r" : 10,
-              "stroke" : "orangered"
+              "stroke" : "black"
             }
           },
           "path" : {
@@ -490,7 +490,7 @@
             "shapeProps" : {
               "fill" : "white",
               "r" : 10,
-              "stroke" : "orangered"
+              "stroke" : "black"
             }
           },
           "path" : {
@@ -511,7 +511,7 @@
             "shapeProps" : {
               "fill" : "white",
               "r" : 10,
-              "stroke" : "orangered"
+              "stroke" : "black"
             }
           },
           "path" : {
@@ -527,7 +527,7 @@
             "shapeProps" : {
               "fill" : "white",
               "r" : 10,
-              "stroke" : "orangered"
+              "stroke" : "black"
             }
           },
           "path" : {
@@ -543,7 +543,7 @@
             "shapeProps" : {
               "fill" : "white",
               "r" : 10,
-              "stroke" : "orangered"
+              "stroke" : "black"
             }
           },
           "path" : {
@@ -559,7 +559,7 @@
             "shapeProps" : {
               "fill" : "white",
               "r" : 10,
-              "stroke" : "orangered"
+              "stroke" : "black"
             }
           },
           "path" : {
@@ -580,7 +580,7 @@
             "shapeProps" : {
               "fill" : "white",
               "r" : 10,
-              "stroke" : "orangered"
+              "stroke" : "black"
             }
           },
           "path" : {
@@ -596,11 +596,11 @@
             "shapeProps" : {
               "fill" : "white",
               "r" : 10,
-              "stroke" : "orangered"
+              "stroke" : "black"
             }
           },
           "path" : {
-            "filedIndex" : 0,
+            "fieldIndex" : 0,
             "levelIndex" : 0,
             "skillIndex" : 3,
             "stdIndex" : 1
@@ -612,7 +612,7 @@
             "shapeProps" : {
               "fill" : "white",
               "r" : 10,
-              "stroke" : "orangered"
+              "stroke" : "black"
             }
           },
           "path" : {
@@ -628,7 +628,7 @@
             "shapeProps" : {
               "fill" : "white",
               "r" : 10,
-              "stroke" : "orangered"
+              "stroke" : "black"
             }
           },
           "path" : {
@@ -644,11 +644,11 @@
             "shapeProps" : {
               "fill" : "white",
               "r" : 10,
-              "stroke" : "orangered"
+              "stroke" : "black"
             }
           },
           "path" : {
-            "feildIndex" : 0,
+            "fieldIndex" : 0,
             "levelIndex" : 0,
             "skillIndex" : 3,
             "stdIndex" : 4
@@ -665,7 +665,7 @@
             "shapeProps" : {
               "fill" : "white",
               "r" : 10,
-              "stroke" : "orangered"
+              "stroke" : "black"
             }
           },
           "path" : {
@@ -681,7 +681,7 @@
             "shapeProps" : {
               "fill" : "white",
               "r" : 10,
-              "stroke" : "orangered"
+              "stroke" : "black"
             }
           },
           "path" : {
@@ -702,7 +702,7 @@
             "shapeProps" : {
               "fill" : "white",
               "r" : 10,
-              "stroke" : "orangered"
+              "stroke" : "black"
             }
           },
           "path" : {
@@ -718,7 +718,7 @@
             "shapeProps" : {
               "fill" : "white",
               "r" : 10,
-              "stroke" : "orangered"
+              "stroke" : "black"
             }
           },
           "path" : {
@@ -739,7 +739,7 @@
             "shapeProps" : {
               "fill" : "white",
               "r" : 10,
-              "stroke" : "orangered"
+              "stroke" : "black"
             }
           },
           "path" : {
@@ -755,7 +755,7 @@
             "shapeProps" : {
               "fill" : "white",
               "r" : 10,
-              "stroke" : "orangered"
+              "stroke" : "black"
             }
           },
           "path" : {
@@ -776,7 +776,7 @@
             "shapeProps" : {
               "fill" : "white",
               "r" : 10,
-              "stroke" : "orangered"
+              "stroke" : "black"
             }
           },
           "path" : {
@@ -797,7 +797,7 @@
             "shapeProps" : {
               "fill" : "white",
               "r" : 10,
-              "stroke" : "orangered"
+              "stroke" : "black"
             }
           },
           "path" : {
@@ -813,8 +813,14 @@
             "shapeProps" : {
               "fill" : "white",
               "r" : 10,
-              "stroke" : "orangered"
+              "stroke" : "black"
             }
+          },
+          "path" : {
+            "fieldIndex" : 1,
+            "levelIndex" : 1,
+            "skillIndex" : 1,
+            "stdIndex" : 1
           }
         } ],
         "completed" : 0,
@@ -828,7 +834,7 @@
             "shapeProps" : {
               "fill" : "white",
               "r" : 10,
-              "stroke" : "orangered"
+              "stroke" : "black"
             }
           },
           "path" : {
@@ -849,7 +855,7 @@
             "shapeProps" : {
               "fill" : "white",
               "r" : 10,
-              "stroke" : "orangered"
+              "stroke" : "black"
             }
           },
           "path" : {
@@ -870,7 +876,7 @@
             "shapeProps" : {
               "fill" : "white",
               "r" : 10,
-              "stroke" : "orangered"
+              "stroke" : "black"
             }
           },
           "path" : {
@@ -891,7 +897,7 @@
             "shapeProps" : {
               "fill" : "white",
               "r" : 10,
-              "stroke" : "orangered"
+              "stroke" : "black"
             }
           },
           "path" : {
@@ -912,7 +918,7 @@
             "shapeProps" : {
               "fill" : "white",
               "r" : 10,
-              "stroke" : "orangered"
+              "stroke" : "black"
             }
           },
           "path" : {
@@ -928,13 +934,13 @@
             "shapeProps" : {
               "fill" : "white",
               "r" : 10,
-              "stroke" : "orangered"
+              "stroke" : "black"
             }
           },
           "path" : {
             "fieldIndex" : 2,
             "levelIndex" : 0,
-            "skillINdex" : 0,
+            "skillIndex" : 0,
             "stdIndex" : 1
           }
         }, {
@@ -944,7 +950,7 @@
             "shapeProps" : {
               "fill" : "white",
               "r" : 10,
-              "stroke" : "orangered"
+              "stroke" : "black"
             }
           },
           "path" : {
@@ -960,7 +966,7 @@
             "shapeProps" : {
               "fill" : "white",
               "r" : 10,
-              "stroke" : "orangered"
+              "stroke" : "black"
             }
           },
           "path" : {
@@ -981,7 +987,7 @@
             "shapeProps" : {
               "fill" : "white",
               "r" : 10,
-              "stroke" : "orangered"
+              "stroke" : "black"
             }
           },
           "path" : {
@@ -997,7 +1003,7 @@
             "shapeProps" : {
               "fill" : "white",
               "r" : 10,
-              "stroke" : "orangered"
+              "stroke" : "black"
             }
           },
           "path" : {
@@ -1013,7 +1019,7 @@
             "shapeProps" : {
               "fill" : "white",
               "r" : 10,
-              "stroke" : "orangered"
+              "stroke" : "black"
             }
           },
           "path" : {
@@ -1034,7 +1040,7 @@
             "shapeProps" : {
               "fill" : "white",
               "r" : 10,
-              "stroke" : "orangered"
+              "stroke" : "black"
             }
           },
           "path" : {
@@ -1055,7 +1061,7 @@
             "shapeProps" : {
               "fill" : "white",
               "r" : 10,
-              "stroke" : "orangered"
+              "stroke" : "black"
             }
           },
           "path" : {
@@ -1071,13 +1077,13 @@
             "shapeProps" : {
               "fill" : "white",
               "r" : 10,
-              "stroke" : "orangered"
+              "stroke" : "black"
             }
           },
           "path" : {
             "fieldIndex" : 2,
-            "levelIndex" : 3,
-            "skillIndex" : 1,
+            "levelIndex" : 1,
+            "skillIndex" : 3,
             "stdIndex" : 1
           }
         } ],
@@ -1092,7 +1098,7 @@
             "shapeProps" : {
               "fill" : "white",
               "r" : 10,
-              "stroke" : "orangered"
+              "stroke" : "black"
             }
           },
           "path" : {
@@ -1108,7 +1114,7 @@
             "shapeProps" : {
               "fill" : "white",
               "r" : 10,
-              "stroke" : "orangered"
+              "stroke" : "black"
             }
           },
           "path" : {
@@ -1129,7 +1135,7 @@
             "shapeProps" : {
               "fill" : "white",
               "r" : 10,
-              "stroke" : "orangered"
+              "stroke" : "black"
             }
           },
           "path" : {
@@ -1150,7 +1156,7 @@
             "shapeProps" : {
               "fill" : "white",
               "r" : 10,
-              "stroke" : "orangered"
+              "stroke" : "black"
             }
           },
           "path" : {

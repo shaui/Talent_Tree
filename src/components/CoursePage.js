@@ -142,17 +142,19 @@ class CoursePage extends Component{
 	static contextType = UserContext;
 	constructor(props){
 		super(props)
+		const sentParams = props.match.params.data.split(',')
 		this.state = {
 			// id:"3ee4e691-18de-4060-a466-dda24cf94b22",
 			// name:"JAVA 基礎教學",
 			// level:"JAVA 1級",
-			id: props.match.params.id,
-			name: props.match.params.name,
-			level: props.match.params.level,
+			id: sentParams[0],
+			name: sentParams[1],
+			level: sentParams[2],
 			intro: "",
 			node: [],
 			links: [],
 			comments: [],
+			isOfficial: false
 			// imgURL: ""
 
 		}
@@ -163,18 +165,20 @@ class CoursePage extends Component{
 		console.log('id=',this.state.id)
 		console.log('level=',this.state.level)
 
-		var myRef=root.child('Posts/'+this.state.level+'/children/'+this.state.id+'/course')
+		var myRef = root.child('Posts/'+this.state.level+'/children/'+this.state.id)
 		myRef.once('value',(snapshot)=>{
 			let data = snapshot.val()
+			console.log(data);
 			this.setState({
-				node:data["standards"],
-				intro:data["intro"],
-				links:data["links"],
-				comments:data["comments"]
+				node: data.course["standards"],
+				intro: data.course["intro"],
+				links: data.course["links"],
+				comments: data.course["comments"],
+				isOfficial: data.isOfficial
 			})
 		})
 	}
-	updateUserState=()=>{
+	updateUserState = () => {
 		let skillName = this.state.level
 		let skillStd = this.state.node
 
@@ -213,7 +217,7 @@ class CoursePage extends Component{
 			let treeStatePath = path + "/" + path1
 			this.updateTreeStateProgress(treeStatePath, stdName.length, childrenLength)
 			
-			//遍歷每個Std，點亮未點亮的部分
+			//遍歷每個Std，點亮未有官方認證的部分
 			path2.forEach((pathIndex, index)=>{
 				let skillStdPath = path + "/" + path1 + "/children/" + pathIndex + "/nodeSvgShape/shapeProps"
 				let skillStdRef = root.child(skillStdPath)
@@ -223,8 +227,19 @@ class CoursePage extends Component{
 					
 					console.log("skillStdData:", skillStdData)
 
-					if(skillStdData["fill"] !== "yellow"){
-						skillStdRef.update({"fill": "yellow"}) //點亮節點
+					// 檢查treeState目前點亮狀態，未達到官方認證才進入
+					if ( skillStdData["fill"] !== "yellow" ) {
+						// 依照課程有官方認證與否點亮節點
+						if ( this.state.isOfficial ) 
+							skillStdRef.update( { 
+								"fill": "yellow",
+								"stroke": "orangered"
+							} )
+						else 
+							skillStdRef.update( { 
+								"fill": "#ffff99",
+								"stroke": "black"
+							} ) 
 						// newProgreeNode.push(stdName[index])
 						console.log("skillStdData:", skillName, stdName[index], childrenLength)
 
