@@ -32,13 +32,22 @@ tbody.forum td:nth-child(2) {
   text-align: center;
 }
 
+/* 沒有貼文時的提示文字 */
+#noPostsWarn.forum {
+  color: gray;
+  text-align: center;
+  font-family: 'Noto Sans TC', sans-serif;
+  font-size: 18pt;
+  margin-top: 10vh;
+}
+
 /*垂直置中*/
 .table th, 
 .table td {
   vertical-align: middle !important;
 }
 
-/*button*/
+/* button */
 .post-btn {
   color: #494949 !important;
   text-transform: uppercase;
@@ -56,7 +65,7 @@ tbody.forum td:nth-child(2) {
   transition: all 0.3s ease 0s;
 }
 
-/*separator*/
+/* separator */
 hr { 
   display: block;
   margin-top: 0.5em;
@@ -67,8 +76,8 @@ hr {
   border-width: 1px;
 } 
 
-/*container間距*/
-.container {
+/* container間距 */
+.forum.container {
 	margin-bottom: 1em;
 }
 
@@ -76,6 +85,7 @@ hr {
   float: right;
 }
 
+/* 課程標準popover的視窗 */
 ol.forum {
   padding-left: 2em;
   margin-top: 4px;

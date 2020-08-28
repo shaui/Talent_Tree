@@ -181,9 +181,9 @@ class PostsPage extends React.Component {
 			let data = snapshot.val() ;
 			
 			this.setState( {
-				data: data.children,
+				data: data ? data.children : "",
 				pathObj: pathObj,
-				standards: data.path.standards,
+				standards: data ? data.path.standards : "",
 				isLoading: false
 			} ) ;
 		} )
@@ -249,12 +249,12 @@ class PostsPage extends React.Component {
 
 		return (
 			<div className="content" style={{ 'marginTop': '10vh' }}>
-				<div className="container banner-container">
+				<div className="container banner-container forum">
 					<div className="row"></div>
 				</div>
 
 
-				<div className="container">
+				<div className="container forum">
 					<div className="row justify-content-between">
 						<div className="col-4">
 							<Link to={ `/forum/${ pathArr }/post` }> 
@@ -284,6 +284,18 @@ class PostsPage extends React.Component {
 								standards={this.state.standards} />
 							</div>
 						</div>
+						{
+							this.state.data ? "" :
+							<div className="row">
+								<div className="col">
+									
+							      	<div id="noPostsWarn" className="forum">
+							      		此技能尚無課程資源！<br />
+							      		快發布文章，成為大家討論的焦點吧！
+							      	</div>
+								</div>
+							</div>
+						}
 					</div>
 					</CSSTransition>
 				<CSSTransition in={!this.state.isLoading} timeout={1200} classNames="content" unmountOnExit appear>
