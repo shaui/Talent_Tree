@@ -7,13 +7,13 @@ function TransitionAlert(props) {
 
 	return (
 		<CSSTransition in={props.show} timeout={500} classNames="alert" unmountOnExit appear>
-	      <Alert variant="danger" className={props.className}>
-            <Alert.Heading>{props.title}</Alert.Heading>
-            <p>
-              {props.content}
-            </p>
-          </Alert>
-        </CSSTransition>
+      <Alert variant="danger" className={props.className}>
+        <Alert.Heading>{props.title}</Alert.Heading>
+        <p>
+          {props.content}
+        </p>
+      </Alert>
+    </CSSTransition>
 	)
 }
 

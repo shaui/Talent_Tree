@@ -118,32 +118,29 @@ class SignInDialog extends Component{
 
 	render(){
 		return(
-	      <div style={{'margin-top':'12vh'}}>
-	          <Modal dialogClassName="SignInDialog coutom-model" show={this.props.isShow} onHide={this.props.handleClose}>
+	      <Modal dialogClassName="SignInDialog coutom-model" show={this.props.isShow} onHide={this.props.handleClose}>
 
-		        <Modal.Body>
-		        	<h1 className='SignInDialog headFont'>Talent-Tree</h1>
-		        	<p style={{'textAlign': 'center'}}>Sing in to Talent-Tree here</p>
-					<div className='SignInDialog sign-div'>
-						<input className="SignInDialog sign-msg" id="email" type="text" name="email" placeholder="Email"/><br/>
-					  	<input className="SignInDialog sign-msg" id="pwd" type="password" name="pwd" placeholder="Password"/><br/>
-						<div className="SignInDialog sign-btn">
-							<Button variant="primary" onClick={this.signInHandler} style={{'float':'left', 'width':'48%', 'margin':'0px'}}>
-								Sign In
-							</Button>
-							<Button variant="primary" onClick={this.signUpHandler} style={{'float':'right', 'width':'48%', 'margin':'0px'}}>
-								Sign Up
-							</Button>
-						</div>
-						
+	        <Modal.Body>
+	        	<h1 className='SignInDialog headFont'>Talent-Tree</h1>
+	        	<p style={{'textAlign': 'center'}}>Sing in to Talent-Tree here</p>
+				<div className='SignInDialog sign-div'>
+					<input className="SignInDialog sign-msg" id="email" type="text" name="email" placeholder="Email"/><br/>
+				  	<input className="SignInDialog sign-msg" id="pwd" type="password" name="pwd" placeholder="Password"/><br/>
+					<div className="SignInDialog sign-btn">
+						<Button variant="primary" onClick={this.signInHandler} style={{'float':'left', 'width':'48%', 'margin':'0px'}}>
+							Sign In
+						</Button>
+						<Button variant="primary" onClick={this.signUpHandler} style={{'float':'right', 'width':'48%', 'margin':'0px'}}>
+							Sign Up
+						</Button>
 					</div>
 					
-					<StyledFirebaseAuth uiConfig={this.uiConfig} firebaseAuth={fbMg.auth} />
-		        </Modal.Body>
+				</div>
+				
+				<StyledFirebaseAuth uiConfig={this.uiConfig} firebaseAuth={fbMg.auth} />
+	        </Modal.Body>
 
-		      </Modal>
-			
-	      </div>
+	      </Modal>
 		)
 		
 		

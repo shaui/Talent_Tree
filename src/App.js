@@ -73,10 +73,12 @@ class App extends Component {
       if(userAuth){
         console.log('App user:', userAuth, userAuth.uid)
         this.initUserData(userAuth.uid)
-      }else{
+        this.setState({ user: userAuth });
+      } else {
         console.log('App user:', userAuth)
+        this.setState({ user: false });
       }
-      this.setState({ user: userAuth });
+      
     })
   }
 

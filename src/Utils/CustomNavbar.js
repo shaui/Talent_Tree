@@ -6,6 +6,8 @@ import {
   Nav,
   NavDropdown,
   Button } from 'react-bootstrap';
+import { CSSTransition } from 'react-transition-group';
+import './CustomNavbar.css'
 
 import SignInDialog from './SignInDialog.js'
 
@@ -27,7 +29,7 @@ const CustomNavbar = () => {
 
   return (
 
-    <Navbar bg="light" expand="lg" style={{'width':'100vw', 'height':'10vh', 'position':'fixed','top':'0px' , 'zIndex':'99'}}>
+    <Navbar bg="light" expand="lg" style={{'width':'100vw', 'position':'fixed','top':'0px' , 'zIndex':'99'}} className="navbar">
       <Navbar.Brand href="/">
         <img src={logo} alt="react-router-breadcrumb" width="50" height="50" />
       </Navbar.Brand>
@@ -43,6 +45,7 @@ const CustomNavbar = () => {
           </NavDropdown>
         </Nav>
         <Nav className="ml-auto">
+        <CSSTransition in={ (typeof context.user === "boolean" || context.user) } timeout={500} classNames="userBtn" unmountOnExit appear>
         {
           context.user ? 
             <Button variant="primary" onClick={() =>{
@@ -52,6 +55,7 @@ const CustomNavbar = () => {
           :
             <Button variant="primary" onClick={handleShow}>會員登入</Button>
         }
+        </CSSTransition>
         </Nav>
       </Navbar.Collapse>
       <SignInDialog isShow={show} handleClose={handleClose}/>
