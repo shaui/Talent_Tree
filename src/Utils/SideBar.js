@@ -19,6 +19,7 @@ class SideBar extends Component{
 		this.setState( {
 			top: navHeight + "px"
 		} )
+		this.props.handleSBWidth()
 	}
 
 	render(){
@@ -29,7 +30,7 @@ class SideBar extends Component{
 				        const url = "/" + selected
 				        this.props.history.push(url)
 				    }}
-
+				    id="sidebar"
 				    style={{'position':'fixed','top': this.state.top}}
 				>
 				    <SideNav.Toggle />
