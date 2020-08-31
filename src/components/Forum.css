@@ -4,18 +4,41 @@
 }*/
 
 /*固定table長度*/
-thead.forum th:nth-child(3),
-tbody.forum td:nth-child(3) {
+thead.forum th.name,
+tbody.forum td.name {
 	width: 25em;
 }
 
-thead.forum th:nth-child(1),
-tbody.forum td:nth-child(1) {
+tbody.forum .content .isOfficial {
+  text-align: center;
+}
+tbody.forum img.crown {
+  width: 2.5em;
+}
+
+.forum.contexts {
+  text-align: start;
+}
+.forum.tooltip .tooltip-inner {
+  max-width: calc( 20vw + 100px );
+}
+
+thead.forum th:nth-child(2),
+tbody.forum td:nth-child(2) {
   padding: .75rem;
 }
 
-tbody.forum td:nth-child(1) {
+tbody.forum td:nth-child(2) {
   text-align: center;
+}
+
+/* 沒有貼文時的提示文字 */
+#noPostsWarn.forum {
+  color: gray;
+  text-align: center;
+  font-family: 'Noto Sans TC', sans-serif;
+  font-size: 18pt;
+  margin-top: 10vh;
 }
 
 /*垂直置中*/
@@ -24,7 +47,7 @@ tbody.forum td:nth-child(1) {
   vertical-align: middle !important;
 }
 
-/*button*/
+/* button */
 .post-btn {
   color: #494949 !important;
   text-transform: uppercase;
@@ -42,7 +65,7 @@ tbody.forum td:nth-child(1) {
   transition: all 0.3s ease 0s;
 }
 
-/*separator*/
+/* separator */
 hr { 
   display: block;
   margin-top: 0.5em;
@@ -53,8 +76,8 @@ hr {
   border-width: 1px;
 } 
 
-/*container間距*/
-.container {
+/* container間距 */
+.forum.container {
 	margin-bottom: 1em;
 }
 
@@ -62,6 +85,7 @@ hr {
   float: right;
 }
 
+/* 課程標準popover的視窗 */
 ol.forum {
   padding-left: 2em;
   margin-top: 4px;

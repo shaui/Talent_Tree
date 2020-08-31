@@ -10,8 +10,9 @@
 		},
 		{
 			"segment": "forum",
-			"breadcrumbName": "討論區",
+			"breadcrumbName": "論壇首頁",
 			"hasParams": true,
+			"breadcrumbShow" : "both",
 			"routes": [
 				{
 					"segment": "post",
@@ -21,7 +22,8 @@
 				{
 					"segment": "course",
 					"breadcrumbName": "課程頁面",
-					"hasParams": true
+					"hasParams": true,
+					"breadcrumbShow" : "params"
 				}
 			]
 		},

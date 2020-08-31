@@ -39,10 +39,8 @@ function Record(props) {
 						))
 					}
 					<span>
-						<Link to={{
-							pathname:"/forum",
-		          			state:{"path":props.skillName}
-						}} className="HomePage right">前往課程</Link>				
+						<Link to={ `/forum/${ props.skillName }` }
+						className="HomePage right">前往課程</Link>				
 					</span>
 				</div>
 			</div>

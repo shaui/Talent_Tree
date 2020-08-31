@@ -10,8 +10,16 @@ class SideBar extends Component{
 	constructor(props){
 		super(props)
 		this.state = {
-			
+			top: "10vh"
 		}
+	}
+
+	componentDidMount() {
+		const navHeight = document.querySelector(".navbar").clientHeight
+		this.setState( {
+			top: navHeight + "px"
+		} )
+		this.props.handleSBWidth()
 	}
 
 	render(){
@@ -22,8 +30,8 @@ class SideBar extends Component{
 				        const url = "/" + selected
 				        this.props.history.push(url)
 				    }}
-
-				    style={{'position':'fixed','top':'10vh'}}
+				    id="sidebar"
+				    style={{'position':'fixed','top': this.state.top}}
 				>
 				    <SideNav.Toggle />
 				    <SideNav.Nav defaultSelected=" ">

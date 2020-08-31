@@ -44,6 +44,10 @@ transition: all 0.3s ease 0s;
 	border: none;
 }
 
+.post.hidden {
+  opacity: 0;
+}
+
 .post.alignToURL {
 	margin-top: 16px;
 }

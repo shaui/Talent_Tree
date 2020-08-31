@@ -1,0 +1,14 @@
+.navbar .userBtn-enter {
+  opacity: 0;
+}
+.navbar .userBtn-enter-active {
+  opacity: 1;
+  transition: opacity 500ms;
+}
+.navbar .userBtn-exit {
+  opacity: 1;
+}
+.navbar .userBtn-exit-active {
+  opacity: 0;
+  transition: opacity 500ms;
+}

@@ -63,7 +63,8 @@ class PostingPage extends React.Component {
 			showTextAreaHelp: false,
 			defaultData: this.props.match.params,
 			courseNum: 1,
-			isLoading: true
+			isLoading: true,
+			clickCert: 0
 		} ;
 		this.chooseSubject = this.chooseSubject.bind(this) ;
 		this.chooseField = this.chooseField.bind(this) ;
@@ -73,11 +74,13 @@ class PostingPage extends React.Component {
 		this.chooseStandard = this.chooseStandard.bind(this) ;
 		this.clickUrlIncrease = this.clickUrlIncrease.bind(this) ;
 		this.clickUrlDecrease = this.clickUrlDecrease.bind(this) ;
+		this.clickCert = this.clickCert.bind(this) ;
 	}
 	
 	componentDidMount() {
 		let defaultData = this.props.match.params
-		if ( !defaultData.subject ) {
+
+		if ( !defaultData.path ) {
 			const fbMg = new FirebaseMg() ;
 			var root = fbMg.myRef ;
 			var path = 'Trees' ;
@@ -140,6 +143,7 @@ class PostingPage extends React.Component {
 			} ) ;
 		}
 		else {
+			const pathArr = defaultData.path.split(',')
 			const fbMg = new FirebaseMg() ;
 			var root = fbMg.myRef ;
 			var path = 'Trees' ;
@@ -147,22 +151,26 @@ class PostingPage extends React.Component {
 			myRef.once('value').then( (snapshot) => {
 				let data = snapshot.val() ;
 				
-				const field = data[defaultData.subject].children.find( (field) =>
-					field.name === defaultData.field
+				const field = data[pathArr[3]].children.find( (field) =>
+					field.name === pathArr[2]
 				);
 
 				const skill = field.children.find( (skill) =>
-					skill.name === defaultData.skill
+					skill.name === pathArr[1]
 				);
 
 				const subskill = skill.children.find( (subskill) =>
-					subskill.name === defaultData.subskill
+					subskill.name === pathArr[0]
 				);
 
 				const standards = subskill.children
 
+				defaultData.subject = pathArr[3]
+				defaultData.field = pathArr[2]
+				defaultData.skill = pathArr[1]
+				defaultData.subskill = pathArr[0]
 				defaultData.standards = standards
-				
+
 				this.setState( { 
 					defaultData: defaultData,
 					isLoading: false
@@ -355,9 +363,10 @@ class PostingPage extends React.Component {
 						
 					const fbMg = new FirebaseMg() ;
 					var root = fbMg.myRef ;
-					var path = 'Posts/'+ elems.subskill.value +"/"+ _uuid() ;
+					var path = 'Posts/'+ elems.subskill.value +"/children/"+ _uuid() ;
 					var myRef = root.child(path) ;
 					myRef.set( {
+						isOfficial: elems.cert.checked,
 						user: "Louis",
 						name: elems.postTitle.value,
 						type: elems.courseType.value,
@@ -379,13 +388,22 @@ class PostingPage extends React.Component {
 						console.log(error) ;
 					} ) ;
 
+					const standardsAll = this.state.defaultData.path ? 
+					this.state.defaultData.standards :
+					this.state.standards
+
+					standardsAll.forEach( (standard) => {
+						delete standard.isTech
+						delete standard.nodeSvgShape
+					} )
+
 					path = 'Posts/'+ elems.subskill.value +"/path" ;
 					myRef = root.child(path) ;
 					myRef.update( {
 						subject: elems.subject.value,
 						field: elems.field.value,
 						skill: elems.skill.value,
-						standards: this.state.standards
+						standards: standardsAll
 					} )
 				}
 				else {
@@ -431,6 +449,7 @@ class PostingPage extends React.Component {
 					var path = 'Posts/'+ elems.subskill.value +"/children/"+ _uuid() ;
 					var myRef = root.child(path) ;
 					myRef.set( {
+						isOfficial: elems.cert.checked,
 						user: "Louis",
 						name: elems.postTitle.value,
 						type: elems.courseType.value,
@@ -452,13 +471,22 @@ class PostingPage extends React.Component {
 						console.log(error) ;
 					} ) ;
 
+					const standardsAll = this.state.defaultData.path ? 
+					this.state.defaultData.standards :
+					this.state.standards
+
+					standardsAll.forEach( (standard) => {
+						delete standard.isTech
+						delete standard.nodeSvgShape
+					} )
+
 					path = 'Posts/'+ elems.subskill.value +"/path" ;
 					myRef = root.child(path) ;
 					myRef.update( {
 						subject: elems.subject.value,
 						field: elems.field.value,
 						skill: elems.skill.value,
-						standards: this.state.standards
+						standards: standardsAll
 					} )
 
 				}
@@ -510,6 +538,16 @@ class PostingPage extends React.Component {
 		this.setState((state) => ({
 		  courseNum: state.courseNum - 1
 		}));
+	}
+
+	clickCert() {
+
+		const count = this.state.clickCert
+
+		this.setState( {
+			clickCert: count+1
+		} )
+
 	}
 
 	render( ) {
@@ -821,7 +859,12 @@ class PostingPage extends React.Component {
 								</button>
 						  		
 						  	  </div>
-						  	  <div className="col-md-1">
+						  	  <div onClick={ this.clickCert } className={ (this.state.clickCert >= 3 ? "" : "hidden") + " col-md-1 post"}>
+					  	  		<Form.Check 
+						  	  	name="cert"
+								type="switch"
+								id="custom-switch"
+								label="官方認證" />
 						  	  </div>
 						    </div>
 						  </div>

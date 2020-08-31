@@ -1,11 +1,12 @@
 import React, { Component } from 'react';
-import { Route } from 'react-router-dom';
+import { Route, Switch } from 'react-router-dom';
 
 //Component
 import CustomNavbar from './Utils/CustomNavbar';
 import CustomBreadcrumb from './Utils/CustomBreadcrumb.js'
 import SideBar from './Utils/SideBar.js'
 import MyTree from './components/MyTree.js' ;
+import ForumHome from './components/ForumHome.js'
 import PostsPage from './components/Forum.js' ;
 import PostingPage from './components/PostingPage.js' ;
 import CoursePage from './components/CoursePage' ;
@@ -40,8 +41,10 @@ class App extends Component {
   constructor(props){
     super(props)
     this.state = {
-      user: null
+      user: null,
+      sbWidth: ""
     }
+    this.handleSBWidth = this.handleSBWidth.bind(this)
     console.log("APP Construt")
 
   }
@@ -72,10 +75,12 @@ class App extends Component {
       if(userAuth){
         console.log('App user:', userAuth, userAuth.uid)
         this.initUserData(userAuth.uid)
-      }else{
+        this.setState({ user: userAuth });
+      } else {
         console.log('App user:', userAuth)
+        this.setState({ user: false });
       }
-      this.setState({ user: userAuth });
+      
     })
   }
 
@@ -83,7 +88,18 @@ class App extends Component {
     this.initAuth()
   }
 
+  handleSBWidth() {
+    const sideBarWidth = document.querySelector("nav.sidenav---sidenav---_2tBP").clientWidth
+    this.setState( {
+      sbWidth: sideBarWidth + "px"
+    } )
+  }
+
   render() {
+
+    const sbWidth = this.state.sbWidth
+    console.log( sbWidth )
+
     return (
       <UserContext.Provider value={{user: this.state.user}}>
       	<div className="">
@@ -91,7 +107,7 @@ class App extends Component {
   	    		<CustomNavbar />
             {
               this.state.user ?
-                <SideBar />
+                <SideBar handleSBWidth={this.handleSBWidth} />
               : null 
             }
             <div id="breadcrumb-div" style={{ 'position': 'absolute', 'top': '12vh', 'left': '8vh', 'zIndex':'98' }}>
@@ -108,30 +124,29 @@ class App extends Component {
                 </div>
               </div>
             </div>
-            { /**強者總是孤獨的**/ }
-            
-            <Route exact path="/" component={Home} />  
-            <Route exact path="/treeMenu/tree" component={MyTree} />
-            {
-                this.props.location.pathname !== "/treeMenu/tree" && this.props.location.pathname !=="/" ?
-                  <div style={{'paddingTop':'9vh'}}>
-
-                    <Route exact path="/forum" component={PostsPage} />
-                    <Route exact path="/forum/post" component={PostingPage} />
-                    <Route exact path="/forum/course" component={CoursePage} />
-                    <Route exact path="/forum/:path" component={PostsPage} />
-                    <Route exact path="/forum/:path/post" component={PostingPage} />
-                    <Route exact path="/forum/:path/course/:id&:name&:level" component={CoursePage} />
-                    <Route exact path="/hunt" component={HuntingPage} />
-                    <Route exact path="/home" component={HomePage} />
-                    <Route exact path="/treeMenu" component={TreeMenu} />
-                    <Route exact path="/profile" component={Profile} />
-                  </div>
-                :
-                  ""
-            }
-
-
+            <div style={{ 'marginLeft': sbWidth ? sbWidth : "auto", 'marginRight': sbWidth ? sbWidth : "auto" }}>
+              { /**強者總是孤獨的**/ }
+              <Route exact path="/" component={Home} />  
+              <Route exact path="/treeMenu/tree" component={MyTree} />
+              {
+                  this.props.location.pathname !== "/treeMenu/tree" && this.props.location.pathname !=="/" ?
+                    <div style={{'paddingTop':'9vh'}}>
+                      <Switch>
+                        <Route exact path="/forum" component={ForumHome} />
+                        <Route exact path="/forum/post" component={PostingPage} />
+                        <Route exact path="/forum/:path" component={PostsPage} />
+                        <Route exact path="/forum/:path/post" component={PostingPage} />
+                        <Route exact path="/forum/:path/course/:data" component={CoursePage} />
+                        <Route exact path="/hunt" component={HuntingPage} />
+                        <Route exact path="/home" component={HomePage} />
+                        <Route exact path="/treeMenu" component={TreeMenu} />
+                        <Route exact path="/profile" component={Profile} />
+                      </Switch>
+                    </div>
+                  :
+                    ""
+              }
+            </div>
   	    	</div>
       	</div>
       </UserContext.Provider>
