@@ -29,7 +29,7 @@ const CustomNavbar = () => {
 
   return (
 
-    <Navbar bg="light" expand="lg" style={{'width':'100vw', 'position':'fixed','top':'0px' , 'zIndex':'99'}} className="navbar">
+    <Navbar bg="light" expand="lg" style={{'width':'100vw', 'position':'fixed','top':'0px' , 'zIndex':'99'}} className={"navbar"+ (context.user ? " ENT" : "") } id="navbar">
       <Navbar.Brand href="/">
         <img src={logo} alt="react-router-breadcrumb" width="50" height="50" />
       </Navbar.Brand>

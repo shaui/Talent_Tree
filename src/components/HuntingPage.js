@@ -912,7 +912,7 @@ class HuntingForm extends React.Component {
     	)
 
 		return (
-			<div className="content" style={{ 'marginTop': '12vh' }}>
+			<div className="content" style={{ 'paddingTop': '12vh', 'height': '100%' }}>
 				<div className="container">
 					<CSSTransition in={!this.state.isLoading} timeout={1200} classNames="content" unmountOnExit appear>
 						<Card className="hunt">
