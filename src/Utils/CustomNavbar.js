@@ -27,9 +27,13 @@ const CustomNavbar = () => {
     setShow(false);
   }
 
+  let providerID = ""
+  if ( context.user )
+    providerID = context.user.providerData[0].providerId
+  
   return (
 
-    <Navbar bg="light" expand="lg" style={{'width':'100vw', 'position':'fixed','top':'0px' , 'zIndex':'99'}} className={"navbar"+ (context.user ? " ENT" : "") } id="navbar">
+    <Navbar bg="light" expand="lg" style={{'width':'100vw', 'position':'fixed','top':'0px' , 'zIndex':'99'}} className={"navbar"+ (providerID === "password" ? " ENT" : "") } id="navbar">
       <Navbar.Brand href="/">
         <img src={logo} alt="react-router-breadcrumb" width="50" height="50" />
       </Navbar.Brand>
