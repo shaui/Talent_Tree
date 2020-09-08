@@ -502,7 +502,7 @@ class MyTree extends Component{
 			let data = snapshot.val()
 			let progress = data['completed']
 			let childrenLength = data["children"].length
-			if(color === "yellow"){
+			if(color === "#ffff99"){
 				//update progress
 				progress = progress + 1/childrenLength
 				if(0.95 <= progress && progress <= 1){
